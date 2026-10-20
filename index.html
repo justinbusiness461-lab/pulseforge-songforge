@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="theme-color" content="#7c6cf0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-title" content="SongForge"/>
+<link rel="manifest" href="manifest.json"/>
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml"/>
+<title>SongForge</title>
+<style>
+:root{--bg:#0a0c12;--s:#12161f;--s2:#1a2030;--b:#2a3348;--t:#e6ebf5;--m:#8892a8;--a:#7c6cf0;--a2:#00d2c6;--ok:#00c853;--w:#ffc107}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--t);min-height:100dvh;padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+header{position:sticky;top:0;z-index:20;background:linear-gradient(120deg,#12161f,#1a1430);border-bottom:1px solid var(--b);padding:.75rem 1rem}
+header h1{font-size:1.05rem} header h1 span{color:var(--a2)}
+.badge{font-size:.65rem;color:var(--m);margin-top:.2rem}
+main{padding:1rem;max-width:560px;margin:0 auto}
+.card{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:1rem;margin-bottom:.85rem}
+label{display:block;font-size:.75rem;color:var(--m);margin-bottom:.25rem}
+input,select,textarea{width:100%;background:var(--s2);border:1px solid var(--b);color:var(--t);border-radius:8px;padding:.65rem;font-size:16px;margin-bottom:.65rem;min-height:44px}
+textarea{min-height:88px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.sec{background:var(--s2);border:1px solid var(--b);border-radius:8px;padding:.7rem .85rem;margin-bottom:.4rem;display:flex;justify-content:space-between;align-items:center;min-height:48px;cursor:pointer}
+.sec.active{border-color:var(--a);background:#1e1a38}
+.sec small{color:var(--m)}
+.status{font-size:.8rem;padding:.5rem .75rem;border-radius:8px;border:1px solid var(--b);background:var(--s2);margin-bottom:.85rem}
+.status.ok{border-color:var(--ok);color:var(--ok)}
+.status.warn{border-color:var(--w);color:var(--w)}
+.meter{height:4px;background:var(--s2);border-radius:2px;overflow:hidden;margin:.5rem 0}
+.meter>div{height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--a2))}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;gap:.4rem;padding:.55rem .75rem calc(.55rem + env(safe-area-inset-bottom));background:rgba(10,12,18,.95);backdrop-filter:blur(12px);border-top:1px solid var(--b)}
+.dock button{flex:1;min-height:48px;border:none;border-radius:12px;font-weight:700;font-size:.95rem;cursor:pointer;touch-action:manipulation}
+.dock .play{background:var(--a);color:#fff}
+.dock .stop{background:var(--s2);color:var(--t);border:1px solid var(--b)}
+.dock .exp{background:var(--ok);color:#000}
+.hint{font-size:.75rem;color:var(--m);line-height:1.4}
+button.chip{background:var(--s2);border:1px solid var(--b);color:var(--t);border-radius:8px;padding:.55rem .85rem;min-height:44px;font-weight:600;margin:.2rem .2rem .2rem 0}
+</style>
+</head>
+<body>
+<header>
+  <h1>PulseForge <span>SongForge</span></h1>
+  <div class="badge">Mobile-first · Thumbs dock · Local Web Audio · PWA</div>
+</header>
+<main>
+  <div id="status" class="status ok">Ready · Tap Play with your thumb</div>
+  <div class="card">
+    <label>Title</label><input id="title" value="BAD HABIT"/>
+    <div class="row">
+      <div><label>BPM</label><input id="bpm" type="number" value="102"/></div>
+      <div><label>Key</label>
+        <select id="key"><option>F# minor</option><option>A major</option><option>C minor</option><option>D minor</option></select>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <label>Sections</label>
+    <div id="secs"></div>
+  </div>
+  <div class="card">
+    <label>Lyrics (active section)</label>
+    <textarea id="lyrics"></textarea>
+    <label>Vocal role</label>
+    <select id="role"><option value="male">Male</option><option value="female">Female</option><option value="both">Duet</option><option value="none">Instrumental</option></select>
+  </div>
+  <div class="card">
+    <label>Stems</label>
+    <label style="display:flex;align-items:center;gap:.5rem;min-height:44px;color:var(--t)"><input type="checkbox" id="dDrums" checked/> Drums</label>
+    <label style="display:flex;align-items:center;gap:.5rem;min-height:44px;color:var(--t)"><input type="checkbox" id="dBass" checked/> Bass</label>
+    <label style="display:flex;align-items:center;gap:.5rem;min-height:44px;color:var(--t)"><input type="checkbox" id="dChords" checked/> Chords</label>
+    <label style="display:flex;align-items:center;gap:.5rem;min-height:44px;color:var(--t)"><input type="checkbox" id="dLead" checked/> Lead</label>
+    <div class="meter"><div id="prog"></div></div>
+    <p class="hint">Local synthesis only. Safari/Chrome: Share → Add to Home Screen for app icon.</p>
+  </div>
+  <div class="card">
+    <button class="chip" id="btnSave">Save JSON</button>
+    <button class="chip" id="btnMEG">Export Event Graph</button>
+    <input type="file" id="fileIn" accept=".json" hidden/>
+    <button class="chip" id="btnLoad">Load</button>
+  </div>
+</main>
+<div class="dock">
+  <button class="play" id="btnPlay">Play</button>
+  <button class="stop" id="btnStop">Stop</button>
+  <button class="exp" id="btnWav">WAV</button>
+</div>
+<script>
+const TPQ=960, bar=4*TPQ;
+const sections=[
+  {id:'i',name:'Intro',type:'intro',bars:2,lyrics:'',role:'none'},
+  {id:'v1',name:'Verse 1',type:'verse',bars:4,lyrics:"Late night, same streetlight\nI keep telling myself I'm fine",role:'male'},
+  {id:'p',name:'Pre',type:'pre',bars:2,lyrics:"Don't look at me like that",role:'female'},
+  {id:'c1',name:'Chorus',type:'chorus',bars:4,lyrics:"It's a bad habit\nBut I can't break it",role:'both'},
+  {id:'v2',name:'Verse 2',type:'verse',bars:4,lyrics:'Same song, different room',role:'male'},
+  {id:'c2',name:'Chorus',type:'chorus',bars:4,lyrics:"It's a bad habit\nBut I can't break it",role:'both'},
+  {id:'b',name:'Bridge',type:'bridge',bars:2,lyrics:'If I said stay, would you mean it?',role:'female'},
+  {id:'c3',name:'Final',type:'chorus',bars:4,lyrics:"Maybe this time we don't go back",role:'both'},
+  {id:'o',name:'Outro',type:'outro',bars:2,lyrics:'',role:'none'}
+];
+let active=0, ctx=null, playing=false, nodes=[];
+const $=id=>document.getElementById(id);
+function status(m,k){$('status').textContent=m;$('status').className='status '+(k||'ok')}
+function renderSecs(){
+  $('secs').innerHTML=sections.map((s,i)=>'<div class="sec '+(i===active?'active':'')+'" data-i="'+i+'"><span>'+s.name+'</span><small>'+s.bars+' bars · '+s.role+'</small></div>').join('');
+  document.querySelectorAll('.sec').forEach(el=>el.onclick=()=>{active=+el.dataset.i;sync();renderSecs()});
+}
+function sync(){const s=sections[active];$('lyrics').value=s.lyrics;$('role').value=s.role}
+$('lyrics').oninput=()=>sections[active].lyrics=$('lyrics').value;
+$('role').onchange=()=>{sections[active].role=$('role').value;renderSecs()};
+function bpm(){return +$('bpm').value||102}
+function totalBars(){return sections.reduce((a,s)=>a+s.bars,0)}
+function barSec(){return (4*60)/bpm()}
+function midi(n){return 440*Math.pow(2,(n-69)/12)}
+function ensure(){if(!ctx)ctx=new(window.AudioContext||window.webkitAudioContext);if(ctx.state==='suspended')ctx.resume();return ctx}
+function tone(c,f,t0,dur,type,g){
+  const o=c.createOscillator(),gN=c.createGain();
+  o.type=type;o.frequency.value=f;
+  gN.gain.setValueAtTime(0,t0);gN.gain.linearRampToValueAtTime(g,t0+.02);
+  gN.gain.exponentialRampToValueAtTime(.001,t0+Math.max(.05,dur));
+  o.connect(gN);gN.connect(c.destination);o.start(t0);o.stop(t0+dur+.05);nodes.push(o);
+}
+function kick(c,t0,g){
+  const o=c.createOscillator(),gN=c.createGain();
+  o.frequency.setValueAtTime(150,t0);o.frequency.exponentialRampToValueAtTime(40,t0+.12);
+  gN.gain.setValueAtTime(g,t0);gN.gain.exponentialRampToValueAtTime(.001,t0+.25);
+  o.connect(gN);gN.connect(c.destination);o.start(t0);o.stop(t0+.3);nodes.push(o);
+}
+function noise(c,t0,dur,g){
+  const n=Math.floor(c.sampleRate*dur),b=c.createBuffer(1,n,c.sampleRate),d=b.getChannelData(0);
+  for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.exp(-8*i/n);
+  const s=c.createBufferSource(),gN=c.createGain();s.buffer=b;gN.gain.value=g;
+  s.connect(gN);gN.connect(c.destination);s.start(t0);nodes.push(s);
+}
+function stop(){nodes.forEach(n=>{try{n.stop()}catch(e){}});nodes=[];playing=false;$('prog').style.width='0%'}
+function play(){
+  stop();const c=ensure();playing=true;status('Playing · local synthesis','ok');
+  const t0=c.currentTime+.08, bs=barSec(), bars=totalBars(), total=bars*bs;
+  let bi=0;
+  const roots=[36,36,33,36,31,33,36,36];
+  const pads=[54,50,52,49];
+  sections.forEach(sec=>{
+    for(let b=0;b<sec.bars;b++){
+      const st=t0+bi*bs;
+      if($('dDrums').checked){kick(c,st,.5);noise(c,st+bs/2,.12,.25);for(let h=0;h<8;h++)noise(c,st+(bs/8)*h,.03,.06)}
+      if($('dBass').checked)tone(c,midi(roots[bi%roots.length]),st,bs*.9,'sawtooth',.12);
+      if($('dChords').checked)tone(c,midi(pads[bi%pads.length]),st,bs*.85,'triangle',.06);
+      if($('dLead').checked&&(sec.type==='chorus'||sec.type==='bridge'))tone(c,midi(66+(b%3)*3),st+bs*.25,.3,'square',.08);
+      bi++;
+    }
+  });
+  const tick=()=>{if(!playing)return;const e=c.currentTime-t0;const p=Math.min(100,e/total*100);$('prog').style.width=p+'%';
+    if(e<total)requestAnimationFrame(tick);else{playing=false;status('Done','ok');$('prog').style.width='100%'}};
+  requestAnimationFrame(tick);
+}
+async function exportWav(){
+  status('Rendering WAV…','warn');
+  const sr=44100, bars=totalBars(), bs=(4*60)/bpm(), dur=bars*bs+.4;
+  const off=new OfflineAudioContext(2,Math.ceil(sr*dur),sr);
+  function ot(f,t0,d,type,g){const o=off.createOscillator(),gn=off.createGain();o.type=type;o.frequency.value=f;gn.gain.setValueAtTime(0,t0);gn.gain.linearRampToValueAtTime(g,t0+.02);gn.gain.exponentialRampToValueAtTime(.001,t0+Math.max(.05,d));o.connect(gn);gn.connect(off.destination);o.start(t0);o.stop(t0+d+.05)}
+  let bi=0;const roots=[36,36,33,36,31,33,36,36],pads=[54,50,52,49];
+  sections.forEach(sec=>{for(let b=0;b<sec.bars;b++){const st=bi*bs;if($('dBass').checked)ot(midi(roots[bi%8]),st,bs*.9,'sawtooth',.12);if($('dChords').checked)ot(midi(pads[bi%4]),st,bs*.85,'triangle',.06);bi++}});
+  const buf=await off.startRendering();
+  const nCh=buf.numberOfChannels,len=buf.length,ab=new ArrayBuffer(44+len*nCh*2),v=new DataView(ab);
+  const w=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i))};
+  w(0,'RIFF');v.setUint32(4,36+len*nCh*2,true);w(8,'WAVE');w(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,nCh,true);v.setUint32(24,sr,true);v.setUint32(28,sr*nCh*2,true);v.setUint16(32,nCh*2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,len*nCh*2,true);
+  let o=44;const ch=[];for(let c=0;c<nCh;c++)ch.push(buf.getChannelData(c));
+  for(let i=0;i<len;i++)for(let c=0;c<nCh;c++){let s=Math.max(-1,Math.min(1,ch[c][i]));v.setInt16(o,s<0?s*0x8000:s*0x7FFF,true);o+=2}
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ab],{type:'audio/wav'}));a.download=($('title').value||'song')+'_SongForge.wav';a.click();
+  status('WAV exported','ok');
+}
+function saveJSON(){
+  const proj={title:$('title').value,bpm:bpm(),key:$('key').value,sections};
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(proj,null,2)],{type:'application/json'}));a.download='ScoreGraph.json';a.click();
+}
+function exportMEG(){
+  const events=[];let tick=0;
+  sections.forEach(s=>{events.push({type:'SECTION_START',tick,name:s.name,role:s.role,lyrics:s.lyrics});tick+=s.bars*bar;events.push({type:'SECTION_END',tick,name:s.name})});
+  const meg={$schema:'pulseforge.music_event_graph.v1',title:$('title').value,bpm:bpm(),events};
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(meg,null,2)],{type:'application/json'}));a.download='MusicEventGraph.json';a.click();
+  status('Music Event Graph exported','ok');
+}
+$('btnPlay').onclick=play;$('btnStop').onclick=()=>{stop();status('Stopped')};
+$('btnWav').onclick=exportWav;$('btnSave').onclick=saveJSON;$('btnMEG').onclick=exportMEG;
+$('btnLoad').onclick=()=>$('fileIn').click();
+$('fileIn').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(d.title)$('title').value=d.title;if(d.bpm)$('bpm').value=d.bpm;if(d.sections){d.sections.forEach((s,i)=>{if(sections[i])Object.assign(sections[i],s)});renderSecs();sync()}status('Loaded','ok')}catch(err){status('Load failed','warn')}};r.readAsText(f)};
+if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+renderSecs();sync();
+</script>
+</body>
+</html>
