@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <link rel="manifest" href="manifest.json"/>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"/>
-<title>SongForge — Phase 2</title>
+<title>SongForge — Phase 3 Vocal Lab</title>
 <style>
 :root{--bg:#0a0c12;--s:#12161f;--s2:#1a2030;--b:#2a3348;--t:#e6ebf5;--m:#8892a8;--a:#7c6cf0;--a2:#00d2c6;--ok:#00c853;--w:#ffc107;--danger:#ff6b7a;--safe:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -20,6 +20,7 @@ h1{font-size:1.15rem} h1 span{color:var(--a2)}
 label{display:block;font-size:.72rem;color:var(--m);margin-bottom:4px}
 input,select,textarea{width:100%;background:var(--s2);border:1px solid var(--b);color:var(--t);border-radius:8px;padding:10px 12px;font-size:16px;min-height:44px;margin-bottom:8px}
 textarea.prompt{min-height:76px;resize:vertical;line-height:1.4}
+textarea.lyrics{min-height:72px;font-family:ui-monospace,monospace;font-size:14px}
 input[type=range]{min-height:auto;padding:0;accent-color:var(--a)}
 button{background:var(--a);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9rem;min-height:48px;padding:0 14px;cursor:pointer;touch-action:manipulation}
 button.secondary{background:var(--s2);color:var(--t);border:1px solid var(--b)}
@@ -48,11 +49,11 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 <body>
 <div class="app">
 <h1>PulseForge <span>SongForge</span></h1>
-<p class="sub">Phase 2 · FM + Karplus-Strong · Thumbs-first · Local only</p>
+<p class="sub">Phase 3 · Note-conditioned vocal lab · FM + waveguide · Local only</p>
 <div id="status" class="status ok">Type a prompt → Compile → Play</div>
 <div class="card">
 <h3>Generative prompt</h3>
-<textarea id="prompt" class="prompt" placeholder="e.g. dark 102 BPM alt hip-hop, F# minor, guitar plucks, sparse drums…"></textarea>
+<textarea id="prompt" class="prompt" placeholder="e.g. dark 102 BPM alt hip-hop, F# minor, guitar plucks, male verse…"></textarea>
 <button class="full" id="btnCompile">Compile Production Prompt</button>
 </div>
 <div class="card">
@@ -60,6 +61,17 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 <div id="meta">No SongSpec yet.</div>
 <div id="sections" style="margin-top:10px"></div>
 <div class="meter"><div id="prog"></div></div>
+</div>
+<div class="card">
+<h3>Active section · lyrics & role</h3>
+<textarea id="lyrics" class="lyrics" placeholder="Edit lyrics for active section…"></textarea>
+<label>Vocal role</label>
+<select id="vocalRole">
+<option value="male">Male (baritone formants)</option>
+<option value="female">Female (alto formants)</option>
+<option value="both">Both (alternating)</option>
+<option value="none">None (instrumental)</option>
+</select>
 </div>
 <div class="card">
 <h3>Channel mixer</h3>
