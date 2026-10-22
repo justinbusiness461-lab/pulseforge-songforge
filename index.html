@@ -7,7 +7,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <link rel="manifest" href="manifest.json"/>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"/>
-<title>SongForge — Phase 4 Complete</title>
+<link rel="apple-touch-icon" href="icons/icon-192.png"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<title>S.A.R.A. Sound Forge</title>
 <style>
 :root{--bg:#0a0c12;--s:#12161f;--s2:#1a2030;--b:#2a3348;--t:#e6ebf5;--m:#8892a8;--a:#7c6cf0;--a2:#00d2c6;--ok:#00c853;--w:#ffc107;--danger:#ff6b7a;--safe:env(safe-area-inset-bottom,0px)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -44,13 +47,14 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 .meter{height:3px;background:var(--s2);border-radius:2px;overflow:hidden;margin-top:8px}
 .meter>div{height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--a2))}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#cinema-viewport,#canvas-viseme-viewport{width:100%;height:220px;border-radius:8px;background:#05070c;border:1px solid var(--b)}
 </style>
 </head>
 <body>
 <div class="app">
-<h1>PulseForge <span>SongForge</span></h1>
-<p class="sub">Phase 4 · Tape sat + BBD space · Vocal lab · Local only</p>
-<div id="status" class="status ok">Type a prompt → Compile → Play</div>
+<h1>S.A.R.A. <span>Sound Forge</span></h1>
+<p class="sub">Local Score Graph studio · v2.18 · OTIO + integrity · zero cloud fees</p>
+<div id="status" class="status ok">Type a prompt → Compile → Play · python3 tools/studio_server.py</div>
 <div class="card">
 <h3>Generative prompt</h3>
 <textarea id="prompt" class="prompt" placeholder="e.g. dark 102 BPM alt hip-hop, F# minor, guitar plucks, male verse…"></textarea>
@@ -72,6 +76,11 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 <option value="both">Both (alternating)</option>
 <option value="none">None (instrumental)</option>
 </select>
+<button class="chip full secondary sm" id="btnVocal" style="margin-top:8px;width:100%">Render Vocal Stem</button>
+</div>
+<div class="card">
+<h3>Cinema viewport</h3>
+<div id="cinema-viewport"></div>
 </div>
 <div class="card">
 <h3>Channel mixer</h3>
@@ -87,6 +96,8 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 <div class="row2">
 <button class="secondary sm" id="btnSave">Save JSON</button>
 <button class="secondary sm" id="btnMEG">Cinema Graph</button>
+<button class="secondary sm" id="btnOTIO">OTIO Package</button>
+<button class="secondary sm" id="btnNeural">Broadcast Master</button>
 </div>
 </div>
 </div>
@@ -95,7 +106,14 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 <button class="secondary" id="btnStop">Stop</button>
 <button id="btnWav" style="background:var(--ok);color:#000">WAV</button>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="app-core.js"></script>
+<script src="app-cinema.js"></script>
 <script src="app-ui.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
+}
+</script>
 </body>
 </html>
