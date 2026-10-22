@@ -42,7 +42,7 @@ def sha256_file(path: str) -> str:
 
 
 def execute_release_packaging(target_directory: str = ".") -> bool:
-    archive_name = "SongForge-Studio-Release-v2.5.zip"
+    archive_name = "SoundForge-Studio-Release-v2.18.zip"
     manifest_name = "Release-Provenance-Manifest.json"
 
     os.makedirs("models/vocal", exist_ok=True)
