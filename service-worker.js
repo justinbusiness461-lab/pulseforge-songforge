@@ -1,5 +1,5 @@
-/* SongForge PWA — v2.18 */
-const CACHE_NAME = 'pulseforge-songforge-v2.18';
+/* SongForge PWA — v2.18.1-lrc005 */
+const CACHE_NAME = 'pulseforge-songforge-v2.18.1-lrc005';
 const ASSETS = [
   './',
   './index.html',
