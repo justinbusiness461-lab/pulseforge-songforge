@@ -1,0 +1,58 @@
+{
+  "app-core.js": {
+    "sha256": "36a2cb365c5aec48c133b7e7b90ab3dec1b9aa31d05805aa5662ac7bb3f47ab8",
+    "bytes": 36957,
+    "parts": [
+      "app-core.js.part000.b64",
+      "app-core.js.part001.b64",
+      "app-core.js.part002.b64",
+      "app-core.js.part003.b64",
+      "app-core.js.part004.b64",
+      "app-core.js.part005.b64",
+      "app-core.js.part006.b64",
+      "app-core.js.part007.b64",
+      "app-core.js.part008.b64"
+    ]
+  },
+  "app-ui.js": {
+    "sha256": "e523340c4bf1a262e343859727cb62d135061325722ecfa5b5ebf44f5dcda3db",
+    "bytes": 34151,
+    "parts": [
+      "app-ui.js.part000.b64",
+      "app-ui.js.part001.b64",
+      "app-ui.js.part002.b64",
+      "app-ui.js.part003.b64",
+      "app-ui.js.part004.b64",
+      "app-ui.js.part005.b64",
+      "app-ui.js.part006.b64",
+      "app-ui.js.part007.b64"
+    ]
+  },
+  "app-cinema.js": {
+    "sha256": "846f64bc74b75280f285699082f21671df93833767977567d0d7e850203f62ed",
+    "bytes": 8987,
+    "parts": [
+      "app-cinema.js.part000.b64",
+      "app-cinema.js.part001.b64"
+    ]
+  },
+  "tools/studio_server.py": {
+    "sha256": "39c3c7c577b8eae53c65397298d9243682e27013fdae89909011c958581f6458",
+    "bytes": 11431,
+    "parts": [
+      "tools__studio_server.py.part000.b64",
+      "tools__studio_server.py.part001.b64",
+      "tools__studio_server.py.part002.b64"
+    ]
+  },
+  "tools/vocal_lab.py": {
+    "sha256": "2b7ddfc779eca371d584142a085c1463388965ffcdc6b0a79d30ceaa82c788fe",
+    "bytes": 17510,
+    "parts": [
+      "tools__vocal_lab.py.part000.b64",
+      "tools__vocal_lab.py.part001.b64",
+      "tools__vocal_lab.py.part002.b64",
+      "tools__vocal_lab.py.part003.b64"
+    ]
+  }
+}
