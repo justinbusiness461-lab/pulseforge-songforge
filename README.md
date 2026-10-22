@@ -1,6 +1,24 @@
-# PulseForge SongForge — Phase 1
+# PulseForge SongForge (S.A.R.A. Sound Forge)
 
-**Prompt → Score Graph** studio (mobile / thumbs-first).
+Local-first multi-track Score Graph studio (PWA).
+
+**Repo:** https://github.com/justinbusiness461-lab/pulseforge-songforge  
+**Related (keep separate):** private `song_forge` backend capability core
+
+## Status (PF-COMPLETION-004)
+
+Verified local workstation path: prompt → Score Graph → Play → OTIO/WAV export → `certify_otio` + integrity ledger.
+
+**Not** an autonomous AI music-video product. Cinema viewport is armature/viseme preview only.
+
+## Quick start
+
+```bash
+python3 tools/studio_server.py
+# open http://localhost:8765
+```
+
+See `INSTALL.md` for the full journey and integrity ceiling.
 
 ## Open on phone
 
@@ -8,17 +26,20 @@ https://cdn.jsdelivr.net/gh/justinbusiness461-lab/pulseforge-songforge@main/inde
 
 Then **Add to Home Screen**.
 
-## How to use
+## Tools
 
-1. Type a prompt (BPM, key, genre, mood)
-2. **Compile Production Prompt**
-3. **Play** on the bottom dock
-4. Edit steps in the matrix, adjust Vol/Pan/Mute
-5. Export Mix WAV / Cinema Event Graph / Score JSON
+| Tool | Role |
+|------|------|
+| `tools/studio_server.py` | Local broker, atomic writes, integrity ledger |
+| `tools/vocal_lab.py` | Formant / production-torch / ONNX-slot vocals |
+| `tools/certify_otio.py` | Timeline.1 structural check |
+| `tools/certify_integrity.py` | Ledger SHA-256 content-identity |
+| `package_project.py` | Provenance zip |
+
+## Commercial
+
+Stage 1 candidate offer: see `COMMERCIAL_OFFER_STAGE1.md` (hypotheses only).
 
 ## Evidence ceiling
 
-Rule-based prompt compiler → integer-tick SongSpec → local Web Audio.  
-Not a neural vocal model. Not RecordedMaster. Not Suno-parity.
-
-Phase 2 (Karplus-Strong / FM) next when requested.
+Local Web Audio + Python broker. Not neural SVS parity without your ONNX weights. Not finished 3D film.
