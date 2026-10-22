@@ -1,0 +1,11 @@
+{
+  "name": "pulseforge-songforge-app",
+  "version": "2.18.0",
+  "description": "PulseForge SongForge — local-first multi-track Score Graph studio",
+  "private": true,
+  "main": "index.html",
+  "scripts": {
+    "start": "python3 tools/studio_server.py",
+    "package": "python3 package_project.py"
+  }
+}

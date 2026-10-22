@@ -1,26 +1,13 @@
 {
-  "short_name": "SongForge",
-  "name": "PulseForge SongForge \u2014 Multi-Track Score Graph Studio",
-  "description": "Deterministic local-first music creation. Integer ticks, stems, Music Event Graph.",
+  "short_name": "Sound Forge",
+  "name": "S.A.R.A. Sound Forge — Multi-Track Studio",
+  "description": "Local-first music production. Integer-tick Score Graph, vocal lab, cinema timeline export. Part of S.A.R.A. Studio.",
+  "id": "/sara-sound-forge/",
   "icons": [
-    {
-      "src": "icons/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
-    },
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ],
   "start_url": "./index.html",
   "scope": "./",
