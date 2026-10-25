@@ -2,7 +2,8 @@
 """Verify manifest_registry.json entries against on-disk bytes.
 
 Proves: content identity for each registered path (file exists + sha256 match).
-Does NOT prove: immutability of the registry, artistic quality, or schema validity.
+Prefers immutable content_path when present (PF-SOUND-002).
+Does NOT prove: artistic quality or NLE interoperability.
 """
 from __future__ import annotations
 
@@ -46,10 +47,12 @@ def main() -> int:
 
     fails = 0
     for i, e in enumerate(entries):
-        path = Path(str(e.get("absolute_path") or ""))
-        expected = str(e.get("sha256_checksum") or "").replace("sha256:", "")
+        content = e.get("content_path") or e.get("absolute_path")
+        path = Path(str(content or ""))
+        expected = str(e.get("content_sha256") or e.get("sha256_checksum") or "").replace("sha256:", "")
         name = e.get("filename")
-        print(f"\n[{i}] {name}")
+        art = e.get("artifact_id", "")
+        print(f"\n[{i}] {name} {art}")
         if not path.is_file():
             print(f"  ❌ MISSING FILE: {path}")
             fails += 1
@@ -62,7 +65,7 @@ def main() -> int:
             fails += 1
         else:
             size = path.stat().st_size
-            print(f"  ✓ identity match sha256:{actual[:16]}… ({size} bytes)")
+            print(f"  ✓ identity match sha256:{actual[:16]}… ({size} bytes) path={path}")
             recorded = e.get("bytes_written")
             if recorded is not None and int(recorded) != size:
                 print(f"  · size note: ledger bytes_written={recorded} disk={size}")
