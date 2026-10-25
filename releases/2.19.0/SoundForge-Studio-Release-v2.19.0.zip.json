@@ -1,0 +1,49 @@
+{
+  "version": "2.19.0",
+  "repo_source_sha": "eea8161802a032c83e1fe747f5c2c8ed18929fce",
+  "package_filename": "SoundForge-Studio-Release-v2.19.0.zip",
+  "package_sha256": "8f2b26d1c9ca2cebb4c99695743d369dce850692d552ce76c36288358cc5ed17",
+  "package_bytes": 67437,
+  "source_inventory_entries": 27,
+  "manifest_sha256": "903f17d0e4aeb35cb7048b6ba39aaf5f4a4dc1ae8a0f207626b0997faef3a697",
+  "manifest": {
+    "release_version": "2.19.0",
+    "repo_source_sha": "eea8161802a032c83e1fe747f5c2c8ed18929fce",
+    "runtime_contract": "loopback HTTP + exact origin + process capability; Python 3.10+ POSIX fsync; browser Web Audio; optional numpy vocal lab",
+    "packager_sha256": "d089b3b89e195d288322ce88265cf8b5b21301dd426be6b3f4fb1fc2907b1ff1",
+    "checksums": {
+      "INSTALL.md": "7a839391308c1652804864b27a22ec4b11e3e40aae4c5418f2efaf24f3582ccb",
+      "README.md": "9032ad387ac6dfd929bbf77d1fd5df7010a15cbdcda406e5a9b71de976b12495",
+      "app-cinema.js": "846f64bc74b75280f285699082f21671df93833767977567d0d7e850203f62ed",
+      "app-core.js": "63ff433abdb718265818733c698d30e2a0b53ef1da7a0fa1bfa7fbf3e35bbe13",
+      "app-ui.js": "680816fa9a410a743d8896052d3e5d85b9b60ff4b7ebc55b36c36b1a82a77072",
+      "icons/icon-192.png": "f269cf1102c62ed119e920b08356f0b4b18b10309188e91e4a50e838bbebde57",
+      "icons/icon-512.png": "1a973a5ff0012de3ba8efbfe553f3616226be935a25916e4616256bd37f3a860",
+      "icons/icon.svg": "3bedf6d3fd82cf2af9abf00db2bf6914ccf492617f034fe7d689dcfec687a169",
+      "index.html": "e570306753b040b6e2ede7517a31da30e59a1005f49878efe31e2e10a223365a",
+      "manifest.json": "18b5a662f66a7b6d68ebf54b5a0448c07965a99292ae89a448e1f78fc0d79a9d",
+      "package-lock.json": "97f0a48a12a5e33d5b6a440114dc56dcce230149dcd6b52d687444dbff2c3ae2",
+      "package.json": "a93867f3506b0c42bf331cab6253d17e2f16b8728e7a4bbff31359b296114dce",
+      "package_project.py": "d089b3b89e195d288322ce88265cf8b5b21301dd426be6b3f4fb1fc2907b1ff1",
+      "release.json": "42140147cba566456d2aa3c0d95b5c2bb19054b9853c75c12368d6aadc8d223c",
+      "requirements-vocal.txt": "105a25c9a24a53a42b52ccc93f930e1ea4a88b42372d440ae7c1b82c3a8b2c64",
+      "service-worker.js": "b8df5e261cc38de838f37a619cf75aa3b8a6fc2a5903cdb7182ff39969789a3e",
+      "tools/README.md": "7e71d66d59ef6c64b4d563dcfc7cb1a102f3ab2a2d4eca6f3ecb534275ebd86c",
+      "tools/armature_solver.py": "caded077d4c01118619357a58b8b206e58850379ff0dafdc0e599768884fe148",
+      "tools/certify_integrity.py": "a9bead5eb553e2982b815e8173d9a122cb5f16f1df0cc39ad6e48b0275905d57",
+      "tools/certify_mix.py": "142371900128090b388db11403617ee49cb2dda18a821c077c8ffbb0d1e4d6c5",
+      "tools/certify_otio.py": "de00f4edfadf57ced3dc81e1ca9a5844374a4249b79d30283fa923b23c858be6",
+      "tools/m040_baseline_probe.py": "8d3a476e471d99f8da2058d25006add1de6519be37d129e65cdbdcd16c8b26a6",
+      "tools/m040_http_probe.py": "e4b979b218dd2575e4c3befe3ff1368a73de00ddf3e8d84f97c023f928a2747e",
+      "tools/m040_music_probe.cjs": "18e7f1686e311f829781f7a873a05fd785a620d13f13ea5fc4cbf0914bbb9f62",
+      "tools/studio_server.py": "3494cc931459e2123abb80566567d035394e3d41c5d95840083a0a1379a87f83",
+      "tools/test_harness.py": "3dd0d209571f7731d7a07dc42caedc8fbf6db84c2d72f4173a25f29e31cf4881",
+      "tools/vocal_lab.py": "2b7ddfc779eca371d584142a085c1463388965ffcdc6b0a79d30ceaa82c788fe"
+    },
+    "certifier_identities": {
+      "tools/certify_integrity.py": "a9bead5eb553e2982b815e8173d9a122cb5f16f1df0cc39ad6e48b0275905d57",
+      "tools/certify_mix.py": "142371900128090b388db11403617ee49cb2dda18a821c077c8ffbb0d1e4d6c5",
+      "tools/certify_otio.py": "de00f4edfadf57ced3dc81e1ca9a5844374a4249b79d30283fa923b23c858be6"
+    }
+  }
+}
