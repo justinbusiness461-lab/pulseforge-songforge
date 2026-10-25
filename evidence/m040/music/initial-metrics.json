@@ -1,0 +1,21 @@
+{
+  "sha256": "512bdfc02b2aa18476d3b32fac9898724d1a8c4255f01c5599decd8886050858",
+  "sample_rate": 44100,
+  "channels": 2,
+  "decoded_sample_frames": 2227050,
+  "duration_seconds": 50.5,
+  "sample_peak": 0.332763671875,
+  "sample_peak_dbfs": -9.557281842662015,
+  "rms_dbfs": -30.98185940211723,
+  "dc_offset": [
+    0.00011249705218050504,
+    0.00011249705218050504
+  ],
+  "zero_sample_frames": 29500,
+  "longest_exact_zero_run_seconds": 0.47603174603174603,
+  "channel_correlation": 1.0,
+  "full_scale_sample_count": 0,
+  "true_peak_dbTP": null,
+  "loudness_LUFS_I": null,
+  "ceiling": "PCM sample metrics only; silence may be intentional; no true-peak or loudness claim"
+}

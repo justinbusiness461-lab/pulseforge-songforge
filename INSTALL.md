@@ -1,32 +1,29 @@
-# S.A.R.A. Sound Forge — Clean Install
+# Clean install — 2.19.0 M040 candidate
 
-## What this is
-Local multi-track arrangement workstation (Web Audio + Python broker).
-**Not** an autonomous AI music-video generator. **Not** commercial neural singing without your own ONNX weights.
+Python 3.10+ on POSIX with directory fsync is required for the local broker. A modern browser supplies Web Audio for the UI. No account or hosted inference service is required.
 
-## Requirements
-- Python 3.10+ (stdlib only for server; optional: torch/numpy for production vocals)
-- Modern browser (Chrome/Safari/Firefox) with Web Audio
-
-## Launch
-```bash
-cd pulseforge-songforge
+```
 python3 tools/studio_server.py
-# open http://localhost:8765
 ```
 
-## Core journey
-1. Enter prompt / lyrics → Compile
-2. Play (synth + shelves + BBD + limiter)
-3. Export OTIO / WAV / Vocal Lab as needed
-4. `python3 tools/certify_otio.py`
-5. `python3 tools/certify_integrity.py`
+Open **http://127.0.0.1:8765** on the same machine. The broker binds loopback only. A phone cannot reach another machine's localhost; LAN or hosted deployment is not qualified by this candidate.
 
-## Integrity ceiling
-`certify_integrity.py` proves **content identity** (file bytes match ledger digest).
-It does **not** prove registry immutability, artistic quality, or NLE compatibility.
+The served HTML supplies a short-lived, per-process capability to same-origin writes. Mutation requires exact scheme/host/port, allowed Host, and that capability. Restart rotates it; reload online after restart. Static-file hosting can offer browser downloads but does not earn broker durability. Friendly export aliases point to immutable objects; the ledger binds those objects. Private workspace files are not static HTTP assets.
 
-## Exclusions
-- Finished 3D cinematic music video
-- Suno / ElevenLabs cloud generation
-- DiffSinger neural SVS without local model files in `models/vocal/`
+Optional local vocal lab requires numpy (`python3 -m pip install -r requirements-vocal.txt`). Torch and ONNX runtime/weights remain optional and unqualified here. The formant path is not trained neural singing.
+
+Reproduce owner checks:
+
+```
+python3 -m unittest discover -s tests -v
+python3 tools/m040_http_probe.py
+npm ci --ignore-scripts
+npm run probe:audio
+python3 tools/certify_mix.py evidence/m040/music/initial.wav
+python3 tools/certify_integrity.py
+python3 package_project.py
+```
+
+`probe:audio` uses pinned web-audio-engine 0.13.4 to execute the existing offline export function headlessly. This is not browser playback. `--reopen` runs a separate process from the saved project. The audio probe intentionally regenerates only its isolated evidence fixture, not imported masters.
+
+Generated runtime exports belong to workspace/studio_exports; tests/probes use disposable export names. Use a fresh checkout for reproduction. The package requires committed source; generated archives and sidecars are in dist/. Keep the sidecar with the ZIP to bind version, source SHA, inventory, packager, certifiers and package hash. Evidence is retained through this repository, not ChatGPT Library.

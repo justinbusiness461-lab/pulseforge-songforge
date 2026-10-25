@@ -1,0 +1,63 @@
+========================================================================
+ INTEGRITY LEDGER VERIFIER
+========================================================================
+Ledger: /tmp/sf40/workspace/studio_exports/manifest_registry.json
+
+[0] master.wav
+  ✓ identity match sha256:29d00a28617eba75… (9 bytes)
+
+[1] master.wav
+  ✓ identity match sha256:a660c9f556ce259b… (9 bytes)
+
+[2] master.wav
+  ✓ identity match sha256:29d00a28617eba75… (9 bytes)
+
+[3] master.wav
+  ✓ identity match sha256:a660c9f556ce259b… (9 bytes)
+
+[4] master.wav
+  ✓ identity match sha256:29d00a28617eba75… (9 bytes)
+
+[5] master.wav
+  ✓ identity match sha256:a660c9f556ce259b… (9 bytes)
+
+[6] master.wav
+  ✓ identity match sha256:29d00a28617eba75… (9 bytes)
+
+[7] master.wav
+  ✓ identity match sha256:a660c9f556ce259b… (9 bytes)
+
+[8] SongSpec.initial.json
+  ✓ identity match sha256:a9bc72f88fbcd737… (32745 bytes)
+
+[9] SongSpec.edited.json
+  ✓ identity match sha256:2ca0f47d98028be1… (32784 bytes)
+
+[10] initial.wav
+  ✓ identity match sha256:512bdfc02b2aa184… (8908244 bytes)
+
+[11] edited.wav
+  ✓ identity match sha256:796b0432264aaac2… (8908244 bytes)
+
+[12] master.wav
+  ✓ identity match sha256:29d00a28617eba75… (9 bytes)
+
+[13] master.wav
+  ✓ identity match sha256:a660c9f556ce259b… (9 bytes)
+
+[14] SongSpec.initial.json
+  ✓ identity match sha256:a9bc72f88fbcd737… (32745 bytes)
+
+[15] SongSpec.edited.json
+  ✓ identity match sha256:2ca0f47d98028be1… (32784 bytes)
+
+[16] initial.wav
+  ✓ identity match sha256:512bdfc02b2aa184… (8908244 bytes)
+
+[17] edited.wav
+  ✓ identity match sha256:796b0432264aaac2… (8908244 bytes)
+
+========================================================================
+ ✅ INTEGRITY PASS (all registered files match digests)
+========================================================================
+Ceiling: content identity only — not registry immutability or media quality.

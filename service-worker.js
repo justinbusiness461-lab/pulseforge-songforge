@@ -1,5 +1,5 @@
-/* SongForge PWA — v2.18.1-lrc005 */
-const CACHE_NAME = 'pulseforge-songforge-v2.18.1-lrc005';
+/* SongForge PWA — v2.11 library install */
+const CACHE_NAME = 'pulseforge-songforge-v2.19.0-m040';
 const ASSETS = [
   './',
   './index.html',
@@ -27,6 +27,10 @@ self.addEventListener('activate', (e) => {
 });
 
 self.addEventListener('fetch', (e) => {
+  if (e.request.method !== 'GET' || new URL(e.request.url).pathname.startsWith('/api/')) return;
+  if (e.request.mode === 'navigate') {
+    e.respondWith(fetch(e.request).catch(() => caches.match('./index.html'))); return;
+  }
   e.respondWith(
     caches.match(e.request).then((cached) => {
       if (cached) return cached;

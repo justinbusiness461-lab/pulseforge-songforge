@@ -1,0 +1,97 @@
+{
+  "index.html": {
+    "loose_exists": true,
+    "loose_sha256": "ee95a315db8db9255c38b89f06eeb09d81f6be372816522485d6ff4ac1654d81",
+    "archive_sha256": "e570306753b040b6e2ede7517a31da30e59a1005f49878efe31e2e10a223365a"
+  },
+  "app-core.js": {
+    "loose_exists": true,
+    "loose_sha256": "647645a7587b1da4045cfbbb38ac0609f2c85c940ba45e79a19be1b3e62903df",
+    "archive_sha256": "36a2cb365c5aec48c133b7e7b90ab3dec1b9aa31d05805aa5662ac7bb3f47ab8"
+  },
+  "app-ui.js": {
+    "loose_exists": true,
+    "loose_sha256": "917878fa7fc8e7d0dfda70f491a702195417f36696374de2f2361ec3de397197",
+    "archive_sha256": "e523340c4bf1a262e343859727cb62d135061325722ecfa5b5ebf44f5dcda3db"
+  },
+  "app-cinema.js": {
+    "loose_exists": false,
+    "loose_sha256": null,
+    "archive_sha256": "846f64bc74b75280f285699082f21671df93833767977567d0d7e850203f62ed"
+  },
+  "manifest.json": {
+    "loose_exists": true,
+    "loose_sha256": "c0bd3f5baf407b8b629ab145924b7b80d46c31eccb8d7bea250f26d3c6b45dd9",
+    "archive_sha256": "18b5a662f66a7b6d68ebf54b5a0448c07965a99292ae89a448e1f78fc0d79a9d"
+  },
+  "service-worker.js": {
+    "loose_exists": true,
+    "loose_sha256": "a24377a0b482270b2cfdc94512a7e3e2791e1d1a68efb0de6ac3529f6b81a8d3",
+    "archive_sha256": "3038fe7b826bbe959c95c2baded87e28b55945a12c33f2cade10deeecfc0be11"
+  },
+  "README.md": {
+    "loose_exists": true,
+    "loose_sha256": "b47bf96ffd74b812a6f7e30443de0c02a4a87a8eb25eb353f6655422bf4c41b5",
+    "archive_sha256": "6fdae598bc26d2f825786df0a90d8b1494294aa1ff9f537abc26a47ad056c59f"
+  },
+  "INSTALL.md": {
+    "loose_exists": true,
+    "loose_sha256": "0efe4e8326cd1f05f509d9d2037116595fa56dcc9d022323c22a670a63c3e9ea",
+    "archive_sha256": "dcb6fcd6757a2aea128d8e254890f18a7efaedfc552d67d304af8e3477d25bb5"
+  },
+  "icons/icon.svg": {
+    "loose_exists": true,
+    "loose_sha256": "1882442e515b9305594d233b6a9c4b289def4d6d69e5a9d032e031324dfb1483",
+    "archive_sha256": "3bedf6d3fd82cf2af9abf00db2bf6914ccf492617f034fe7d689dcfec687a169"
+  },
+  "icons/icon-192.png": {
+    "loose_exists": false,
+    "loose_sha256": null,
+    "archive_sha256": "f269cf1102c62ed119e920b08356f0b4b18b10309188e91e4a50e838bbebde57"
+  },
+  "icons/icon-512.png": {
+    "loose_exists": false,
+    "loose_sha256": null,
+    "archive_sha256": "1a973a5ff0012de3ba8efbfe553f3616226be935a25916e4616256bd37f3a860"
+  },
+  "tools/armature_solver.py": {
+    "loose_exists": false,
+    "loose_sha256": null,
+    "archive_sha256": "caded077d4c01118619357a58b8b206e58850379ff0dafdc0e599768884fe148"
+  },
+  "tools/test_harness.py": {
+    "loose_exists": false,
+    "loose_sha256": null,
+    "archive_sha256": "3dd0d209571f7731d7a07dc42caedc8fbf6db84c2d72f4173a25f29e31cf4881"
+  },
+  "tools/README.md": {
+    "loose_exists": true,
+    "loose_sha256": "1c51b39a384a84a47a517810fc7181fbb655ff987b29ce68c8e8ce4e480d431a",
+    "archive_sha256": "7e71d66d59ef6c64b4d563dcfc7cb1a102f3ab2a2d4eca6f3ecb534275ebd86c"
+  },
+  "tools/studio_server.py": {
+    "loose_exists": false,
+    "loose_sha256": null,
+    "archive_sha256": "39c3c7c577b8eae53c65397298d9243682e27013fdae89909011c958581f6458"
+  },
+  "tools/vocal_lab.py": {
+    "loose_exists": false,
+    "loose_sha256": null,
+    "archive_sha256": "2b7ddfc779eca371d584142a085c1463388965ffcdc6b0a79d30ceaa82c788fe"
+  },
+  "tools/certify_otio.py": {
+    "loose_exists": true,
+    "loose_sha256": "d63a0717c72dc238f4eb6cc60f7697e25edbb61c3b7dd94012fab31948357795",
+    "archive_sha256": "de00f4edfadf57ced3dc81e1ca9a5844374a4249b79d30283fa923b23c858be6"
+  },
+  "tools/certify_integrity.py": {
+    "loose_exists": true,
+    "loose_sha256": "a9bead5eb553e2982b815e8173d9a122cb5f16f1df0cc39ad6e48b0275905d57",
+    "archive_sha256": "a9bead5eb553e2982b815e8173d9a122cb5f16f1df0cc39ad6e48b0275905d57"
+  },
+  "Release-Provenance-Manifest.json": {
+    "loose_exists": false,
+    "loose_sha256": null,
+    "archive_sha256": "dcfdcbcc1206c25feaa19fb67a28938787b64ff3844e5e02f02e1225354f4b42"
+  }
+}
