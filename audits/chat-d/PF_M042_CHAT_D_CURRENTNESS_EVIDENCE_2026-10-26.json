@@ -1,0 +1,34 @@
+{
+  "campaign": "PF-COMPLETION-001",
+  "mission": 42,
+  "role": "CHAT_D_ADVERSARIAL_AUDIO_FORGE",
+  "audit_type": "CURRENTNESS_WAKE_GATE",
+  "decision": "HOLD_PENDING_B_FREEZE",
+  "pr4": {
+    "number": 4,
+    "head_sha": "2dadc21c1824e82beb1b0a6fd9ef9acfd3d2d326",
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "release_version_claim": "2.19.1"
+  },
+  "candidate_availability": {
+    "project_authority_repair_present": true,
+    "owner_claims_not_promoted": true
+  },
+  "work_b": {
+    "mission_042_branch": "NOT_FOUND",
+    "pr4_qualified": "NOT_FOUND",
+    "project_authority_pass": "NOT_FOUND",
+    "freeze_sha": "NOT_FOUND",
+    "existing_branches": [
+      "work-b-m040-source-qualification",
+      "work-b-m041-qualification"
+    ]
+  },
+  "chat_d": {
+    "successor_attack": "NOT_LAWFUL_YET",
+    "technical_audio_verdict": "DEFERRED_UNTIL_FREEZE",
+    "musical_quality_assessment": "DEFERRED_UNTIL_FREEZE"
+  }
+}
