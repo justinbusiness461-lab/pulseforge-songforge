@@ -1,0 +1,31 @@
+{
+  "campaign": "PF-COMPLETION-001",
+  "mission": 41,
+  "role": "CHAT_D_ADVERSARIAL_AUDIO_FORGE",
+  "audit_type": "WAKE_GATE",
+  "decision": "HOLD",
+  "pr4": {
+    "number": 4,
+    "head_sha": "fcab64b18f325cd718e0ddb76f3d1ba72645fdd2",
+    "state": "open",
+    "merged": false,
+    "mergeable": true
+  },
+  "work_b": {
+    "branch": "work-b-m041-qualification",
+    "receipt": "evidence/m041/WORK_B_QUALIFICATION.json",
+    "pr4_qualified": "HOLD",
+    "first_failed_boundary": "SOUND_FORGE_PROJECT_AUTHORITY_PASS",
+    "unit_tests": "12/12 PASS",
+    "security_regression_matrix": "PASS_REPORTED_BY_WORK_B",
+    "provenance_ab_history": "PASS_REPORTED_BY_WORK_B",
+    "freeze_issued": false
+  },
+  "chat_d": {
+    "pf_sound_001_retest": "NOT_STARTED_BY_LAW",
+    "pf_sound_002_retest": "NOT_STARTED_BY_LAW",
+    "technical_audio_verdict": "DEFERRED_UNTIL_FREEZE",
+    "musical_quality_assessment": "DEFERRED_UNTIL_FREEZE",
+    "successor_retest": "NOT_LAWFUL_YET"
+  }
+}
