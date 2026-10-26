@@ -1,0 +1,33 @@
+{
+  "release_version": "2.19.0",
+  "compiled_timestamp": "2026-10-26T16:31:20.158414Z",
+  "schema": "pulseforge.songforge.skeleton.v2.19",
+  "notes": "Deterministic seed/repro, change_ledger, content-addressed M040/M042 server, expanded unit tests, GAP.md",
+  "checksums": {
+    "index.html": "sha256:b591f88bea4ce06c808f235d8c9f11b0b5b1a9b068a0f319189e4e28f3ecc8e4",
+    "app-core.js": "sha256:37e9f22c906643ab5d9bdd32d91d1acf3e4e87ed617345fe85a3e49b3cbdd219",
+    "app-ui.js": "sha256:32dbcd5c9392dfd4a8f1b63d36d274066b5ed41c9928196e9a89cff50a93db80",
+    "app-cinema.js": "sha256:846f64bc74b75280f285699082f21671df93833767977567d0d7e850203f62ed",
+    "manifest.json": "sha256:18b5a662f66a7b6d68ebf54b5a0448c07965a99292ae89a448e1f78fc0d79a9d",
+    "service-worker.js": "sha256:3038fe7b826bbe959c95c2baded87e28b55945a12c33f2cade10deeecfc0be11",
+    "README.md": "sha256:4cb97e0e25717c8cd89e8ff9b07b765d0565c4fac4020a848f109307825b3678",
+    "INSTALL.md": "sha256:6102bad48b1642755be98c8577ab3da43cc2aebae11e79a4a5ec3834fb783df6",
+    "GAP.md": "sha256:9e6e605ba737dd03a0a4bc5b93dd7fc76a6b74570dbf7829b0cb0a0073d3487c",
+    "icons/icon.svg": "sha256:3bedf6d3fd82cf2af9abf00db2bf6914ccf492617f034fe7d689dcfec687a169",
+    "icons/icon-192.png": "sha256:f269cf1102c62ed119e920b08356f0b4b18b10309188e91e4a50e838bbebde57",
+    "icons/icon-512.png": "sha256:1a973a5ff0012de3ba8efbfe553f3616226be935a25916e4616256bd37f3a860",
+    "tools/armature_solver.py": "sha256:caded077d4c01118619357a58b8b206e58850379ff0dafdc0e599768884fe148",
+    "tools/test_harness.py": "sha256:3dd0d209571f7731d7a07dc42caedc8fbf6db84c2d72f4173a25f29e31cf4881",
+    "tools/README.md": "sha256:fb6682b57c9d9a23dde0bf942599607cce76f7dad772585f19872ab124804121",
+    "tools/studio_server.py": "sha256:f833939b525628940c61452d988a64601e37b0bce3cb945799e556379d77de93",
+    "tools/vocal_lab.py": "sha256:2b7ddfc779eca371d584142a085c1463388965ffcdc6b0a79d30ceaa82c788fe",
+    "tools/certify_otio.py": "sha256:de00f4edfadf57ced3dc81e1ca9a5844374a4249b79d30283fa923b23c858be6",
+    "tools/certify_integrity.py": "sha256:9233f5839a26d71250ecab2cfa0991eddf30e8cdeb191cf47439aca76ed963bc",
+    "tools/certify_mix.py": "sha256:142371900128090b388db11403617ee49cb2dda18a821c077c8ffbb0d1e4d6c5",
+    "tools/song_compiler.py": "sha256:27e1a3e1f20bfd9fe7701d463fd4e6f6074f81f4e9e753fee0a1b0ec225e04c7",
+    "tests/test_m040.py": "sha256:708ccdb789c5c75ad85ab7ebab9e77f4e15cb3898f01af756866d6d6717502dd",
+    "tests/test_project_authority.py": "sha256:7332bea334dd6dd9860fdefad1db1f43735b7182e905c9d608e3d07f58532f34",
+    "tests/test_mix.py": "sha256:baa5b100f564967655728b4e5d20a1c56e85b0acee98f7e4614948eece266733",
+    "tests/test_deterministic.py": "sha256:d9e83ba2008022578db77a03d2b335cfe966d82a5dc7da4156d8baa90b6b583a"
+  }
+}

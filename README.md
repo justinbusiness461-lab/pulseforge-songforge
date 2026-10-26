@@ -1,11 +1,45 @@
-# S.A.R.A. Sound Forge — M042 candidate (2.19.1)
+# PulseForge SongForge / S.A.R.A. Sound Forge
 
-A local Score Graph music workspace. This branch reconciles the fuller **committed v2.18 archive** into executable loose source and qualifies a bounded security/provenance/headless-audio candidate. The historical ZIPs are retained as historical inputs, not current release authority.
+**Mobile-first · offline · zero-dependency** generative music studio (local Web Audio + Python broker).
 
-One application owns this musical project. PulseForge cinema and other S.A.R.A. products retain their own authority. No mandatory cloud music provider.
+**Current release:** 2.19.0 · schema `pulseforge.songforge.skeleton.v2.19`
 
-See INSTALL.md for launch and reproducible probes, release.json for the runtime contract, and evidence/m040/HANDOFF.md for earned gates and limits. `package_project.py` packages only exact committed source with one version and a nonrecursive archive-digest sidecar.
+## Quick start
+```bash
+cd pulseforge-songforge
+python3 tools/studio_server.py
+# open http://localhost:8765
+```
+Phone (same Wi‑Fi): `http://<your-ip>:8765` · or Add to Home Screen (PWA).
 
-Not claimed: browser/PWA certification, mastered-song quality, trained neural singing, real NLE interoperability, professional DAW parity, or finished cinema. Formant output is a guide; the broadcast endpoint is an eight-second development proxy. Structural OTIO checks do not certify NLE compatibility.
+CDN (may lag):  
+https://cdn.jsdelivr.net/gh/justinbusiness461-lab/pulseforge-songforge@main/index.html
 
-M042 adds a durable ProjectManifest and immutable project revisions. See evidence/m042/HANDOFF.md. Browser storage holds only a project/revision address; Open always resolves current authority from the server.
+## Core journey
+1. Prompt → **Compile** (integer-tick SongSpec, TPQ=960)  
+2. **Play** (drums / bass / FM / Karplus / formant vocals + shelves + BBD + limiter)  
+3. **Save project** (durable M042 revision via studio server)  
+4. Export **WAV** / **Cinema Graph** / **OTIO**  
+5. Certify: `python3 tools/certify_otio.py` · `python3 tools/certify_integrity.py`
+
+## What ships
+| Phase | Capability |
+|-------|------------|
+| 1 | NL prompt → integer-tick SongSpec, 16-step matrix, mixer |
+| 2 | Detuned dual-saw bass, dual-op FM pads/leads, Karplus-Strong plucks |
+| 3 | Lyric → phoneme timeline, formant vocals (male/female), MEG visemes |
+| 4 | Asymmetric tape saturation + stereo BBD spatial delay |
+| 5 | Content-addressed exports + project revision authority (M040/M042) |
+| 6 | Arrangement change_ledger + deterministic seed/repro (`sf-<hex>`) |
+
+## Tests
+```bash
+python3 -m unittest discover -s tests -v
+python3 tools/test_harness.py   # MEG → armature (seeds mock if needed)
+```
+
+## Evidence ceiling
+Deterministic local Web Audio + rule compiler only.  
+**Not** neural singing, **not** Suno/Udio/ElevenLabs, **not** hardware tape/BBD parity, **not** certified 3D film.
+
+See `GAP.md` for present vs missing with honesty ceilings.
