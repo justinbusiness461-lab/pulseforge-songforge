@@ -1,0 +1,87 @@
+{
+  "campaign": "PF-COMPLETION-001",
+  "mission": 42,
+  "role": "CHAT_D_ADVERSARIAL_AUDIO_FORGE",
+  "freeze_sha": "7c92fe7a39d6b4209be510d02781adb6a1ef4182",
+  "release_version": "2.19.1",
+  "verdicts": {
+    "TECHNICAL_AUDIO_VERDICT": "PASS_BOUNDED",
+    "MUSICAL_QUALITY_ASSESSMENT": 5.5,
+    "SOUND_FORGE_SECURITY_PASS": "PASS",
+    "SOUND_FORGE_PROVENANCE_PASS": "PASS",
+    "SOUND_FORGE_PROJECT_AUTHORITY_PASS": "PASS_BOUNDED_POSIX_LOCAL",
+    "PROJECT_RECOVERY_PASS": "PASS_BOUNDED",
+    "MUSIC_GENERATION_PASS": "PASS_BOUNDED",
+    "AUDIO_MASTER_PASS": "HOLD_NO_MASTERING_ACCEPTANCE_CONTRACT",
+    "SOUND_FORGE_PRODUCT_CANDIDATE": "HOLD"
+  },
+  "fresh_execution": {
+    "unittest": "21/21 PASS",
+    "http_restart": "40/40 PASS",
+    "project_restart": "15/15 PASS",
+    "custom_adversary": {
+      "A_survives_B_alias": true,
+      "tamper_detected": true,
+      "alias_absent_R2_survives": true,
+      "timestamp_inversion_does_not_change_authority": true,
+      "orphan_output_not_bound": true,
+      "R1_retrievable": true,
+      "stale_R1_rejected": true
+    }
+  },
+  "audio": {
+    "initial": {
+      "sha256": "512bdfc02b2aa18476d3b32fac9898724d1a8c4255f01c5599decd8886050858",
+      "sample_rate": 44100,
+      "channels": 2,
+      "frames": 2227050,
+      "duration_seconds": 50.5,
+      "sample_peak_dbfs": -9.557281842662015,
+      "lufs_i": -28.1,
+      "lra_lu": 3.1,
+      "ffmpeg_true_peak_mode_dbfs": -9.3,
+      "dual_mono": true,
+      "sustained_silence_ge_0_5s_below_minus60db": false
+    },
+    "edited": {
+      "sha256": "796b0432264aaac2c5d34f64c650a7037d841d86d910cfd74798c55a3d45ccee",
+      "sample_rate": 44100,
+      "channels": 2,
+      "frames": 2227050,
+      "duration_seconds": 50.5,
+      "sample_peak_dbfs": -9.557281842662015,
+      "lufs_i": -28.3,
+      "lra_lu": 3.1,
+      "ffmpeg_true_peak_mode_dbfs": -9.3,
+      "dual_mono": true,
+      "sustained_silence_ge_0_5s_below_minus60db": false
+    },
+    "edit_delta": {
+      "section": "m040-3 Turn",
+      "symbolic_change": "8 bass events one octave lower",
+      "first_changed_seconds": 25.00013605442177,
+      "last_changed_seconds": 35.02394557823129,
+      "changed_frames": 440102,
+      "fraction": 0.19761657798432905,
+      "tail_ms": 23.94557823129,
+      "boundary_jump_lsb": {
+        "25s": 1,
+        "35s": 2
+      }
+    }
+  },
+  "musical_scores": {
+    "structure": 7.5,
+    "groove": 6,
+    "tonal_coherence": 8,
+    "transitions": 8,
+    "repetition_variation": 4,
+    "dynamics": 3,
+    "mix_balance": 5.5,
+    "stereo_interest": 1,
+    "procedural_naturalness": 4,
+    "edit_integration": 8.5,
+    "emotional_musical_usefulness": 5
+  },
+  "perceptual_ceiling": "literal auditory-listening connector unavailable; scores based on decoded PCM + symbolic/event analysis"
+}
