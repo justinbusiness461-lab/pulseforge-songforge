@@ -1,0 +1,88 @@
+{
+  "campaign": "PF-COMPLETION-001",
+  "mission": 42,
+  "role": "CHAT_D_ADVERSARIAL_SUCCESSOR",
+  "date": "2026-10-26",
+  "freeze_sha": "7c92fe7a39d6b4209be510d02781adb6a1ef4182",
+  "release_version": "2.19.1",
+  "verdicts": {
+    "security_regression": "PASS_BOUNDED",
+    "provenance_regression": "PASS",
+    "project_authority_adversary": "PASS",
+    "technical_audio_verdict": "HOLD",
+    "musical_quality_assessment": "5.1/10_PROVISIONAL_OBJECTIVE_NOT_PERCEPTUAL",
+    "mutation_replay_hardening": "PARTIAL"
+  },
+  "security": {
+    "trusted_exact_origin": "PASS",
+    "evil_origin": "REJECTED",
+    "deceptive_localhost": "REJECTED",
+    "wrong_port": "REJECTED",
+    "malformed_origin": "REJECTED",
+    "missing_origin": "REJECTED",
+    "missing_capability": "REJECTED",
+    "traversal": "REJECTED",
+    "same_session_replay": {
+      "request_1": 200,
+      "request_2": 200,
+      "immutable_overwrite": false,
+      "extra_ledger_row": true
+    }
+  },
+  "provenance": {
+    "A_B_distinct_objects": true,
+    "A_preserved_after_B": true,
+    "B_preserved": true,
+    "tamper_detected": true
+  },
+  "project_authority": {
+    "R2_current": true,
+    "R1_retained": true,
+    "stale_R1_rejected": true,
+    "alias_absence_does_not_break_authority": true,
+    "orphan_output_not_bound": true,
+    "corrupt_bound_output_detected": true,
+    "manifest_stays_R2_after_newer_orphan": true,
+    "orphan_revision_not_retrievable": true
+  },
+  "music": {
+    "title": "Night Signal — local instrumental study",
+    "bpm": 96,
+    "key": "E minor",
+    "duration_seconds": 50.5,
+    "sample_rate": 44100,
+    "channels": 2,
+    "decoded_frames": 2227050,
+    "channel_correlation": 1,
+    "dual_mono": true,
+    "initial_sha256_claim": "512bdfc02b2aa18476d3b32fac9898724d1a8c4255f01c5599decd8886050858",
+    "edited_sha256_claim": "796b0432264aaac2c5d34f64c650a7037d841d86d910cfd74798c55a3d45ccee",
+    "edited_track": "bass",
+    "edited_section": "Turn",
+    "edit": "eight bass notes transposed -12 semitones",
+    "changed_region_seconds_approx": [
+      25,
+      35.02
+    ],
+    "outside_declared_edit_plus_tail_changed_frames_claim": 0
+  },
+  "musical_scores": {
+    "structure": 7,
+    "groove": 5,
+    "tonal_coherence": 9,
+    "transitions": 5,
+    "repetition": 3,
+    "dynamics": 4,
+    "mix": 5,
+    "stereo_interest": 1,
+    "organic_nonprocedural_feel": 3,
+    "edit_integration": 9,
+    "emotional_musical_usefulness": 5,
+    "overall": 5.1
+  },
+  "blocking_items": [
+    "Work C physical retained-media receipt not yet present",
+    "Chat D binary GitHub transport unavailable for independent local decode/listen",
+    "same-session exact mutation replay appends duplicate ledger event"
+  ]
+}
