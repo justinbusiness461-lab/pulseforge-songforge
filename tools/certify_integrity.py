@@ -2,7 +2,8 @@
 """Verify manifest_registry.json entries against on-disk bytes.
 
 Proves: content identity for each registered path (file exists + sha256 match).
-Does NOT prove: immutability of the registry, artistic quality, or schema validity.
+Prefer content_path / absolute_path pointing at immutable objects/<sha>/ stores.
+Does NOT prove: immutability of the registry file itself, artistic quality, or schema validity.
 """
 from __future__ import annotations
 
@@ -23,6 +24,14 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def resolve_entry_path(entry: dict) -> Path:
+    for key in ("content_path", "absolute_path", "object_path"):
+        val = entry.get(key)
+        if val:
+            return Path(str(val))
+    return Path("")
+
+
 def main() -> int:
     ledger_path = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_LEDGER
     print("=" * 72)
@@ -30,7 +39,7 @@ def main() -> int:
     print("=" * 72)
     print(f"Ledger: {ledger_path}")
     if not ledger_path.is_file():
-        print("FAIL: ledger missing")
+        print("FAIL: ledger missing (exit 2)")
         return 2
     try:
         entries = json.loads(ledger_path.read_text(encoding="utf-8"))
@@ -46,9 +55,9 @@ def main() -> int:
 
     fails = 0
     for i, e in enumerate(entries):
-        path = Path(str(e.get("absolute_path") or ""))
-        expected = str(e.get("sha256_checksum") or "").replace("sha256:", "")
-        name = e.get("filename")
+        path = resolve_entry_path(e)
+        expected = str(e.get("sha256_checksum") or e.get("content_sha256") or "").replace("sha256:", "")
+        name = e.get("filename") or e.get("artifact_id") or f"entry-{i}"
         print(f"\n[{i}] {name}")
         if not path.is_file():
             print(f"  ❌ MISSING FILE: {path}")
