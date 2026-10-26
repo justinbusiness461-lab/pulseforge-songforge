@@ -11,6 +11,7 @@ def package():
     names=['index.html','app-core.js','app-ui.js','app-cinema.js','service-worker.js','manifest.json','release.json','package.json','package-lock.json','package_project.py','README.md','INSTALL.md','requirements-vocal.txt']
     names+=['icons/icon.svg','icons/icon-192.png','icons/icon-512.png']
     names+=[str(p.relative_to(ROOT)) for p in (ROOT/'tools').iterdir() if p.suffix in {'.py','.cjs','.md'}]
+    names+=[str(p.relative_to(ROOT)) for p in (ROOT/"tests").glob("test_*.py")]
     names=sorted(set(names));inventory={}
     for name in names:
         data=(ROOT/name).read_bytes();inventory[name]=digest(data)

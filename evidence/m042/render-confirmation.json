@@ -1,0 +1,10 @@
+{
+  "new_process": true,
+  "audio_sha256": "796b0432264aaac2c5d34f64c650a7037d841d86d910cfd74798c55a3d45ccee",
+  "matches_prior": true,
+  "renderer_source_sha256": {
+    "app-core.js": "63ff433abdb718265818733c698d30e2a0b53ef1da7a0fa1bfa7fbf3e35bbe13",
+    "app-ui.js": "32dbcd5c9392dfd4a8f1b63d36d274066b5ed41c9928196e9a89cff50a93db80"
+  },
+  "ceiling": "fresh headless Web Audio process on exact M042 source; retained edited SongSpec; output hash equals bound edited WAV; not perceptual/browser playback"
+}

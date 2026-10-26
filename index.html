@@ -129,9 +129,14 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 <input type="range" id="lookZ" min="1" max="8" step="0.1" value="4"/>
 </div>
 <div class="card">
-<h3>Export</h3>
+<h3>Project and export</h3>
+<label for="projectId">Durable project ID (keep this to reopen)</label>
+<input id="projectId" placeholder="New project, or paste its saved ID" autocomplete="off"/>
+<p id="projectRevision" class="hint">Unsaved draft — browser cache is not project storage</p>
+<button id="btnOpenProject" class="secondary sm">Open project</button>
+<button id="btnNewProject" class="secondary sm">New project</button>
 <div class="row2">
-<button class="secondary sm" id="btnSave">Save JSON</button>
+<button class="secondary sm" id="btnSave">Save project</button>
 <button class="secondary sm" id="btnMEG">Cinema Graph</button>
 </div>
 <div class="row2" style="margin-top:8px">

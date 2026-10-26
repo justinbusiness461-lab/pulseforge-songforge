@@ -1,0 +1,118 @@
+{
+  "checks": [
+    {
+      "name": "export-initial.wav",
+      "pass": true
+    },
+    {
+      "name": "create-R1",
+      "pass": true
+    },
+    {
+      "name": "export-edited.wav",
+      "pass": true
+    },
+    {
+      "name": "commit-R2",
+      "pass": true
+    },
+    {
+      "name": "R2-parent-is-R1",
+      "pass": true
+    },
+    {
+      "name": "cold-open-by-projectId",
+      "pass": true
+    },
+    {
+      "name": "R2-current",
+      "pass": true
+    },
+    {
+      "name": "exact-R2-SongSpec",
+      "pass": true
+    },
+    {
+      "name": "R2-SongSpec-digest",
+      "pass": true
+    },
+    {
+      "name": "R2-timeline-digest",
+      "pass": true
+    },
+    {
+      "name": "output-bound-to-R2",
+      "pass": true
+    },
+    {
+      "name": "R1-retained",
+      "pass": true
+    },
+    {
+      "name": "stale-R1-409",
+      "pass": true
+    },
+    {
+      "name": "stale-write-no-authority-change",
+      "pass": true
+    },
+    {
+      "name": "unauthorized-project-read-reject",
+      "pass": true
+    }
+  ],
+  "browser_cache_used": false,
+  "new_server_process": true,
+  "R1": {
+    "revisionId": "08b43ba192691650f48c437007538e3aee5c7d1c8969b875ef4ec4b180e11626",
+    "projectId": "a442ae6112b6416780e9d2675bb47a4c",
+    "formatVersion": 1,
+    "parentRevisionId": null,
+    "songSpecDigest": "cfc35be8fd688fb67a4768f6631de5cf17de7a0b11edb0e32d8491f2690036ad",
+    "productionTimelineDigest": "ed77423bab091f477d7b67f634165ad02f3a00e15c8b938beff6db462a2ad3f0",
+    "lyricTimelineDigest": null,
+    "sourceAssetDigests": [],
+    "outputArtifactIds": [
+      "512bdfc02b2aa18476d3b32fac9898724d1a8c4255f01c5599decd8886050858"
+    ],
+    "createdAt": "2026-10-26T03:44:01.036066+00:00",
+    "outputBindings": [
+      {
+        "artifactId": "512bdfc02b2aa18476d3b32fac9898724d1a8c4255f01c5599decd8886050858",
+        "songSpecDigest": "cfc35be8fd688fb67a4768f6631de5cf17de7a0b11edb0e32d8491f2690036ad",
+        "productionTimelineDigest": "ed77423bab091f477d7b67f634165ad02f3a00e15c8b938beff6db462a2ad3f0"
+      }
+    ]
+  },
+  "R2": {
+    "revisionId": "1bbbda5434d6c64425a383d3f076dbc7163c223396e0c1fc9804547884ef207e",
+    "projectId": "a442ae6112b6416780e9d2675bb47a4c",
+    "formatVersion": 1,
+    "parentRevisionId": "08b43ba192691650f48c437007538e3aee5c7d1c8969b875ef4ec4b180e11626",
+    "songSpecDigest": "ce6103301d355c50b8627ccb35ab72d2b50cf5e71e7257b187278bd9ad11954f",
+    "productionTimelineDigest": "f26cd8f522e46cb1d4664105c2eb293f992a6d1cd537b9a8047044d2dc46237f",
+    "lyricTimelineDigest": null,
+    "sourceAssetDigests": [],
+    "outputArtifactIds": [
+      "796b0432264aaac2c5d34f64c650a7037d841d86d910cfd74798c55a3d45ccee"
+    ],
+    "createdAt": "2026-10-26T03:44:02.386187+00:00",
+    "outputBindings": [
+      {
+        "artifactId": "796b0432264aaac2c5d34f64c650a7037d841d86d910cfd74798c55a3d45ccee",
+        "songSpecDigest": "ce6103301d355c50b8627ccb35ab72d2b50cf5e71e7257b187278bd9ad11954f",
+        "productionTimelineDigest": "f26cd8f522e46cb1d4664105c2eb293f992a6d1cd537b9a8047044d2dc46237f"
+      }
+    ]
+  },
+  "ProjectManifest": {
+    "currentRevisionId": "1bbbda5434d6c64425a383d3f076dbc7163c223396e0c1fc9804547884ef207e",
+    "formatVersion": 1,
+    "projectId": "a442ae6112b6416780e9d2675bb47a4c"
+  },
+  "media": {
+    "initial": "512bdfc02b2aa18476d3b32fac9898724d1a8c4255f01c5599decd8886050858",
+    "edited": "796b0432264aaac2c5d34f64c650a7037d841d86d910cfd74798c55a3d45ccee"
+  },
+  "ceiling": "real HTTP/filesystem/process restart and retained real WAVs; no browser UI or power-loss claim"
+}

@@ -65,9 +65,7 @@ function render() {
   };
   const btnRestore = $("btnRestore");
   if (btnRestore) btnRestore.onclick = () => {
-    const r = restoreProjectFromStorage();
-    if (r.ok) { render(); setStatus("Restored · " + r.song_id, "ok"); }
-    else setStatus("Restore failed: " + r.error, "warn");
+    restoreProjectFromStorage().catch(e => setStatus('Open failed: ' + e.message, 'warn'));
   };
 
 
@@ -280,6 +278,9 @@ async function renderMixBuffer() {
 
 async function exportWav() {
   if (!skeleton) compile();
+  const renderSpec = JSON.parse(serializeProject());
+  const expectedRef = durableProjectRef && { ...durableProjectRef };
+  const renderSourceAssets = durableSourceAssets.slice();
   setStatus("Rendering mix WAV…", "warn");
   try {
     const { buffer, metrics } = await renderMixBuffer();
@@ -287,9 +288,17 @@ async function exportWav() {
       setStatus("Export blocked: silent buffer (RMS=" + metrics.rms.toFixed(6) + ")", "warn");
       return null;
     }
+    const wav = audioBufferToWav(buffer);
+    const written = await fetch('/api/write_production_file', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Studio-Capability': window.__STUDIO_CAPABILITY__ || '' },
+      body: JSON.stringify({ filename: (renderSpec.song_id || 'song') + '_mix.wav', subdirectory: 'audio-masters', data_bytes: Array.from(new Uint8Array(wav)) })
+    });
+    const artifact = await written.json();
+    if (!written.ok || artifact.status !== 'SUCCESS') throw new Error(artifact.error || 'Export persistence failed');
+    await commitProjectSnapshot(renderSpec, [artifact.sha256], expectedRef, renderSourceAssets);
     const a = document.createElement("a");
-    a.href = URL.createObjectURL(new Blob([audioBufferToWav(buffer)], { type: "audio/wav" }));
-    a.download = (skeleton.song_id || "song") + "_mix.wav";
+    a.href = URL.createObjectURL(new Blob([wav], { type: "audio/wav" }));
+    a.download = (renderSpec.song_id || "song") + "_mix.wav";
     a.click();
     setStatus(
       "Mix WAV exported · " + metrics.duration_sec.toFixed(1) + "s · peak " +
@@ -368,24 +377,71 @@ function exportMEG() {
   logToNative("EXPORT_COMPLETE", "MEG written");
 }
 
-function saveJSON() {
-  if (!skeleton) compile();
-  const payload = serializeProject ? serializeProject() : JSON.stringify(skeleton, null, 2);
-  try { localStorage.setItem("sf_project", payload); } catch (e) {}
-  const name = (skeleton.song_id || "song") + "_ScoreGraph.json";
-  savePayload(name, payload, "score_graphs", "application/json");
-  setStatus("Project saved · " + (skeleton.song_id || ""), "ok");
+let durableProjectRef = null;
+let durableSourceAssets = [];
+
+async function projectRequest(route, payload) {
+  const response = await fetch('/api/projects/' + route, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Studio-Capability': window.__STUDIO_CAPABILITY__ || '' },
+    body: JSON.stringify(payload)
+  });
+  const result = await response.json();
+  if (!response.ok || result.status !== 'SUCCESS') throw new Error(result.error || 'Project request failed');
+  return result;
 }
 
-function restoreProjectFromStorage() {
-  try {
-    const raw = localStorage.getItem("sf_project");
-    if (!raw) return { ok: false, error: "empty" };
-    const obj = JSON.parse(raw);
-    return loadProjectObject(obj);
-  } catch (e) {
-    return { ok: false, error: String(e.message || e) };
+function showProjectAuthority(result) {
+  durableProjectRef = { projectId: result.manifest.projectId, revisionId: result.revision.revisionId };
+  durableSourceAssets = result.revision.sourceAssetDigests.slice();
+  try { localStorage.setItem('sf_project_ref', JSON.stringify(durableProjectRef)); } catch (_) {}
+  if ($('projectId')) $('projectId').value = durableProjectRef.projectId;
+  if ($('projectRevision')) $('projectRevision').textContent = 'Saved revision: ' + durableProjectRef.revisionId;
+}
+
+async function commitProjectSnapshot(spec, outputArtifactIds, expectedRef, sourceAssets = durableSourceAssets.slice()) {
+  const entered = $('projectId') && $('projectId').value.trim();
+  if ((!expectedRef && entered) || (expectedRef && entered !== expectedRef.projectId)) throw new Error('Open the selected project before saving, or choose New project');
+  const result = await projectRequest('commit', {
+    projectId: expectedRef ? expectedRef.projectId : null,
+    expectedCurrentRevisionId: expectedRef ? expectedRef.revisionId : null,
+    songSpec: spec,
+    sourceAssetDigests: sourceAssets,
+    outputArtifactIds: outputArtifactIds || []
+  });
+  const active = durableProjectRef;
+  if ((!expectedRef && !active) || (expectedRef && active && expectedRef.projectId === active.projectId && expectedRef.revisionId === active.revisionId)) {
+    showProjectAuthority(result);
   }
+  return result;
+}
+
+async function saveJSON() {
+  if (!skeleton) compile();
+  // Capture draft and expected pointer together; pending edits cannot change the commit.
+  const spec = JSON.parse(serializeProject());
+  const expected = durableProjectRef && { ...durableProjectRef };
+  const result = await commitProjectSnapshot(spec, [], expected);
+  setStatus('Project saved · ' + result.manifest.projectId, 'ok');
+  return result;
+}
+
+async function restoreProjectFromStorage() {
+  let id = $('projectId') && $('projectId').value.trim();
+  if (!id) {
+    // Cache contains an address only, never the song or the authoritative pointer.
+    try { id = JSON.parse(localStorage.getItem('sf_project_ref') || '{}').projectId; } catch (_) {}
+  }
+  if (!id) throw new Error('Enter a durable project ID');
+  const result = await projectRequest('open', { projectId: id });
+  const loaded = loadProjectObject(result.songSpec);
+  if (!loaded.ok) throw new Error(loaded.error);
+  showProjectAuthority(result);
+  if ($('title')) $('title').value = result.songSpec.title || '';
+  if ($('prompt')) $('prompt').value = result.songSpec.prompt || '';
+  render();
+  setStatus('Opened durable revision · ' + result.revision.revisionId, 'ok');
+  return result;
 }
 
 
@@ -419,7 +475,7 @@ $("btnStop").onclick = () => {
 };
 $("btnWav").onclick = exportWav;
 $("btnMEG").onclick = exportMEG;
-$("btnSave").onclick = saveJSON;
+$("btnSave").onclick = () => saveJSON().catch(e => setStatus("Save failed: " + e.message, "warn"));
 $("editTrack").onchange = drawMatrix;
 
 const lyricsEl = $("lyrics");
@@ -941,3 +997,12 @@ if (btnVocalLab) btnVocalLab.onclick = function () { runVocalLab(); };
 
 const btnVocalLab2 = $("btnVocalLab2");
 if (btnVocalLab2) btnVocalLab2.onclick = function () { runVocalLab(); };
+
+// Project address survives independently of browser cache; enter it on any fresh client.
+if ($('btnOpenProject')) $('btnOpenProject').onclick = () => restoreProjectFromStorage().catch(e => setStatus('Open failed: ' + e.message, 'warn'));
+if ($('btnNewProject')) $('btnNewProject').onclick = () => {
+  durableProjectRef = null; durableSourceAssets = [];
+  if ($('projectId')) $('projectId').value = '';
+  if ($('projectRevision')) $('projectRevision').textContent = 'Unsaved draft — no durable project yet';
+  setStatus('New project draft · Save to create a durable project', 'warn');
+};
