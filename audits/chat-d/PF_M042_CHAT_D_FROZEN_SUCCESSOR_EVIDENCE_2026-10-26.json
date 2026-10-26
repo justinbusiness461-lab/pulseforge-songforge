@@ -1,0 +1,116 @@
+{
+  "campaign": "PF-COMPLETION-001",
+  "mission": 42,
+  "role": "CHAT_D_ADVERSARIAL_AUDIO_FORGE",
+  "freeze_sha": "7c92fe7a39d6b4209be510d02781adb6a1ef4182",
+  "release_version": "2.19.1",
+  "technical_audio_verdict": "PASS_BOUNDED",
+  "musical_quality_assessment": {
+    "overall": 5.3,
+    "ceiling": "signal+arrangement+score-graph; no literal model audition channel",
+    "scores": {
+      "structure": 7,
+      "groove": 6,
+      "tonal_coherence": 8,
+      "transitions": 5,
+      "repetition_control": 3,
+      "dynamics": 4,
+      "mix_headroom": 6,
+      "stereo_interest": 1,
+      "procedural_subtlety": 3,
+      "edit_integration": 8,
+      "emotional_musical_usefulness": 5
+    },
+    "summary": "technically valid but artistically primitive"
+  },
+  "independent_execution": {
+    "unit_tests": "21/21 PASS",
+    "m040_http_probe": "40/40 PASS",
+    "m042_project_probe": "15/15 PASS"
+  },
+  "security": {
+    "evil_origin": 403,
+    "deceptive_localhost": 403,
+    "wrong_port": 403,
+    "malformed_origin": 403,
+    "missing_origin": 403,
+    "missing_capability": 403,
+    "traversal_filename": 400,
+    "traversal_subdirectory": 400,
+    "authorized_replay": {
+      "status1": 200,
+      "status2": 200,
+      "same_digest": true,
+      "same_object": true
+    }
+  },
+  "project_authority": {
+    "stale_R1_after_R2": 409,
+    "newer_R1_mtime_does_not_override_R2": true,
+    "historical_R1_retrievable": true,
+    "corrupt_alias_does_not_override_authority": true,
+    "missing_alias_does_not_override_authority": true,
+    "orphan_output_excluded": true,
+    "R2_output_binding_exact": true
+  },
+  "tamper": {
+    "historical_open_after_immutable_object_tamper": 400,
+    "integrity_verifier_exit": 1,
+    "digest_mismatch_detected": true
+  },
+  "audio": {
+    "initial": {
+      "sha256": "512bdfc02b2aa18476d3b32fac9898724d1a8c4255f01c5599decd8886050858",
+      "codec": "pcm_s16le",
+      "sample_rate": 44100,
+      "channels": 2,
+      "frames": 2227050,
+      "duration": 50.5,
+      "sample_peak_dbfs": -9.5573,
+      "lufs_i": -28.34,
+      "lra": 3.5,
+      "dc_offset": 0.000113,
+      "lr_correlation": 1.0,
+      "dual_mono_exact": true,
+      "final_silence_sec": 0.626916
+    },
+    "edited": {
+      "sha256": "796b0432264aaac2c5d34f64c650a7037d841d86d910cfd74798c55a3d45ccee",
+      "codec": "pcm_s16le",
+      "sample_rate": 44100,
+      "channels": 2,
+      "frames": 2227050,
+      "duration": 50.5,
+      "sample_peak_dbfs": -9.5573,
+      "lufs_i": -28.39,
+      "lra": 3.5,
+      "dc_offset": 0.000112,
+      "lr_correlation": 1.0,
+      "dual_mono_exact": true,
+      "final_silence_sec": 0.626916
+    }
+  },
+  "edit": {
+    "first_changed_frame": 1102506,
+    "first_changed_sec": 25.0001360544,
+    "last_changed_frame": 1544556,
+    "last_changed_sec": 35.0239455782,
+    "declared_target_section": "Turn",
+    "target_start_sec": 25.0,
+    "target_end_sec": 35.0,
+    "declared_release_tail_ms": 100,
+    "symbolic_change_count": 10,
+    "symbolic_non_metadata_changes": "eight bass note pitches only",
+    "result": "PASS"
+  },
+  "promotion": {
+    "SOUND_FORGE_SECURITY_PASS": "PASS",
+    "SOUND_FORGE_PROVENANCE_PASS": "PASS",
+    "SOUND_FORGE_PROJECT_AUTHORITY_PASS": "PASS",
+    "MUSIC_GENERATION_PASS": "PASS_BOUNDED",
+    "PROJECT_RECOVERY_PASS": "PASS_BOUNDED",
+    "AUDIO_MASTER_PASS": "HOLD",
+    "LYRIC_INTELLIGENCE_PASS": "NOT_STARTED_BY_LAW",
+    "SOUND_FORGE_PRODUCT_CANDIDATE": "HOLD"
+  }
+}
