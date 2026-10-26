@@ -1,4 +1,7 @@
 const TPQ = 960;
+const SONG_SCHEMA = "pulseforge.songforge.skeleton.v2.19";
+const SONG_SCHEMA_VERSION = "2.19.0";
+
 const SCALES = {
   "F# minor": { root: 42, scale: [0, 2, 3, 5, 7, 8, 10], lead: [66, 69, 71, 73], pluck: [54, 57, 61, 64], vocal: [54, 57, 59, 61] },
   "A minor":  { root: 45, scale: [0, 2, 3, 5, 7, 8, 10], lead: [69, 72, 74, 76], pluck: [57, 60, 64, 67], vocal: [57, 60, 62, 64] },
@@ -202,8 +205,9 @@ function parsePrompt(text, opts) {
   });
 
   return {
-    $schema: "pulseforge.songforge.skeleton.v2.8",
-    song_id: "sf-" + seedVal.toString(36) + "-" + Date.now().toString(36),
+    $schema: SONG_SCHEMA,
+    schema_version: SONG_SCHEMA_VERSION,
+    song_id: "sf-" + seedVal.toString(16),
     generation_seed: seedVal,
     title: "Generated",
     engine: "phase4-spatial-bbd",
@@ -216,6 +220,8 @@ function parsePrompt(text, opts) {
     structure: { sections },
     tracks: [drums, bass, pad, lead, pluck, vocal],
     prompt: text,
+    change_ledger: [],
+    // Wall-clock stamp is advisory only; identity is seed + integer ticks.
     created_at: new Date().toISOString()
   };
 }
@@ -720,6 +726,31 @@ function stopAll() {
 }
 
 
+
+/** Append-only arrangement change ledger (local). Digests are FNV-style hashSeed, not crypto. */
+function appendChangeLedger(op, payload) {
+  if (!skeleton) return null;
+  if (!Array.isArray(skeleton.change_ledger)) skeleton.change_ledger = [];
+  const body = payload == null ? {} : payload;
+  const entry = {
+    seq: skeleton.change_ledger.length,
+    op: String(op || "unknown"),
+    payload: body,
+    payload_digest: hashSeed(JSON.stringify(body)),
+    prev_digest: skeleton.change_ledger.length
+      ? skeleton.change_ledger[skeleton.change_ledger.length - 1].entry_digest
+      : 0,
+    at_iso: new Date().toISOString()
+  };
+  entry.entry_digest = hashSeed(entry.seq + "|" + entry.op + "|" + entry.payload_digest + "|" + entry.prev_digest);
+  skeleton.change_ledger.push(entry);
+  return entry;
+}
+
+function getChangeLedger() {
+  return (skeleton && Array.isArray(skeleton.change_ledger)) ? skeleton.change_ledger.slice() : [];
+}
+
 /** Bounded section edit ops — mutate only the targeted section; preserve others. */
 function findSectionById(id) {
   if (!skeleton || !skeleton.structure) return null;
@@ -736,6 +767,7 @@ function applySectionLyrics(sectionId, lyrics) {
   const before = sectionSnapshot(sec);
   sec.lyrics = String(lyrics || "");
   rebuildVocalsFromLyrics();
+  appendChangeLedger("apply_section_lyrics", { section_id: sectionId, lyrics: sec.lyrics });
   return { ok: true, section_id: sectionId, before, after: sectionSnapshot(sec) };
 }
 
@@ -747,6 +779,7 @@ function applySectionRole(sectionId, role) {
   const before = sectionSnapshot(sec);
   sec.role = role;
   rebuildVocalsFromLyrics();
+  appendChangeLedger("apply_section_role", { section_id: sectionId, role: sec.role });
   return { ok: true, section_id: sectionId, before, after: sectionSnapshot(sec) };
 }
 
@@ -769,6 +802,7 @@ function muteSectionEvents(sectionId, muted) {
       }
     });
   });
+  appendChangeLedger("mute_section", { section_id: sectionId, muted: !!muted });
   return { ok: true, section_id: sectionId, muted: !!muted };
 }
 
@@ -781,7 +815,8 @@ function duplicateSection(sectionId) {
   const span = src.end_tick - src.start_tick;
   const lastEnd = secs.reduce((m, s) => Math.max(m, s.end_tick), 0);
   const copy = JSON.parse(JSON.stringify(src));
-  copy.id = "sec-" + lastEnd + "-" + Math.floor(Math.random() * 1e5);
+  const dupSeed = hashSeed((skeleton.generation_seed || 0) + "|dup|" + sectionId + "|" + lastEnd + "|" + (skeleton.change_ledger ? skeleton.change_ledger.length : 0));
+  copy.id = "sec-" + lastEnd + "-" + (dupSeed % 100000);
   copy.name = src.name + " (copy)";
   copy.start_tick = lastEnd;
   copy.end_tick = lastEnd + span;
@@ -799,8 +834,7 @@ function duplicateSection(sectionId) {
     tr.events = (tr.events || []).concat(adds);
   });
   secs.push(copy);
-  if (!skeleton.edit_history) skeleton.edit_history = [];
-  skeleton.edit_history.push({ op: "duplicate_section", section_id: sectionId, new_id: copy.id, at: new Date().toISOString() });
+  appendChangeLedger("duplicate_section", { from: sectionId, new_id: copy.id, start_tick: copy.start_tick, end_tick: copy.end_tick });
   return { ok: true, section_id: copy.id, from: sectionId };
 }
 
@@ -813,7 +847,9 @@ function loadProjectObject(obj) {
   if (!obj || !obj.structure || !obj.tracks) {
     return { ok: false, error: "invalid_project_schema" };
   }
-  if (!obj.$schema) obj.$schema = "pulseforge.songforge.skeleton.v2.8";
+  if (!obj.$schema) obj.$schema = SONG_SCHEMA;
+  if (!obj.schema_version) obj.schema_version = SONG_SCHEMA_VERSION;
+  if (!Array.isArray(obj.change_ledger)) obj.change_ledger = obj.change_ledger || [];
   // Ensure section ids
   (obj.structure.sections || []).forEach((s, i) => {
     if (!s.id) s.id = "sec-" + (s.start_tick != null ? s.start_tick : i);
