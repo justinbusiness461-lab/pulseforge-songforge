@@ -1,0 +1,96 @@
+{
+  "campaign": "PF-COMPLETION-001",
+  "mission": 42,
+  "role": "CHAT_D_ADVERSARIAL_AUDIO_FORGE",
+  "freeze_sha": "7c92fe7a39d6b4209be510d02781adb6a1ef4182",
+  "candidate_sha": "2dadc21c1824e82beb1b0a6fd9ef9acfd3d2d326",
+  "release_version": "2.19.1",
+  "verdicts": {
+    "technical_audio_verdict": "PASS_BOUNDED",
+    "musical_quality_score": 5.4,
+    "musical_quality_summary": "TECHNICALLY_VALID_ARTISTICALLY_PRIMITIVE",
+    "audio_master_pass": "HOLD",
+    "lyric_intelligence_pass": "NOT_STARTED_BY_LAW",
+    "sound_forge_product_candidate": "HOLD"
+  },
+  "executed_checks": {
+    "test_m040": "9/9 PASS",
+    "test_project_authority": "9/9 PASS",
+    "m042_project_probe": "15/15 PASS",
+    "m040_http_probe": "40/40 PASS",
+    "immutable_history_supersession": "PASS",
+    "immutable_tamper_detection": "PASS",
+    "same_content_replay": {
+      "same_object": true,
+      "same_hash": true,
+      "bytes_preserved": true,
+      "ledger_events": 2
+    }
+  },
+  "audio": {
+    "initial": {
+      "sha256": "512bdfc02b2aa18476d3b32fac9898724d1a8c4255f01c5599decd8886050858",
+      "sample_rate": 44100,
+      "channels": 2,
+      "frames": 2227050,
+      "duration_s": 50.5,
+      "sample_peak_dbfs": -9.5573,
+      "true_peak_dbtp_ffmpeg_loudnorm": -9.29,
+      "lufs_i": -28.34,
+      "lra_lu": 3.5,
+      "dual_mono": true,
+      "lr_correlation": 1
+    },
+    "edited": {
+      "sha256": "796b0432264aaac2c5d34f64c650a7037d841d86d910cfd74798c55a3d45ccee",
+      "sample_rate": 44100,
+      "channels": 2,
+      "frames": 2227050,
+      "duration_s": 50.5,
+      "sample_peak_dbfs": -9.5573,
+      "true_peak_dbtp_ffmpeg_loudnorm": -9.29,
+      "lufs_i": -28.39,
+      "lra_lu": 3.5,
+      "dual_mono": true,
+      "lr_correlation": 1
+    }
+  },
+  "edit_isolation": {
+    "changed_track": "bass",
+    "changed_events": 8,
+    "edit_character": "one octave down",
+    "unchanged_tracks": [
+      "drums",
+      "pad",
+      "lead",
+      "pluck"
+    ],
+    "first_pcm_difference_s": 25.0001360544,
+    "last_pcm_difference_s": 35.0239455782,
+    "changed_frames": 440102,
+    "changed_percent": 19.7616577984,
+    "outside_declared_edit_window_changed_frames": 0
+  },
+  "music_scores": {
+    "structure": 6,
+    "groove": 6,
+    "tonal_coherence": 8.5,
+    "transitions": 4.5,
+    "repetition_variation": 4.5,
+    "dynamics": 4,
+    "mix_balance": 5,
+    "stereo_interest": 1,
+    "procedural_obviousness_10_means_obvious": 8,
+    "edit_integration": 8,
+    "emotional_musical_usefulness": 5.5,
+    "overall": 5.4
+  },
+  "bounded_promotions": {
+    "SOUND_FORGE_SOURCE_COMPLETE": "PASS",
+    "SOUND_FORGE_SECURITY_PASS": "PASS",
+    "SOUND_FORGE_PROVENANCE_PASS": "PASS",
+    "SOUND_FORGE_PROJECT_AUTHORITY_PASS": "PASS",
+    "MUSIC_GENERATION_PASS": "PASS_BOUNDED",
+    "PROJECT_RECOVERY_PASS": "PASS_BOUNDED"
+  }
+}
