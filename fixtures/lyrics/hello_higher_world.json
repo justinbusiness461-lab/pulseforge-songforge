@@ -1,0 +1,15 @@
+{
+  "fixture_id": "FX-LYRIC-001",
+  "phrase": "hello higher world",
+  "language": "en",
+  "sourceSampleRate": 44100,
+  "decodedFrameCount": 52920,
+  "sourceAudioDigest": "857e078e33b7caedb7a22ef783370b0de1a9e26214dfa1db041ebfb0ea5f5ba3",
+  "words_ground_truth": [
+    {"text": "hello", "start": 4410, "end": 13230},
+    {"text": "higher", "start": 15435, "end": 26460},
+    {"text": "world", "start": 28665, "end": 39690}
+  ],
+  "machine_error": {"index": 1, "machine_text": "fire", "corrected_text": "higher"},
+  "note": "Synthetic fixture for Mission 043 only. WAV sha256 must match sourceAudioDigest; land hello_higher_world.wav via git LFS or release artifact."
+}

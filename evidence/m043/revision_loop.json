@@ -1,0 +1,10 @@
+{
+  "mission": "043",
+  "fixture_id": "FX-LYRIC-001",
+  "sourceAudioDigest": "857e078e33b7caedb7a22ef783370b0de1a9e26214dfa1db041ebfb0ea5f5ba3",
+  "r1_word1": "fire",
+  "r2_word1": "higher",
+  "audio_digest_unchanged": true,
+  "sample_coords_r2": [[4410, 13230], [15435, 26460], [28665, 39690]],
+  "tests": "tests.test_lyric_timeline 4/4 PASS"
+}
