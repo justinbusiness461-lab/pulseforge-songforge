@@ -1,0 +1,109 @@
+{
+  "mission": 41,
+  "candidate": "fcab64b18f325cd718e0ddb76f3d1ba72645fdd2",
+  "observed_main": "3c6df00823a6e3045d72e1991d771c5d6337e2e3",
+  "pr4_qualified": "HOLD",
+  "source_inventory": [
+    {
+      "path": "tools/studio_server.py",
+      "git_blob_sha": "4aaa98d7bce88f35dae0c1a104bd43664ea1aeee",
+      "byte_size": 16209,
+      "remote_present": true
+    },
+    {
+      "path": "tools/test_harness.py",
+      "git_blob_sha": "a57db8f82744ccc6a54c29c605a49dfdb987bf35",
+      "byte_size": 5165,
+      "remote_present": true
+    },
+    {
+      "path": "tools/vocal_lab.py",
+      "git_blob_sha": "78582d095a54ccab2967afe2a63a143935a7dea7",
+      "byte_size": 17510,
+      "remote_present": true
+    },
+    {
+      "path": "tools/certify_integrity.py",
+      "git_blob_sha": "2309490058344ea535bd6da3d27ccbbd48d9c5e1",
+      "byte_size": 2659,
+      "remote_present": true
+    },
+    {
+      "path": "tools/certify_otio.py",
+      "git_blob_sha": "6e715494ebe0f864edb24ecdffbb5676fbb5b4b6",
+      "byte_size": 4467,
+      "remote_present": true
+    },
+    {
+      "path": "app-core.js",
+      "git_blob_sha": "2e9d8ea62a5c68d3218edc7317a1fca49163aed6",
+      "byte_size": 37016,
+      "remote_present": true
+    },
+    {
+      "path": "app-ui.js",
+      "git_blob_sha": "87748684d6218b267c06c8d1aee99bd63550cc5e",
+      "byte_size": 34392,
+      "remote_present": true
+    },
+    {
+      "path": "app-cinema.js",
+      "git_blob_sha": "3ffe39fe9eb4ada7e302a2eaae6c55df6a44af34",
+      "byte_size": 8987,
+      "remote_present": true
+    },
+    {
+      "path": "index.html",
+      "git_blob_sha": "015ecd0603abd88f3ee38bad1c97fdc02afe1774",
+      "byte_size": 8594,
+      "remote_present": true
+    },
+    {
+      "path": "service-worker.js",
+      "git_blob_sha": "5331681268666a43a1e5ccba859a6e72931f5780",
+      "byte_size": 1368,
+      "remote_present": true
+    },
+    {
+      "path": "manifest.json",
+      "git_blob_sha": "46522a6d9c477266b79a5ecbfc7e90b951b7c87c",
+      "byte_size": 973,
+      "remote_present": true
+    },
+    {
+      "path": "package_project.py",
+      "git_blob_sha": "d82fb6b02b8f16e309e3ce13c6b8e9e99bdb5208",
+      "byte_size": 2809,
+      "remote_present": true
+    },
+    {
+      "path": "release.json",
+      "git_blob_sha": "3e8ce0c7fff3d39b268c60c04ec16a53ca3cdc4e",
+      "byte_size": 371,
+      "remote_present": true
+    },
+    {
+      "path": "package.json",
+      "git_blob_sha": "f8ea2c4b58b2eb9b1197c92b4a1072c387869651",
+      "byte_size": 578,
+      "remote_present": true
+    }
+  ],
+  "independent_execution": {
+    "unit_tests": "12/12 PASS",
+    "http": "evil/deceptive/wrong-port/missing/malformed origin reject; exact trusted origin pass; traversal reject; missing capability reject; A/B immutable historical bytes PASS"
+  },
+  "first_failed_boundary": {
+    "gate": "SOUND_FORGE_PROJECT_AUTHORITY_PASS",
+    "result": "HOLD",
+    "evidence": "app-ui.js saveJSON writes localStorage sf_project and exports snapshot; restoreProjectFromStorage restores sf_project. No ProjectManifest/current-revision owner in candidate tree. tools/m040_music_probe.cjs reopens an explicitly named exported snapshot, not durable current-project authority.",
+    "minimum_repair": "One durable ProjectManifest selecting current immutable SongSpec and ProductionTimeline revision plus output bindings; cold reopen selects that revision without browser cache."
+  },
+  "ceilings": [
+    "No merge/freeze issued",
+    "Retained WAV bytes not independently fetched or decoded in this run",
+    "Package identity not fully qualified",
+    "No browser/PWA or musical assessment",
+    "No cinema changes"
+  ]
+}
