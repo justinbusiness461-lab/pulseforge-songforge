@@ -112,6 +112,7 @@ function render() {
     };
   });
   drawMatrix();
+  if (typeof updateTrustChips === "function") updateTrustChips();
 }
 
 function syncSectionEditors() {
@@ -155,10 +156,18 @@ function drawMatrix() {
   }
 }
 
-function compile() {
+function compile(opts) {
+  opts = opts || {};
+  if (typeof SongForgeChat !== "undefined" && SongForgeChat.chatGenerate && opts.fromChat) {
+    return SongForgeChat.chatGenerate();
+  }
   const text = ($("prompt").value || "").trim() ||
     "dark 102 BPM alt hip-hop, F# minor, guitar plucks, male verse";
-  skeleton = parsePrompt(text);
+  if (typeof pushSkeletonCheckpoint === "function" && skeleton) pushSkeletonCheckpoint("before_compile");
+  const parseOpts = {};
+  if (opts.seed != null) parseOpts.seed = opts.seed;
+  if (opts.nonce != null) parseOpts.nonce = opts.nonce;
+  skeleton = parsePrompt(text, parseOpts);
   window.skeleton = skeleton;
   const titleEl = $("title");
   skeleton.title = (titleEl && titleEl.value) ? titleEl.value : (text.slice(0, 40) || "Generated");
@@ -166,11 +175,16 @@ function compile() {
   if (bpmO && bpmO.value) skeleton.timebase.initial_bpm = Math.max(60, Math.min(180, +bpmO.value));
   const keyO = $("keyOverride");
   if (keyO && keyO.value) skeleton.timebase.key = keyO.value;
+  if (typeof appendChangeLedger === "function") {
+    appendChangeLedger("compile", { seed: skeleton.generation_seed, song_id: skeleton.song_id, prompt: text });
+  }
   activeSectionIdx = 0;
   render();
+  if (typeof updateTrustChips === "function") updateTrustChips();
+  if (typeof persistChatSession === "function") persistChatSession();
   setStatus(
     "Compiled · " + skeleton.timebase.initial_bpm + " BPM · " + skeleton.timebase.key +
-    " · " + skeleton.tracks.reduce((n, t) => n + t.events.length, 0) + " notes · spatial BBD",
+    " · seed " + skeleton.generation_seed + " · " + skeleton.song_id,
     "ok"
   );
 }
@@ -296,6 +310,10 @@ async function exportWav() {
     const artifact = await written.json();
     if (!written.ok || artifact.status !== 'SUCCESS') throw new Error(artifact.error || 'Export persistence failed');
     await commitProjectSnapshot(renderSpec, [artifact.sha256], expectedRef, renderSourceAssets);
+    if (artifact.sha256 && typeof setLastExportDigest === "function") setLastExportDigest(artifact.sha256);
+    if (typeof SongForgeChat !== "undefined" && SongForgeChat.pushMessage) {
+      SongForgeChat.pushMessage("system", "WAV exported · sha256:" + String(artifact.sha256).slice(0, 16) + "…", { action: "export_wav" });
+    }
     const a = document.createElement("a");
     a.href = URL.createObjectURL(new Blob([wav], { type: "audio/wav" }));
     a.download = (renderSpec.song_id || "song") + "_mix.wav";
@@ -484,9 +502,10 @@ if (lyricsEl) {
     if (!skeleton) return;
     const sec = skeleton.structure.sections[activeSectionIdx];
     if (sec) {
-      sec.lyrics = lyricsEl.value;
-      rebuildVocalsFromLyrics();
+      if (typeof applySectionLyrics === "function") applySectionLyrics(sec.id, lyricsEl.value);
+      else { sec.lyrics = lyricsEl.value; rebuildVocalsFromLyrics(); }
       drawMatrix();
+      if (typeof persistChatSession === "function") persistChatSession();
     }
   };
 }
@@ -496,9 +515,10 @@ if (roleEl) {
     if (!skeleton) return;
     const sec = skeleton.structure.sections[activeSectionIdx];
     if (sec) {
-      sec.role = roleEl.value;
-      rebuildVocalsFromLyrics();
+      if (typeof applySectionRole === "function") applySectionRole(sec.id, roleEl.value);
+      else { sec.role = roleEl.value; rebuildVocalsFromLyrics(); }
       render();
+      if (typeof persistChatSession === "function") persistChatSession();
     }
   };
 }
@@ -509,8 +529,13 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-$("prompt").value = "dark 102 BPM alt hip-hop, F# minor, guitar plucks, male verse, female chorus";
-compile();
+if ($("prompt") && !$("prompt").value) {
+  $("prompt").value = "dark 102 BPM alt hip-hop, F# minor, guitar plucks, male verse, female chorus";
+}
+// Initial compile deferred to initChatStudio() (session restore or welcome Generate path).
+if (typeof initChatStudio !== "function") {
+  compile({ nonce: "0" });
+}
 
 const btnLoad = $("btnLoad");
 const fileIn = $("fileIn");
@@ -633,6 +658,8 @@ function savePayload(filename, data, subdirectory, mime) {
         if (!res.ok || j.status !== "SUCCESS") throw new Error(j.error || res.statusText);
         setStatus("Saved: " + j.saved_at, "ok");
         logToNative("LOCAL_BROKER", j.saved_at);
+        if (j.sha256 && typeof setLastExportDigest === "function") setLastExportDigest(j.sha256);
+        if (typeof persistChatSession === "function") persistChatSession();
         return j;
       });
     });

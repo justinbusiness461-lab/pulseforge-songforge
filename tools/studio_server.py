@@ -310,7 +310,7 @@ class StudioHandler(http.server.SimpleHTTPRequestHandler):
             # Fresh same-origin capability, never cached by the service worker.
             body=(ROOT/"index.html").read_text().replace("<head>","<head><script>window.__STUDIO_CAPABILITY__="+json.dumps(CAPABILITY)+";</script>").encode()
             self.send_response(200);self.send_header("Content-Type","text/html");self.send_header("Content-Length",str(len(body)));self.end_headers();self.wfile.write(body);return
-        public={"/app-core.js","/app-ui.js","/app-cinema.js","/service-worker.js","/manifest.json","/icons/icon.svg","/icons/icon-192.png","/icons/icon-512.png"}
+        public={"/app-core.js","/app-ui.js","/app-chat.js","/app-cinema.js","/service-worker.js","/manifest.json","/icons/icon.svg","/icons/icon-192.png","/icons/icon-512.png"}
         if path not in public: return self._json(404,{"status":"ERROR","error":"not a public asset"})
         return super().do_GET()
 
