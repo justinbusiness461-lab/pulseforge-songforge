@@ -26,7 +26,7 @@ p,cap=start()
 try:
  audio=(OUT/'fixtures/rise-higher.wav').read_bytes();manifest=json.loads((OUT/'fixtures/manifest.json').read_text())
  aid=export(audio,'rise-higher.wav')
- spec=json.loads((ROOT/'evidence/m040/music/SongSpec.initial.json').read_text())
+ spec=json.loads((OUT/'fixtures/SongSpec.json').read_text())
  status,base=call('projects/commit',{'expectedCurrentRevisionId':None,'songSpec':spec},cap);check('project-create',status==200)
  status,r1=call('projects/lyrics',req(base,action='candidate',sourceArtifactId=aid,knownTranscript='rise fire',language='en'),cap);check('machine-guided-R1',status==200)
  doc=r1['lyricTimeline'];check('audio-digest-exact',doc['sourceAudioDigest']==manifest['sourceAudioDigest'])
@@ -47,11 +47,7 @@ try:
  status,_=call('projects/lyrics',req(r2,action='correct',expectedLyricRevisionId=doc['revisionId'],changes=[{'wordId':'w1','text':'bad'}],actor='stale-editor'),cap);check('stale-lyric-409',status==409)
  status,after=call('projects/open',{'projectId':r2['manifest']['projectId']},cap);check('stale-save-keeps-R2',status==200 and after==r2)
  # Actual retained instrumental excerpt; lack of supplied known text must stay unknown.
- with wave.open(str(ROOT/'evidence/m040/music/initial.wav'),'rb') as w:
-  params=w.getparams();raw=w.readframes(8820)
- buf=io.BytesIO()
- with wave.open(buf,'wb') as w:w.setparams(params);w.writeframes(raw)
- instrumental=buf.getvalue();(OUT/'fixtures/instrumental.wav').write_bytes(instrumental)
+ instrumental=(OUT/'fixtures/instrumental.wav').read_bytes()
  iid=export(instrumental,'instrumental.wav')
  status,ib=call('projects/commit',{'expectedCurrentRevisionId':None,'songSpec':spec},cap);check('negative-project-create',status==200)
  status,negative=call('projects/lyrics',req(ib,action='candidate',sourceArtifactId=iid,knownTranscript=''),cap)
