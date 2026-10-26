@@ -1,0 +1,11 @@
+{
+  "release_version": "2.18.0",
+  "package_filename": "SoundForge-Studio-Release-v2.18.zip",
+  "package_sha256": "a0ceb7dcdf3629ba8e86f4c644f68ccb9ac7d8a11becdd7bc3d2e25ac2be56cd",
+  "package_bytes": 53669,
+  "semantic_identity": "SoundForge-Studio-Release-v2.18",
+  "forbidden_aliases": ["v2.5", "v2.7", "2.5.0", "SongForge-Studio-Release-v2.5.zip"],
+  "note": "PF-SOUND-003: one semantic version binds package name + package hash. Do not ship mismatched labels.",
+  "mission": "040",
+  "broker_repair_local_sha256": "95fe7872d1c2cba1e9852a24a37b3a130ce535d87ecb7cdb1c0fdbbab93002d2"
+}
