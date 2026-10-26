@@ -1,0 +1,242 @@
+[
+  {
+    "name": "foreign",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "deceptive",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "wrong-port",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "missing",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "malformed",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "missing-capability",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "wrong-capability",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "rebind-host",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "trusted-write",
+    "actual": 200,
+    "expected": 200,
+    "pass": true
+  },
+  {
+    "name": "same-alias-write",
+    "actual": 200,
+    "expected": 200,
+    "pass": true
+  },
+  {
+    "name": "historical-A",
+    "actual": "version A",
+    "expected": "version A",
+    "pass": true
+  },
+  {
+    "name": "current-B",
+    "actual": "version B",
+    "expected": "version B",
+    "pass": true
+  },
+  {
+    "name": "traversal-../escapem040",
+    "actual": 400,
+    "expected": 400,
+    "pass": true
+  },
+  {
+    "name": "traversal-ok../../escape",
+    "actual": 400,
+    "expected": 400,
+    "pass": true
+  },
+  {
+    "name": "traversal-oknested/path",
+    "actual": 400,
+    "expected": 400,
+    "pass": true
+  },
+  {
+    "name": "private-GET",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "foreign-GET",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "public-GET",
+    "actual": 200,
+    "expected": 200,
+    "pass": true
+  },
+  {
+    "name": "preflight-http://127.0.0.1:18765",
+    "actual": 204,
+    "expected": 204,
+    "pass": true
+  },
+  {
+    "name": "preflight-exact-CORS",
+    "actual": "http://127.0.0.1:18765",
+    "expected": "http://127.0.0.1:18765",
+    "pass": true
+  },
+  {
+    "name": "preflight-https://evil.test",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "oversized",
+    "actual": 413,
+    "expected": 413,
+    "pass": true
+  },
+  {
+    "name": "restart-token-rotated",
+    "actual": true,
+    "expected": true,
+    "pass": true
+  },
+  {
+    "name": "old-session-denied",
+    "actual": 403,
+    "expected": 403,
+    "pass": true
+  },
+  {
+    "name": "history-after-restart",
+    "actual": "version A",
+    "expected": "version A",
+    "pass": true
+  },
+  {
+    "name": "actual-export-SongSpec.initial.json",
+    "actual": 200,
+    "expected": 200,
+    "pass": true
+  },
+  {
+    "name": "actual-export-hash-SongSpec.initial.json",
+    "actual": "a9bc72f88fbcd7379eff70786fcf677a0a34f484381c2cc1fa14339e1ec50185",
+    "expected": "a9bc72f88fbcd7379eff70786fcf677a0a34f484381c2cc1fa14339e1ec50185",
+    "pass": true
+  },
+  {
+    "name": "actual-export-bytes-SongSpec.initial.json",
+    "actual": true,
+    "expected": true,
+    "pass": true
+  },
+  {
+    "name": "actual-export-SongSpec.edited.json",
+    "actual": 200,
+    "expected": 200,
+    "pass": true
+  },
+  {
+    "name": "actual-export-hash-SongSpec.edited.json",
+    "actual": "2ca0f47d98028be17b4e18aeab2316efeef81e02a62b67d24c83afd42b39b616",
+    "expected": "2ca0f47d98028be17b4e18aeab2316efeef81e02a62b67d24c83afd42b39b616",
+    "pass": true
+  },
+  {
+    "name": "actual-export-bytes-SongSpec.edited.json",
+    "actual": true,
+    "expected": true,
+    "pass": true
+  },
+  {
+    "name": "actual-export-initial.wav",
+    "actual": 200,
+    "expected": 200,
+    "pass": true
+  },
+  {
+    "name": "actual-export-hash-initial.wav",
+    "actual": "512bdfc02b2aa18476d3b32fac9898724d1a8c4255f01c5599decd8886050858",
+    "expected": "512bdfc02b2aa18476d3b32fac9898724d1a8c4255f01c5599decd8886050858",
+    "pass": true
+  },
+  {
+    "name": "actual-export-bytes-initial.wav",
+    "actual": true,
+    "expected": true,
+    "pass": true
+  },
+  {
+    "name": "actual-export-edited.wav",
+    "actual": 200,
+    "expected": 200,
+    "pass": true
+  },
+  {
+    "name": "actual-export-hash-edited.wav",
+    "actual": "796b0432264aaac2c5d34f64c650a7037d841d86d910cfd74798c55a3d45ccee",
+    "expected": "796b0432264aaac2c5d34f64c650a7037d841d86d910cfd74798c55a3d45ccee",
+    "pass": true
+  },
+  {
+    "name": "actual-export-bytes-edited.wav",
+    "actual": true,
+    "expected": true,
+    "pass": true
+  },
+  {
+    "name": "project-reopen-SongSpec.initial.json",
+    "actual": true,
+    "expected": true,
+    "pass": true
+  },
+  {
+    "name": "project-reopen-SongSpec.edited.json",
+    "actual": true,
+    "expected": true,
+    "pass": true
+  },
+  {
+    "name": "history-verifier",
+    "actual": 0,
+    "expected": 0,
+    "pass": true
+  }
+]

@@ -1,0 +1,38 @@
+{
+  "executor": "web-audio-engine@0.13.4; headless; existing renderMixBuffer; not browser",
+  "original_instrumental": true,
+  "initial_sha256": "512bdfc02b2aa18476d3b32fac9898724d1a8c4255f01c5599decd8886050858",
+  "edited_sha256": "796b0432264aaac2c5d34f64c650a7037d841d86d910cfd74798c55a3d45ccee",
+  "initial_metrics": {
+    "duration_sec": 50.5,
+    "sample_rate": 44100,
+    "channels": 2,
+    "peak": 0.33279651403427124,
+    "rms": 0.028250933762291704,
+    "nonzero": true,
+    "frames": 2227050
+  },
+  "edited_metrics": {
+    "duration_sec": 50.5,
+    "sample_rate": 44100,
+    "channels": 2,
+    "peak": 0.33279651403427124,
+    "rms": 0.028488827409557226,
+    "nonzero": true,
+    "frames": 2227050
+  },
+  "unchanged_symbolic_regions": true,
+  "json_roundtrip": true,
+  "changed_sample_frames": 440102,
+  "first_changed": 1102506,
+  "last_changed": 1544556,
+  "outside_declared_edit_and_100ms_release_tail": 0,
+  "claim": "six-section fifty-second original instrumental candidate; no vocal/music-quality certification; offline/live DSP parity unearned",
+  "binding": {
+    "song_spec_sha256": "2ca0f47d98028be17b4e18aeab2316efeef81e02a62b67d24c83afd42b39b616",
+    "production_timeline_sha256": "bc9d443d90ff24c78ac4ba9373214396669e7b4d17fee1c530abf633843aea6f",
+    "decoded_pcm_sha256": "6f1f669f2b9b76df8d3a29eb4875fd7f68add996c4683d56120750967a3d44ab",
+    "app_core_sha256": "63ff433abdb718265818733c698d30e2a0b53ef1da7a0fa1bfa7fbf3e35bbe13",
+    "app_ui_sha256": "680816fa9a410a743d8896052d3e5d85b9b60ff4b7ebc55b36c36b1a82a77072"
+  }
+}

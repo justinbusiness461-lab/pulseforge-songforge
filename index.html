@@ -47,18 +47,28 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 .meter{height:3px;background:var(--s2);border-radius:2px;overflow:hidden;margin-top:8px}
 .meter>div{height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--a2))}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-#cinema-viewport,#canvas-viseme-viewport{width:100%;height:220px;border-radius:8px;background:#05070c;border:1px solid var(--b)}
 </style>
 </head>
 <body>
 <div class="app">
 <h1>S.A.R.A. <span>Sound Forge</span></h1>
-<p class="sub">Local Score Graph studio · v2.18 · OTIO + integrity · zero cloud fees</p>
-<div id="status" class="status ok">Type a prompt → Compile → Play · python3 tools/studio_server.py</div>
+<p class="sub">Sound™ · Shelves · Flux · OTIO-inspired · Local</p>
+<div id="status" class="status ok">Type a prompt → Compile → Play</div>
+<p class="hint" style="font-size:0.72rem;color:var(--m);margin:0 0 10px">Flux: <span id="fluxReadout">—</span> · shelves on master bus</p>
+<div id="canvas-viseme-viewport" class="canvas-container" aria-label="Viseme viewport"></div>
 <div class="card">
 <h3>Generative prompt</h3>
 <textarea id="prompt" class="prompt" placeholder="e.g. dark 102 BPM alt hip-hop, F# minor, guitar plucks, male verse…"></textarea>
 <button class="full" id="btnCompile">Compile Production Prompt</button>
+</div>
+<div class="card">
+<h3>Song identity</h3>
+<label>Title</label>
+<input id="title" value="BAD HABIT"/>
+<div class="row2">
+<div><label>BPM override</label><input id="bpmOverride" type="number" min="60" max="180" placeholder="from prompt"/></div>
+<div><label>Key override</label><input id="keyOverride" placeholder="e.g. F# minor"/></div>
+</div>
 </div>
 <div class="card">
 <h3>SongSpec metadata</h3>
@@ -76,11 +86,6 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 <option value="both">Both (alternating)</option>
 <option value="none">None (instrumental)</option>
 </select>
-<button class="chip full secondary sm" id="btnVocal" style="margin-top:8px;width:100%">Render Vocal Stem</button>
-</div>
-<div class="card">
-<h3>Cinema viewport</h3>
-<div id="cinema-viewport"></div>
 </div>
 <div class="card">
 <h3>Channel mixer</h3>
@@ -91,13 +96,54 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 <select id="editTrack"></select>
 <div id="matrix" class="matrix"></div>
 </div>
+
+
 <div class="card">
-<h3>Export</h3>
+<h3>Master shelves</h3>
+<label>Low shelf (dB) @ 120 Hz</label>
+<input type="range" id="shelfLow" min="-12" max="12" step="0.5" value="2"/>
+<label>High shelf (dB) @ 4.5 kHz</label>
+<input type="range" id="shelfHigh" min="-12" max="12" step="0.5" value="1.5"/>
+</div>
+
+<div class="card">
+<h3>Neural Vocals Lab (local)</h3>
+<label>Quality tier</label>
+<select id="vocalQuality">
+<option value="formant">Formant (fast)</option>
+<option value="production" selected>Production torch glottal+formant</option>
+<option value="onnx">ONNX SVS (needs models/vocal/*.onnx)</option>
+</select>
+<button class="full secondary" id="btnVocalLab2">Render Vocal Stem</button>
+<p style="font-size:0.7rem;color:var(--m);margin-top:0.4rem">Local sovereign path. Drop DiffSinger/NSF-HiFiGAN ONNX into models/vocal for true neural SVS.</p>
+</div>
+<div class="card">
+<h3>Hardware & armature</h3>
+<button class="full secondary" id="btnMic" type="button">Enable Mic Ingest</button>
+<p class="hint" style="font-size:0.72rem;color:var(--m);margin:8px 0">Pitch: <span id="micHz">—</span> · local only, no upload</p>
+<label>Look-At X</label>
+<input type="range" id="lookX" min="-3" max="3" step="0.1" value="0"/>
+<label>Look-At Y</label>
+<input type="range" id="lookY" min="0" max="3" step="0.1" value="1.75"/>
+<label>Look-At Z</label>
+<input type="range" id="lookZ" min="1" max="8" step="0.1" value="4"/>
+</div>
+<div class="card">
+<h3>Project and export</h3>
+<label for="projectId">Durable project ID (keep this to reopen)</label>
+<input id="projectId" placeholder="New project, or paste its saved ID" autocomplete="off"/>
+<p id="projectRevision" class="hint">Unsaved draft — browser cache is not project storage</p>
+<button id="btnOpenProject" class="secondary sm">Open project</button>
+<button id="btnNewProject" class="secondary sm">New project</button>
 <div class="row2">
-<button class="secondary sm" id="btnSave">Save JSON</button>
+<button class="secondary sm" id="btnSave">Save project</button>
 <button class="secondary sm" id="btnMEG">Cinema Graph</button>
-<button class="secondary sm" id="btnOTIO">OTIO Package</button>
-<button class="secondary sm" id="btnNeural">Broadcast Master</button>
+</div>
+<div class="row2" style="margin-top:8px">
+<button class="secondary sm" id="btnLoad">Load Spec</button>
+<button class="secondary sm" id="btnAnim" style="color:var(--a2)">Export 3D Timeline</button>
+<button class="secondary sm" id="btnOTIO" style="color:var(--a2)">OTIO Package</button>
+<input type="file" id="fileIn" accept=".json,application/json" hidden/>
 </div>
 </div>
 </div>
@@ -105,15 +151,27 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 <button id="btnPlay">Play</button>
 <button class="secondary" id="btnStop">Stop</button>
 <button id="btnWav" style="background:var(--ok);color:#000">WAV</button>
+<button id="btnVocalLab" class="secondary sm" style="margin:0.2rem">Vocal Lab</button>
+<button id="btnNeural" style="background:var(--a2);color:#000;font-weight:800">Broadcast</button>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="app-core.js"></script>
-<script src="app-cinema.js"></script>
 <script src="app-ui.js"></script>
+<script src="app-cinema.js"></script>
 <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
-}
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.pulseForgeCinemaSync) window.pulseForgeCinemaSync.init();
+  var mic = document.getElementById("btnMic");
+  if (mic) mic.onclick = function () { toggleMicrophoneIngest(mic); };
+  ["lookX","lookY","lookZ"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.oninput = function () {
+      var dim = id === "lookX" ? "x" : id === "lookY" ? "y" : "z";
+      updateLookAtTrackingTarget(el.value, dim);
+    };
+  });
+});
 </script>
 </body>
 </html>

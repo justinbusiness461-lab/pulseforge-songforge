@@ -1,0 +1,7 @@
+{
+  "exact_archive_baseline": true,
+  "foreign_write_without_capability_status": 200,
+  "same_alias_second_write_status": 200,
+  "historical_integrity_exit_after_overwrite": 1,
+  "red_expected": true
+}

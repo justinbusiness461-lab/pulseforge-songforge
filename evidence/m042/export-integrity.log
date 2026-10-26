@@ -1,0 +1,129 @@
+========================================================================
+ INTEGRITY LEDGER VERIFIER
+========================================================================
+Ledger: /tmp/sf42/workspace/studio_exports/manifest_registry.json
+
+[0] master.wav
+  ✓ identity match sha256:29d00a28617eba75… (9 bytes)
+
+[1] master.wav
+  ✓ identity match sha256:a660c9f556ce259b… (9 bytes)
+
+[2] SongSpec.initial.json
+  ✓ identity match sha256:a9bc72f88fbcd737… (32745 bytes)
+
+[3] SongSpec.edited.json
+  ✓ identity match sha256:2ca0f47d98028be1… (32784 bytes)
+
+[4] initial.wav
+  ✓ identity match sha256:512bdfc02b2aa184… (8908244 bytes)
+
+[5] edited.wav
+  ✓ identity match sha256:796b0432264aaac2… (8908244 bytes)
+
+[6] initial.wav
+  ✓ identity match sha256:512bdfc02b2aa184… (8908244 bytes)
+
+[7] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[8] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[9] edited.wav
+  ✓ identity match sha256:796b0432264aaac2… (8908244 bytes)
+
+[10] SongSpec.json
+  ✓ identity match sha256:ce6103301d355c50… (17302 bytes)
+
+[11] ProductionTimeline.json
+  ✓ identity match sha256:f26cd8f522e46cb1… (17057 bytes)
+
+[12] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[13] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[14] SongSpec.json
+  ✓ identity match sha256:ce6103301d355c50… (17302 bytes)
+
+[15] ProductionTimeline.json
+  ✓ identity match sha256:f26cd8f522e46cb1… (17057 bytes)
+
+[16] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[17] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[18] SongSpec.json
+  ✓ identity match sha256:ce6103301d355c50… (17302 bytes)
+
+[19] ProductionTimeline.json
+  ✓ identity match sha256:f26cd8f522e46cb1… (17057 bytes)
+
+[20] initial.wav
+  ✓ identity match sha256:512bdfc02b2aa184… (8908244 bytes)
+
+[21] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[22] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[23] edited.wav
+  ✓ identity match sha256:796b0432264aaac2… (8908244 bytes)
+
+[24] SongSpec.json
+  ✓ identity match sha256:ce6103301d355c50… (17302 bytes)
+
+[25] ProductionTimeline.json
+  ✓ identity match sha256:f26cd8f522e46cb1… (17057 bytes)
+
+[26] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[27] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[28] SongSpec.json
+  ✓ identity match sha256:ce6103301d355c50… (17302 bytes)
+
+[29] ProductionTimeline.json
+  ✓ identity match sha256:f26cd8f522e46cb1… (17057 bytes)
+
+[30] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[31] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[32] SongSpec.json
+  ✓ identity match sha256:ce6103301d355c50… (17302 bytes)
+
+[33] ProductionTimeline.json
+  ✓ identity match sha256:f26cd8f522e46cb1… (17057 bytes)
+
+[34] master.wav
+  ✓ identity match sha256:29d00a28617eba75… (9 bytes)
+
+[35] master.wav
+  ✓ identity match sha256:a660c9f556ce259b… (9 bytes)
+
+[36] SongSpec.initial.json
+  ✓ identity match sha256:a9bc72f88fbcd737… (32745 bytes)
+
+[37] SongSpec.edited.json
+  ✓ identity match sha256:2ca0f47d98028be1… (32784 bytes)
+
+[38] initial.wav
+  ✓ identity match sha256:512bdfc02b2aa184… (8908244 bytes)
+
+[39] edited.wav
+  ✓ identity match sha256:796b0432264aaac2… (8908244 bytes)
+
+========================================================================
+ ✅ INTEGRITY PASS (all registered files match digests)
+========================================================================
+Ceiling: content identity only — not registry immutability or media quality.

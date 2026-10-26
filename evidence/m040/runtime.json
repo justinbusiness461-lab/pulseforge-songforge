@@ -1,0 +1,13 @@
+{
+  "initial": {
+    "decode_exit": 0,
+    "stderr": ""
+  },
+  "edited": {
+    "decode_exit": 0,
+    "stderr": ""
+  },
+  "python": "3.12.14",
+  "node": "v24.22.1",
+  "browser": "Playwright library present; Chromium absent; acquisition failed (invalid downloaded archive). No browser execution claimed."
+}

@@ -1,0 +1,7 @@
+{
+  "product": "SoundForge-Studio",
+  "version": "2.19.1",
+  "candidate": "M042",
+  "runtime_contract": "loopback HTTP + exact origin + process capability; Python 3.10+ POSIX fsync; browser Web Audio; optional numpy vocal lab",
+  "evidence_ceiling": "owner-qualified durable project authority candidate; independent integration/browser/audio/product certification pending"
+}

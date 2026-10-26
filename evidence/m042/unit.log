@@ -1,0 +1,26 @@
+test_bad_origins (test_m040.SecurityAndObjects.test_bad_origins) ... ok
+test_concurrent_processes_keep_history (test_m040.SecurityAndObjects.test_concurrent_processes_keep_history) ... ok
+test_corrupt_ledger_not_reset (test_m040.SecurityAndObjects.test_corrupt_ledger_not_reset) ... ok
+test_exact_origin (test_m040.SecurityAndObjects.test_exact_origin) ... ok
+test_foreign_origin (test_m040.SecurityAndObjects.test_foreign_origin) ... ok
+test_history (test_m040.SecurityAndObjects.test_history) ... ok
+test_tampered_object_rejected (test_m040.SecurityAndObjects.test_tampered_object_rejected) ... ok
+test_traversal (test_m040.SecurityAndObjects.test_traversal) ... ok
+test_wrong_port (test_m040.SecurityAndObjects.test_wrong_port) ... ok
+test_full_scale (test_mix.PeakMath.test_full_scale) ... ok
+test_half_scale (test_mix.PeakMath.test_half_scale) ... ok
+test_silence (test_mix.PeakMath.test_silence) ... ok
+test_bad_output_and_lyric_rejected (test_project_authority.ProjectAuthority.test_bad_output_and_lyric_rejected) ... ok
+test_chain_history_and_output (test_project_authority.ProjectAuthority.test_chain_history_and_output) ... ok
+test_cold_process_no_cache (test_project_authority.ProjectAuthority.test_cold_process_no_cache) ... ok
+test_corrupt_project_fail_closed (test_project_authority.ProjectAuthority.test_corrupt_project_fail_closed) ... ok
+test_crash_before_and_after_promotion (test_project_authority.ProjectAuthority.test_crash_before_and_after_promotion) ... ok
+test_one_of_two_stale_writers (test_project_authority.ProjectAuthority.test_one_of_two_stale_writers) ... ok
+test_reference_namespace_fenced_before_pointer (test_project_authority.ProjectAuthority.test_reference_namespace_fenced_before_pointer) ... ok
+test_stale_rejected (test_project_authority.ProjectAuthority.test_stale_rejected) ... ok
+test_uncommitted_revision_not_history (test_project_authority.ProjectAuthority.test_uncommitted_revision_not_history) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.859s
+
+OK

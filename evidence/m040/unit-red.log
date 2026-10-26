@@ -1,0 +1,65 @@
+test_bad_origins (test_m040.SecurityAndObjects.test_bad_origins) ... ERROR
+test_exact_origin (test_m040.SecurityAndObjects.test_exact_origin) ... ERROR
+test_foreign_origin (test_m040.SecurityAndObjects.test_foreign_origin) ... ERROR
+test_history (test_m040.SecurityAndObjects.test_history) ... ERROR
+test_traversal (test_m040.SecurityAndObjects.test_traversal) ... ERROR
+test_wrong_port (test_m040.SecurityAndObjects.test_wrong_port) ... ERROR
+
+======================================================================
+ERROR: test_bad_origins (test_m040.SecurityAndObjects.test_bad_origins)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/sf40/tests/test_m040.py", line 13, in test_bad_origins
+    self.assertFalse(server.authorized_origin(value,'localhost:8765'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'studio_server' has no attribute 'authorized_origin'
+
+======================================================================
+ERROR: test_exact_origin (test_m040.SecurityAndObjects.test_exact_origin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/sf40/tests/test_m040.py", line 8, in test_exact_origin
+    self.assertTrue(server.authorized_origin('http://localhost:8765','localhost:8765'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'studio_server' has no attribute 'authorized_origin'
+
+======================================================================
+ERROR: test_foreign_origin (test_m040.SecurityAndObjects.test_foreign_origin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/sf40/tests/test_m040.py", line 6, in test_foreign_origin
+    self.assertFalse(server.authorized_origin('http://localhost.evil.test:8765','localhost:8765'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'studio_server' has no attribute 'authorized_origin'
+
+======================================================================
+ERROR: test_history (test_m040.SecurityAndObjects.test_history)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/sf40/tests/test_m040.py", line 16, in test_history
+    a=server.persist_export(pathlib.Path(td),'master.wav','mixes',b'A')
+      ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'studio_server' has no attribute 'persist_export'
+
+======================================================================
+ERROR: test_traversal (test_m040.SecurityAndObjects.test_traversal)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/sf40/tests/test_m040.py", line 26, in test_traversal
+    with self.assertRaises(ValueError):server.persist_export(pathlib.Path(td),name,sub,b'x')
+                                       ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'studio_server' has no attribute 'persist_export'
+
+======================================================================
+ERROR: test_wrong_port (test_m040.SecurityAndObjects.test_wrong_port)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/sf40/tests/test_m040.py", line 10, in test_wrong_port
+    self.assertFalse(server.authorized_origin('http://localhost:9999','localhost:8765'))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'studio_server' has no attribute 'authorized_origin'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.003s
+
+FAILED (errors=6)

@@ -52,6 +52,10 @@ def audit_file(path: Path) -> bool:
             print(f" ❌ Track[{ti}] not an object")
             ok = False
             continue
+        tsch = track.get("OTIO_SCHEMA")
+        if tsch not in ("Track.1", "Clip.1", "Gap.1", "Stack.1"):
+            print(f" ❌ Track[{ti}] unexpected schema {tsch}")
+            ok = False
         elements = track.get("children") or []
         print(f"  ✓ Track[{ti}] '{track.get('name')}' | elements: {len(elements)}")
         for element in elements:
@@ -62,6 +66,7 @@ def audit_file(path: Path) -> bool:
             if schema_type == "Clip.1":
                 metadata = element.get("metadata") or {}
                 if "vocal_role_contract" not in metadata and "bars" not in metadata:
+                    # soft: warn but allow MEG-style clips
                     print(f"    · Clip '{name}' (no vocal_role_contract — acceptable if instrumental)")
                 else:
                     role = metadata.get("vocal_role_contract", metadata.get("bars", ""))
@@ -71,6 +76,7 @@ def audit_file(path: Path) -> bool:
             elif schema_type == "Marker.1":
                 print(f"    - Marker: '{name}'")
 
+    # Telemetry: stack metadata OR root pulseforge metadata
     meta_stack = tracks_stack.get("metadata") or {}
     meta_root = doc.get("metadata") or {}
     pf = meta_root.get("pulseforge") or {}
@@ -82,6 +88,7 @@ def audit_file(path: Path) -> bool:
     if onset is not None:
         print(f"  ✓ Telemetry: onset_count={onset}")
     else:
+        # soft fail for packages exported before flux — warn only
         print("  · Telemetry: no onset_count (optional if pre-flux export)")
 
     return ok

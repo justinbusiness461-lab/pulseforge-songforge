@@ -1,94 +1,34 @@
 #!/usr/bin/env python3
-"""Release packager: checksum core assets and zip a deployable studio bundle."""
-from __future__ import annotations
+"""One version/source inventory; archive digest lives in a nonrecursive sidecar."""
+import hashlib,json,pathlib,subprocess,zipfile
+ROOT=pathlib.Path(__file__).resolve().parent
 
-import hashlib
-import json
-import os
-import zipfile
-from datetime import datetime, timezone
-
-REQUIRED = [
-    "index.html",
-    "app-core.js",
-    "app-ui.js",
-    "app-cinema.js",
-    "manifest.json",
-    "service-worker.js",
-]
-
-OPTIONAL = [
-    "README.md",
-    "INSTALL.md",
-    "icons/icon.svg",
-    "icons/icon-192.png",
-    "icons/icon-512.png",
-    "tools/armature_solver.py",
-    "tools/test_harness.py",
-    "tools/README.md",
-    "tools/studio_server.py",
-    "tools/vocal_lab.py",
-    "tools/certify_otio.py",
-    "tools/certify_integrity.py",
-]
-
-
-def sha256_file(path: str) -> str:
-    h = hashlib.sha256()
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(65536), b""):
-            h.update(chunk)
-    return h.hexdigest()
-
-
-def execute_release_packaging(target_directory: str = ".") -> bool:
-    archive_name = "SoundForge-Studio-Release-v2.18.zip"
-    manifest_name = "Release-Provenance-Manifest.json"
-
-    os.makedirs("models/vocal", exist_ok=True)
-    open("models/vocal/.gitkeep", "a").close()
-    print(f"[Packager] Scanning {os.path.abspath(target_directory)}")
-    provenance = {
-        "release_version": "2.18.0",
-        "compiled_timestamp": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        "checksums": {},
-    }
-
-    for asset in REQUIRED:
-        path = os.path.join(target_directory, asset)
-        if not os.path.exists(path):
-            print(f"Error: missing required asset: {asset}")
-            return False
-        digest = sha256_file(path)
-        provenance["checksums"][asset] = f"sha256:{digest}"
-        print(f"  OK  {asset:<22} sha256:{digest[:16]}…")
-
-    for asset in OPTIONAL:
-        path = os.path.join(target_directory, asset)
-        if os.path.exists(path):
-            digest = sha256_file(path)
-            provenance["checksums"][asset] = f"sha256:{digest}"
-            print(f"  +   {asset:<22} sha256:{digest[:16]}…")
-
-    man_path = os.path.join(target_directory, manifest_name)
-    with open(man_path, "w", encoding="utf-8") as f:
-        json.dump(provenance, f, indent=2)
-
-    out_path = os.path.join(target_directory, archive_name)
-    with zipfile.ZipFile(out_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        for asset in REQUIRED:
-            zf.write(os.path.join(target_directory, asset), asset)
-        for asset in OPTIONAL:
-            path = os.path.join(target_directory, asset)
-            if os.path.exists(path):
-                zf.write(path, asset)
-        zf.write(man_path, manifest_name)
-
-    print(f"\n[Packager] Wrote {archive_name}")
-    print(f"[Packager] Manifest {manifest_name}\n")
-    return True
-
-
-if __name__ == "__main__":
-    ok = execute_release_packaging(".")
-    raise SystemExit(0 if ok else 1)
+def digest(data):return hashlib.sha256(data).hexdigest()
+def package():
+    release=json.loads((ROOT/'release.json').read_text());version=release['version']
+    if json.loads((ROOT/'package.json').read_text())['version']!=version:raise ValueError('version mismatch')
+    source_sha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
+    names=['index.html','app-core.js','app-ui.js','app-cinema.js','service-worker.js','manifest.json','release.json','package.json','package-lock.json','package_project.py','README.md','INSTALL.md','requirements-vocal.txt']
+    names+=['icons/icon.svg','icons/icon-192.png','icons/icon-512.png']
+    names+=[str(p.relative_to(ROOT)) for p in (ROOT/'tools').iterdir() if p.suffix in {'.py','.cjs','.md'}]
+    names+=[str(p.relative_to(ROOT)) for p in (ROOT/"tests").glob("test_*.py")]
+    names=sorted(set(names));inventory={}
+    for name in names:
+        data=(ROOT/name).read_bytes();inventory[name]=digest(data)
+        # Published release source must match the identified Git commit.
+        committed=subprocess.check_output(['git','show',source_sha+':'+name],cwd=ROOT)
+        if data!=committed:raise ValueError('uncommitted release source: '+name)
+    manifest={'release_version':version,'repo_source_sha':source_sha,'runtime_contract':release['runtime_contract'],'packager_sha256':inventory['package_project.py'],'checksums':inventory,'certifier_identities':{k:v for k,v in inventory.items() if k.startswith('tools/certify_')}}
+    out=ROOT/'dist';out.mkdir(exist_ok=True);filename=f'SoundForge-Studio-Release-v{version}.zip';archive=out/filename
+    with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED) as z:
+        for name in names:
+            info=zipfile.ZipInfo(name,date_time=(1980,1,1,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,(ROOT/name).read_bytes())
+        z.writestr('Release-Provenance-Manifest.json',json.dumps(manifest,sort_keys=True,indent=2))
+    with zipfile.ZipFile(archive) as z:
+        if z.testzip():raise ValueError('bad archive')
+        for name,expected in inventory.items():
+            if digest(z.read(name))!=expected:raise ValueError(name)
+    receipt={'version':version,'repo_source_sha':source_sha,'package_filename':filename,'package_sha256':digest(archive.read_bytes()),'package_bytes':archive.stat().st_size,'source_inventory_entries':len(inventory),'manifest_sha256':digest(json.dumps(manifest,sort_keys=True,indent=2).encode()),'manifest':manifest}
+    (out/(filename+'.json')).write_text(json.dumps(receipt,indent=2)+'\n')
+    print(json.dumps({k:v for k,v in receipt.items() if k!='manifest'},indent=2))
+if __name__=='__main__':package()
