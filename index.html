@@ -3,37 +3,94 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"/>
-<meta name="theme-color" content="#7c6cf0"/>
+<meta name="theme-color" content="#0a0c12"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <link rel="manifest" href="manifest.json"/>
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml"/>
 <link rel="apple-touch-icon" href="icons/icon-192.png"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="mobile-web-app-capable" content="yes"/>
-<title>S.A.R.A. Sound Forge</title>
+<title>SongForge — Chat Studio</title>
 <style>
-:root{--bg:#0a0c12;--s:#12161f;--s2:#1a2030;--b:#2a3348;--t:#e6ebf5;--m:#8892a8;--a:#7c6cf0;--a2:#00d2c6;--ok:#00c853;--w:#ffc107;--danger:#ff6b7a;--safe:env(safe-area-inset-bottom,0px)}
+:root{
+  --bg:#07090f;--s:#10141d;--s2:#171d2b;--s3:#1e2638;--b:#2a3348;
+  --t:#eef2fb;--m:#8b95ab;--a:#8b7cff;--a2:#2de2c5;--ok:#22d36b;--w:#ffc107;--danger:#ff6b7a;
+  --glow:rgba(139,124,255,.28);--safe:env(safe-area-inset-bottom,0px);
+  --radius:14px;
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--t);min-height:100dvh;padding:12px 12px calc(88px + var(--safe))}
-.app{max-width:560px;margin:0 auto}
-h1{font-size:1.15rem} h1 span{color:var(--a2)}
-.sub{font-size:.7rem;color:var(--m);margin:.2rem 0 .85rem}
-.card{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:14px;margin-bottom:12px}
-.card h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--m);margin-bottom:10px}
+html,body{height:100%}
+body{
+  font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(139,124,255,.18), transparent 55%),
+    radial-gradient(900px 500px at 100% 0%, rgba(45,226,197,.10), transparent 50%),
+    var(--bg);
+  color:var(--t);min-height:100dvh;
+  padding:10px 12px calc(96px + var(--safe));
+}
+.app{max-width:640px;margin:0 auto}
+.hero{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.hero h1{font-size:1.2rem;letter-spacing:-.02em;font-weight:800}
+.hero h1 span{background:linear-gradient(120deg,var(--a),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{font-size:.68rem;color:var(--m);margin-top:3px;line-height:1.35;max-width:36ch}
+.trust{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 12px}
+.chip{
+  font-size:.65rem;font-weight:600;letter-spacing:.02em;
+  padding:5px 9px;border-radius:999px;border:1px solid var(--b);
+  background:rgba(255,255,255,.03);color:var(--m);font-variant-numeric:tabular-nums;
+}
+.chip.hot{border-color:rgba(139,124,255,.55);color:#cfc6ff;background:rgba(139,124,255,.12)}
+.chip.ok{border-color:rgba(34,211,107,.45);color:#9af0b8}
+.chip.warn{border-color:rgba(255,193,7,.45);color:#ffe08a}
+.status{font-size:.78rem;padding:9px 11px;border-radius:10px;border:1px solid var(--b);background:rgba(23,29,43,.9);margin-bottom:10px}
+.status.ok{border-color:rgba(34,211,107,.45);color:var(--ok)}
+.status.warn{border-color:rgba(255,193,7,.45);color:var(--w)}
+.card{
+  background:linear-gradient(180deg,rgba(22,28,42,.95),rgba(16,20,29,.98));
+  border:1px solid var(--b);border-radius:var(--radius);padding:14px;margin-bottom:12px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.02), 0 18px 40px rgba(0,0,0,.28);
+}
+.card h3{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--m);margin-bottom:10px}
+.card.chat-card{padding:0;overflow:hidden}
+.chat-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 0}
+.chat-log{
+  max-height:min(42vh,380px);overflow-y:auto;padding:10px 12px 12px;
+  display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth;
+}
+.bubble{
+  max-width:92%;padding:10px 12px;border-radius:14px;font-size:.86rem;line-height:1.45;
+  border:1px solid transparent;word-break:break-word;
+}
+.bubble.user{align-self:flex-end;background:linear-gradient(135deg,#6d5ef5,#4f46c8);border-color:rgba(255,255,255,.08);color:#fff;border-bottom-right-radius:5px}
+.bubble.sys{align-self:flex-start;background:var(--s2);border-color:var(--b);color:var(--t);border-bottom-left-radius:5px}
+.bubble .meta{display:block;margin-top:6px;font-size:.68rem;color:rgba(255,255,255,.72)}
+.bubble.sys .meta{color:var(--m)}
+.bubble .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.composer{padding:0 12px 12px}
+.composer textarea{
+  width:100%;background:var(--s3);border:1px solid var(--b);color:var(--t);
+  border-radius:12px;padding:12px;font-size:16px;min-height:88px;resize:vertical;line-height:1.4;margin-bottom:8px;
+}
+.composer .lyrics-opt{min-height:56px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px}
+.action-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:8px}
+@media (max-width:420px){.action-row{grid-template-columns:1fr 1fr}}
 label{display:block;font-size:.72rem;color:var(--m);margin-bottom:4px}
 input,select,textarea{width:100%;background:var(--s2);border:1px solid var(--b);color:var(--t);border-radius:8px;padding:10px 12px;font-size:16px;min-height:44px;margin-bottom:8px}
-textarea.prompt{min-height:76px;resize:vertical;line-height:1.4}
-textarea.lyrics{min-height:72px;font-family:ui-monospace,monospace;font-size:14px}
 input[type=range]{min-height:auto;padding:0;accent-color:var(--a)}
-button{background:var(--a);color:#fff;border:none;border-radius:10px;font-weight:700;font-size:.9rem;min-height:48px;padding:0 14px;cursor:pointer;touch-action:manipulation}
-button.secondary{background:var(--s2);color:var(--t);border:1px solid var(--b)}
+button{
+  background:linear-gradient(135deg,var(--a),#6356e0);color:#fff;border:none;border-radius:11px;
+  font-weight:700;font-size:.88rem;min-height:46px;padding:0 12px;cursor:pointer;touch-action:manipulation;
+  box-shadow:0 8px 24px var(--glow);
+}
+button.secondary{background:var(--s2);color:var(--t);border:1px solid var(--b);box-shadow:none}
+button.ghost{background:transparent;border:1px solid var(--b);box-shadow:none;min-height:34px;font-size:.72rem;padding:0 10px}
 button.full{width:100%}
-button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
-.status{font-size:.78rem;padding:8px 10px;border-radius:8px;border:1px solid var(--b);background:var(--s2);margin-bottom:12px}
-.status.ok{border-color:var(--ok);color:var(--ok)}
-.status.warn{border-color:var(--w);color:var(--w)}
+button.sm{min-height:36px;font-size:.74rem;padding:0 10px;box-shadow:none}
+button:disabled{opacity:.45;cursor:not-allowed}
 .badge{display:inline-block;font-size:.68rem;padding:4px 8px;border-radius:6px;background:var(--s2);border:1px solid var(--b);margin:0 4px 4px 0}
-.badge.role{border-color:var(--a);color:var(--a2)}
+.badge.role{border-color:var(--a);color:#cfc6ff}
+.badge.muted{opacity:.55}
 .strip{background:rgba(255,255,255,.03);border:1px solid var(--b);border-radius:8px;padding:10px;margin-bottom:8px}
 .strip-name{font-size:.85rem;font-weight:600;margin-bottom:6px}
 .strip-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -42,120 +99,172 @@ button.sm{min-height:36px;font-size:.75rem;padding:0 10px}
 .cell{aspect-ratio:1;background:rgba(255,255,255,.06);border-radius:3px;cursor:pointer;min-height:18px}
 .cell.on{background:var(--a)}
 .cell.kick{background:var(--a2)}
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:6px;padding:10px 12px calc(10px + var(--safe));background:rgba(10,12,18,.96);backdrop-filter:blur(14px);border-top:1px solid var(--b)}
+.dock{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:6px;
+  padding:10px 12px calc(10px + var(--safe));
+  background:rgba(7,9,15,.94);backdrop-filter:blur(16px);border-top:1px solid var(--b);
+}
 .dock button{flex:1}
 .meter{height:3px;background:var(--s2);border-radius:2px;overflow:hidden;margin-top:8px}
 .meter>div{height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--a2))}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.hint{font-size:.72rem;color:var(--m)}
+.ceiling{
+  font-size:.68rem;color:var(--m);line-height:1.4;padding:8px 10px;border-radius:10px;
+  border:1px dashed var(--b);background:rgba(255,255,255,.02);margin-bottom:12px;
+}
+.details-studio summary{
+  cursor:pointer;list-style:none;font-size:.78rem;font-weight:700;color:#cfc6ff;
+  padding:4px 0 8px;
+}
+.details-studio summary::-webkit-details-marker{display:none}
+.canvas-container{width:100%;height:160px;border-radius:12px;overflow:hidden;border:1px solid var(--b);margin-bottom:12px;background:#0b0e16}
 </style>
 </head>
 <body>
 <div class="app">
-<h1>S.A.R.A. <span>Sound Forge</span></h1>
-<p class="sub">Sound™ · Shelves · Flux · OTIO-inspired · Local</p>
-<div id="status" class="status ok">Type a prompt → Compile → Play</div>
-<p class="hint" style="font-size:0.72rem;color:var(--m);margin:0 0 10px">Flux: <span id="fluxReadout">—</span> · shelves on master bus</p>
-<div id="canvas-viseme-viewport" class="canvas-container" aria-label="Viseme viewport"></div>
-<div class="card">
-<h3>Generative prompt</h3>
-<textarea id="prompt" class="prompt" placeholder="e.g. dark 102 BPM alt hip-hop, F# minor, guitar plucks, male verse…"></textarea>
-<button class="full" id="btnCompile">Compile Production Prompt</button>
-</div>
-<div class="card">
-<h3>Song identity</h3>
-<label>Title</label>
-<input id="title" value="BAD HABIT"/>
-<div class="row2">
-<div><label>BPM override</label><input id="bpmOverride" type="number" min="60" max="180" placeholder="from prompt"/></div>
-<div><label>Key override</label><input id="keyOverride" placeholder="e.g. F# minor"/></div>
-</div>
-</div>
-<div class="card">
-<h3>SongSpec metadata</h3>
-<div id="meta">No SongSpec yet.</div>
-<div id="sections" style="margin-top:10px"></div>
-<div class="meter"><div id="prog"></div></div>
-</div>
-<div class="card">
-<h3>Active section · lyrics & role</h3>
-<textarea id="lyrics" class="lyrics" placeholder="Edit lyrics for active section…"></textarea>
-<label>Vocal role</label>
-<select id="vocalRole">
-<option value="male">Male (baritone formants)</option>
-<option value="female">Female (alto formants)</option>
-<option value="both">Both (alternating)</option>
-<option value="none">None (instrumental)</option>
-</select>
-</div>
-<div class="card">
-<h3>Channel mixer</h3>
-<div id="mixer"></div>
-</div>
-<div class="card">
-<h3>Step matrix (16 × 1/8)</h3>
-<select id="editTrack"></select>
-<div id="matrix" class="matrix"></div>
+  <div class="hero">
+    <div>
+      <h1>Song<span>Forge</span></h1>
+      <p class="sub">Chat-led local music studio · integer-tick Score Graph · certified exports · no cloud generation APIs</p>
+    </div>
+  </div>
+
+  <div class="trust" id="trustChips" aria-live="polite">
+    <span class="chip hot" id="chipSchema">schema —</span>
+    <span class="chip" id="chipSeed">seed —</span>
+    <span class="chip" id="chipSong">song —</span>
+    <span class="chip" id="chipExport">export —</span>
+  </div>
+
+  <div id="status" class="status ok">Describe a song → Generate → Play. Local deterministic synthesis.</div>
+  <p class="ceiling">Honest ceiling: rule compiler + Web Audio formants/DSP — editable multi-track stems and certifiable exports, not neural Suno/ElevenLabs vocal quality.</p>
+
+  <div class="card chat-card">
+    <div class="chat-head">
+      <h3 style="margin:0">Session</h3>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button type="button" class="ghost" id="btnUndo">Undo</button>
+        <button type="button" class="ghost" id="btnRestoreSession">Restore</button>
+        <button type="button" class="ghost" id="btnClearChat">Clear</button>
+      </div>
+    </div>
+    <div id="chatLog" class="chat-log" role="log" aria-relevant="additions"></div>
+    <div class="composer">
+      <label for="prompt">Prompt</label>
+      <textarea id="prompt" class="prompt" placeholder="e.g. dark 102 BPM alt hip-hop, F# minor, guitar plucks, male verse, female chorus…"></textarea>
+      <label for="lyricsOpt">Optional lyrics (applied to active/verse sections)</label>
+      <textarea id="lyricsOpt" class="lyrics-opt" placeholder="Optional — paste verse/chorus lines to stamp onto vocal sections"></textarea>
+      <div class="action-row">
+        <button type="button" id="btnGenerate" title="Compile from prompt">Generate</button>
+        <button type="button" class="secondary" id="btnVary" title="Same prompt, new seed">Vary</button>
+        <button type="button" class="secondary" id="btnExtend" title="Append section">Extend</button>
+        <button type="button" class="secondary" id="btnRemix" title="Keep lyrics, new arrangement seed">Remix</button>
+      </div>
+      <button type="button" class="full secondary sm" id="btnCompile" style="display:none">Compile</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Now playing</h3>
+    <div id="meta">No Score Graph yet — Generate to compile.</div>
+    <div id="sections" style="margin-top:10px"></div>
+    <div class="meter"><div id="prog"></div></div>
+    <p class="hint" style="margin-top:8px">Flux: <span id="fluxReadout">—</span></p>
+  </div>
+
+  <div id="canvas-viseme-viewport" class="canvas-container" aria-label="Viseme viewport"></div>
+
+  <details class="details-studio card" open>
+    <summary>Studio deck · mixer · lyrics · exports</summary>
+    <div class="card" style="box-shadow:none;margin:0;padding:0;border:none;background:transparent">
+      <h3>Song identity</h3>
+      <label>Title</label>
+      <input id="title" value="Untitled"/>
+      <div class="row2">
+        <div><label>BPM override</label><input id="bpmOverride" type="number" min="60" max="180" placeholder="from prompt"/></div>
+        <div><label>Key override</label><input id="keyOverride" placeholder="e.g. F# minor"/></div>
+      </div>
+
+      <h3 style="margin-top:14px">Active section · lyrics &amp; role</h3>
+      <textarea id="lyrics" class="lyrics" placeholder="Edit lyrics for active section…" style="min-height:72px;font-family:ui-monospace,monospace;font-size:14px"></textarea>
+      <label>Vocal role</label>
+      <select id="vocalRole">
+        <option value="male">Male (baritone formants)</option>
+        <option value="female">Female (alto formants)</option>
+        <option value="both">Both (alternating)</option>
+        <option value="none">None (instrumental)</option>
+      </select>
+
+      <h3 style="margin-top:14px">Channel mixer</h3>
+      <div id="mixer"></div>
+
+      <h3 style="margin-top:14px">Step matrix (16 × 1/8)</h3>
+      <select id="editTrack"></select>
+      <div id="matrix" class="matrix"></div>
+
+      <h3 style="margin-top:14px">Master shelves</h3>
+      <label>Low shelf (dB) @ 120 Hz</label>
+      <input type="range" id="shelfLow" min="-12" max="12" step="0.5" value="2"/>
+      <label>High shelf (dB) @ 4.5 kHz</label>
+      <input type="range" id="shelfHigh" min="-12" max="12" step="0.5" value="1.5"/>
+
+      <h3 style="margin-top:14px">Vocals Lab (local)</h3>
+      <label>Quality tier</label>
+      <select id="vocalQuality">
+        <option value="formant" selected>Formant (fast, always available)</option>
+        <option value="production">Production torch glottal+formant</option>
+        <option value="onnx">ONNX SVS (needs models/vocal/*.onnx)</option>
+      </select>
+      <button class="full secondary" id="btnVocalLab2" type="button">Render Vocal Stem</button>
+      <p class="hint" style="margin-top:6px">No paid cloud SVS. ONNX only if you supply local weights.</p>
+
+      <h3 style="margin-top:14px">Hardware &amp; armature</h3>
+      <button class="full secondary" id="btnMic" type="button">Enable Mic Ingest</button>
+      <p class="hint" style="margin:8px 0">Pitch: <span id="micHz">—</span> · local only</p>
+      <label>Look-At X</label>
+      <input type="range" id="lookX" min="-3" max="3" step="0.1" value="0"/>
+      <label>Look-At Y</label>
+      <input type="range" id="lookY" min="0" max="3" step="0.1" value="1.75"/>
+      <label>Look-At Z</label>
+      <input type="range" id="lookZ" min="1" max="8" step="0.1" value="4"/>
+
+      <h3 style="margin-top:14px">Project &amp; export</h3>
+      <label for="projectId">Durable project ID</label>
+      <input id="projectId" placeholder="New project, or paste its saved ID" autocomplete="off"/>
+      <p id="projectRevision" class="hint">Unsaved draft — durable saves need studio_server</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+        <button id="btnOpenProject" class="secondary sm" type="button">Open project</button>
+        <button id="btnNewProject" class="secondary sm" type="button">New project</button>
+      </div>
+      <div class="row2">
+        <button class="secondary sm" id="btnSave" type="button">Save project</button>
+        <button class="secondary sm" id="btnMEG" type="button">Cinema Graph</button>
+      </div>
+      <div class="row2" style="margin-top:8px">
+        <button class="secondary sm" id="btnLoad" type="button">Load Spec</button>
+        <button class="secondary sm" id="btnAnim" type="button" style="color:var(--a2)">Export 3D Timeline</button>
+      </div>
+      <div class="row2" style="margin-top:8px">
+        <button class="secondary sm" id="btnOTIO" type="button" style="color:var(--a2)">OTIO Package</button>
+        <span></span>
+      </div>
+      <input type="file" id="fileIn" accept=".json,application/json" hidden/>
+    </div>
+  </details>
 </div>
 
-
-<div class="card">
-<h3>Master shelves</h3>
-<label>Low shelf (dB) @ 120 Hz</label>
-<input type="range" id="shelfLow" min="-12" max="12" step="0.5" value="2"/>
-<label>High shelf (dB) @ 4.5 kHz</label>
-<input type="range" id="shelfHigh" min="-12" max="12" step="0.5" value="1.5"/>
-</div>
-
-<div class="card">
-<h3>Neural Vocals Lab (local)</h3>
-<label>Quality tier</label>
-<select id="vocalQuality">
-<option value="formant">Formant (fast)</option>
-<option value="production" selected>Production torch glottal+formant</option>
-<option value="onnx">ONNX SVS (needs models/vocal/*.onnx)</option>
-</select>
-<button class="full secondary" id="btnVocalLab2">Render Vocal Stem</button>
-<p style="font-size:0.7rem;color:var(--m);margin-top:0.4rem">Local sovereign path. Drop DiffSinger/NSF-HiFiGAN ONNX into models/vocal for true neural SVS.</p>
-</div>
-<div class="card">
-<h3>Hardware & armature</h3>
-<button class="full secondary" id="btnMic" type="button">Enable Mic Ingest</button>
-<p class="hint" style="font-size:0.72rem;color:var(--m);margin:8px 0">Pitch: <span id="micHz">—</span> · local only, no upload</p>
-<label>Look-At X</label>
-<input type="range" id="lookX" min="-3" max="3" step="0.1" value="0"/>
-<label>Look-At Y</label>
-<input type="range" id="lookY" min="0" max="3" step="0.1" value="1.75"/>
-<label>Look-At Z</label>
-<input type="range" id="lookZ" min="1" max="8" step="0.1" value="4"/>
-</div>
-<div class="card">
-<h3>Project and export</h3>
-<label for="projectId">Durable project ID (keep this to reopen)</label>
-<input id="projectId" placeholder="New project, or paste its saved ID" autocomplete="off"/>
-<p id="projectRevision" class="hint">Unsaved draft — browser cache is not project storage</p>
-<button id="btnOpenProject" class="secondary sm">Open project</button>
-<button id="btnNewProject" class="secondary sm">New project</button>
-<div class="row2">
-<button class="secondary sm" id="btnSave">Save project</button>
-<button class="secondary sm" id="btnMEG">Cinema Graph</button>
-</div>
-<div class="row2" style="margin-top:8px">
-<button class="secondary sm" id="btnLoad">Load Spec</button>
-<button class="secondary sm" id="btnAnim" style="color:var(--a2)">Export 3D Timeline</button>
-<button class="secondary sm" id="btnOTIO" style="color:var(--a2)">OTIO Package</button>
-<input type="file" id="fileIn" accept=".json,application/json" hidden/>
-</div>
-</div>
-</div>
 <div class="dock">
-<button id="btnPlay">Play</button>
-<button class="secondary" id="btnStop">Stop</button>
-<button id="btnWav" style="background:var(--ok);color:#000">WAV</button>
-<button id="btnVocalLab" class="secondary sm" style="margin:0.2rem">Vocal Lab</button>
-<button id="btnNeural" style="background:var(--a2);color:#000;font-weight:800">Broadcast</button>
+  <button id="btnPlay" type="button">Play</button>
+  <button class="secondary" id="btnStop" type="button">Stop</button>
+  <button id="btnWav" type="button" style="background:var(--ok);color:#04140a;box-shadow:none">WAV</button>
+  <button id="btnVocalLab" class="secondary sm" type="button">Vocal</button>
+  <button id="btnNeural" type="button" style="background:var(--a2);color:#04140a;font-weight:800;box-shadow:none">Proxy</button>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
 <script src="app-core.js"></script>
+<script src="app-chat.js"></script>
 <script src="app-ui.js"></script>
 <script src="app-cinema.js"></script>
 <script>
@@ -171,6 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
       updateLookAtTrackingTarget(el.value, dim);
     };
   });
+  if (typeof initChatStudio === "function") initChatStudio();
 });
 </script>
 </body>

@@ -1,4 +1,7 @@
 const TPQ = 960;
+const SONG_SCHEMA = "pulseforge.songforge.skeleton.v2.20";
+const SONG_SCHEMA_VERSION = "2.20.0";
+
 const SCALES = {
   "F# minor": { root: 42, scale: [0, 2, 3, 5, 7, 8, 10], lead: [66, 69, 71, 73], pluck: [54, 57, 61, 64], vocal: [54, 57, 59, 61] },
   "A minor":  { root: 45, scale: [0, 2, 3, 5, 7, 8, 10], lead: [69, 72, 74, 76], pluck: [57, 60, 64, 67], vocal: [57, 60, 62, 64] },
@@ -202,8 +205,9 @@ function parsePrompt(text, opts) {
   });
 
   return {
-    $schema: "pulseforge.songforge.skeleton.v2.8",
-    song_id: "sf-" + seedVal.toString(36) + "-" + Date.now().toString(36),
+    $schema: SONG_SCHEMA,
+    schema_version: SONG_SCHEMA_VERSION,
+    song_id: "sf-" + seedVal.toString(16),
     generation_seed: seedVal,
     title: "Generated",
     engine: "phase4-spatial-bbd",
@@ -216,6 +220,8 @@ function parsePrompt(text, opts) {
     structure: { sections },
     tracks: [drums, bass, pad, lead, pluck, vocal],
     prompt: text,
+    change_ledger: [],
+    // Wall-clock stamp is advisory only; identity is seed + integer ticks.
     created_at: new Date().toISOString()
   };
 }
@@ -720,6 +726,160 @@ function stopAll() {
 }
 
 
+
+/** Append-only arrangement change ledger (local). Digests are FNV-style hashSeed, not crypto. */
+function appendChangeLedger(op, payload) {
+  if (!skeleton) return null;
+  if (!Array.isArray(skeleton.change_ledger)) skeleton.change_ledger = [];
+  const body = payload == null ? {} : payload;
+  const entry = {
+    seq: skeleton.change_ledger.length,
+    op: String(op || "unknown"),
+    payload: body,
+    payload_digest: hashSeed(JSON.stringify(body)),
+    prev_digest: skeleton.change_ledger.length
+      ? skeleton.change_ledger[skeleton.change_ledger.length - 1].entry_digest
+      : 0,
+    at_iso: new Date().toISOString()
+  };
+  entry.entry_digest = hashSeed(entry.seq + "|" + entry.op + "|" + entry.payload_digest + "|" + entry.prev_digest);
+  skeleton.change_ledger.push(entry);
+  return entry;
+}
+
+function getChangeLedger() {
+  return (skeleton && Array.isArray(skeleton.change_ledger)) ? skeleton.change_ledger.slice() : [];
+}
+
+/** Soft checkpoints for Undo (last N Score Graph snapshots). */
+const SF_CHECKPOINT_LIMIT = 12;
+let sfCheckpoints = [];
+
+function pushSkeletonCheckpoint(label) {
+  if (!skeleton) return false;
+  try {
+    sfCheckpoints.push({
+      label: String(label || "edit"),
+      at: new Date().toISOString(),
+      json: JSON.stringify(skeleton)
+    });
+    if (sfCheckpoints.length > SF_CHECKPOINT_LIMIT) sfCheckpoints.shift();
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function undoLastCheckpoint() {
+  if (!sfCheckpoints.length) return { ok: false, error: "nothing_to_undo" };
+  const prev = sfCheckpoints.pop();
+  try {
+    const obj = JSON.parse(prev.json);
+    const lr = loadProjectObject(obj);
+    if (!lr.ok) return lr;
+    appendChangeLedger("undo_checkpoint", { restored_label: prev.label, restored_at: prev.at });
+    return { ok: true, label: prev.label, song_id: skeleton.song_id };
+  } catch (e) {
+    return { ok: false, error: String(e.message || e) };
+  }
+}
+
+function clearCheckpoints() {
+  sfCheckpoints = [];
+}
+
+/** Append a chorus-like section after the arrangement end (deterministic). */
+function extendArrangement(opts) {
+  opts = opts || {};
+  if (!skeleton) return { ok: false, error: "no_project" };
+  pushSkeletonCheckpoint("before_extend");
+  const secs = skeleton.structure.sections;
+  const last = secs[secs.length - 1];
+  const template = secs.slice().reverse().find(s => s.role && s.role !== "none") || last;
+  if (!template) return { ok: false, error: "no_section" };
+  const span = (template.end_tick - template.start_tick) || (4 * 4 * TPQ);
+  const lastEnd = secs.reduce((m, s) => Math.max(m, s.end_tick), 0);
+  const copy = JSON.parse(JSON.stringify(template));
+  const extSeed = hashSeed((skeleton.generation_seed || 0) + "|extend|" + lastEnd + "|" + (skeleton.change_ledger ? skeleton.change_ledger.length : 0));
+  copy.id = "sec-" + lastEnd + "-x" + (extSeed % 100000);
+  copy.name = opts.name || ((template.type === "chorus" ? "Chorus" : template.name) + " +");
+  copy.type = opts.type || (template.type === "outro" ? "chorus" : template.type);
+  copy.start_tick = lastEnd;
+  copy.end_tick = lastEnd + span;
+  if (opts.lyrics != null) copy.lyrics = String(opts.lyrics);
+  const delta = copy.start_tick - template.start_tick;
+  skeleton.tracks.forEach(tr => {
+    const adds = [];
+    (tr.events || []).forEach(ev => {
+      if (ev.tick >= template.start_tick && ev.tick < template.end_tick) {
+        const nev = JSON.parse(JSON.stringify(ev));
+        nev.tick = ev.tick + delta;
+        adds.push(nev);
+      }
+    });
+    tr.events = (tr.events || []).concat(adds);
+  });
+  // If extending past an outro, move outro after the new section
+  if (last && last.type === "outro" && last.id !== template.id) {
+    const outroSpan = last.end_tick - last.start_tick;
+    const shift = span;
+    skeleton.tracks.forEach(tr => {
+      (tr.events || []).forEach(ev => {
+        if (ev.tick >= last.start_tick && ev.tick < last.end_tick) ev.tick += shift;
+      });
+    });
+    last.start_tick += shift;
+    last.end_tick += shift;
+  }
+  secs.push(copy);
+  secs.sort((a, b) => a.start_tick - b.start_tick);
+  if (opts.lyrics && copy.role !== "none") {
+    rebuildVocalsFromLyrics();
+  }
+  appendChangeLedger("extend_arrangement", {
+    new_id: copy.id, from: template.id, start_tick: copy.start_tick, end_tick: copy.end_tick
+  });
+  return { ok: true, section_id: copy.id, start_tick: copy.start_tick, end_tick: copy.end_tick };
+}
+
+/** Remix: recompile arrangement with new seed but preserve section lyrics/roles/names when possible. */
+function remixArrangement(promptText, opts) {
+  opts = opts || {};
+  const prior = skeleton ? JSON.parse(JSON.stringify(skeleton)) : null;
+  pushSkeletonCheckpoint("before_remix");
+  const text = (promptText || (prior && prior.prompt) || "").trim() ||
+    "dark 102 BPM alt hip-hop, F# minor";
+  const nonce = opts.nonce != null ? String(opts.nonce) : ("r" + ((prior && prior.change_ledger && prior.change_ledger.length) || 0));
+  const seed = opts.seed != null ? opts.seed : hashSeed(text + "|remix|" + nonce);
+  const next = parsePrompt(text, { seed: seed >>> 0 });
+  if (prior && prior.structure && prior.structure.sections) {
+    const n = Math.min(prior.structure.sections.length, next.structure.sections.length);
+    for (let i = 0; i < n; i++) {
+      const src = prior.structure.sections[i];
+      const dst = next.structure.sections[i];
+      if (src.lyrics) dst.lyrics = src.lyrics;
+      if (src.role) dst.role = src.role;
+      if (src.name) dst.name = src.name;
+    }
+    // rebuild vocals from preserved lyrics
+    skeleton = next;
+    window.skeleton = skeleton;
+    rebuildVocalsFromLyrics();
+  } else {
+    skeleton = next;
+    window.skeleton = skeleton;
+  }
+  if (prior && prior.title) skeleton.title = prior.title;
+  skeleton.change_ledger = (prior && prior.change_ledger) ? prior.change_ledger.slice() : [];
+  appendChangeLedger("remix_arrangement", {
+    seed: skeleton.generation_seed,
+    song_id: skeleton.song_id,
+    prompt: text
+  });
+  return { ok: true, song_id: skeleton.song_id, seed: skeleton.generation_seed };
+}
+
+
 /** Bounded section edit ops — mutate only the targeted section; preserve others. */
 function findSectionById(id) {
   if (!skeleton || !skeleton.structure) return null;
@@ -736,6 +896,7 @@ function applySectionLyrics(sectionId, lyrics) {
   const before = sectionSnapshot(sec);
   sec.lyrics = String(lyrics || "");
   rebuildVocalsFromLyrics();
+  appendChangeLedger("apply_section_lyrics", { section_id: sectionId, lyrics: sec.lyrics });
   return { ok: true, section_id: sectionId, before, after: sectionSnapshot(sec) };
 }
 
@@ -747,6 +908,7 @@ function applySectionRole(sectionId, role) {
   const before = sectionSnapshot(sec);
   sec.role = role;
   rebuildVocalsFromLyrics();
+  appendChangeLedger("apply_section_role", { section_id: sectionId, role: sec.role });
   return { ok: true, section_id: sectionId, before, after: sectionSnapshot(sec) };
 }
 
@@ -769,6 +931,7 @@ function muteSectionEvents(sectionId, muted) {
       }
     });
   });
+  appendChangeLedger("mute_section", { section_id: sectionId, muted: !!muted });
   return { ok: true, section_id: sectionId, muted: !!muted };
 }
 
@@ -781,7 +944,8 @@ function duplicateSection(sectionId) {
   const span = src.end_tick - src.start_tick;
   const lastEnd = secs.reduce((m, s) => Math.max(m, s.end_tick), 0);
   const copy = JSON.parse(JSON.stringify(src));
-  copy.id = "sec-" + lastEnd + "-" + Math.floor(Math.random() * 1e5);
+  const dupSeed = hashSeed((skeleton.generation_seed || 0) + "|dup|" + sectionId + "|" + lastEnd + "|" + (skeleton.change_ledger ? skeleton.change_ledger.length : 0));
+  copy.id = "sec-" + lastEnd + "-" + (dupSeed % 100000);
   copy.name = src.name + " (copy)";
   copy.start_tick = lastEnd;
   copy.end_tick = lastEnd + span;
@@ -799,8 +963,7 @@ function duplicateSection(sectionId) {
     tr.events = (tr.events || []).concat(adds);
   });
   secs.push(copy);
-  if (!skeleton.edit_history) skeleton.edit_history = [];
-  skeleton.edit_history.push({ op: "duplicate_section", section_id: sectionId, new_id: copy.id, at: new Date().toISOString() });
+  appendChangeLedger("duplicate_section", { from: sectionId, new_id: copy.id, start_tick: copy.start_tick, end_tick: copy.end_tick });
   return { ok: true, section_id: copy.id, from: sectionId };
 }
 
@@ -813,7 +976,9 @@ function loadProjectObject(obj) {
   if (!obj || !obj.structure || !obj.tracks) {
     return { ok: false, error: "invalid_project_schema" };
   }
-  if (!obj.$schema) obj.$schema = "pulseforge.songforge.skeleton.v2.8";
+  if (!obj.$schema) obj.$schema = SONG_SCHEMA;
+  if (!obj.schema_version) obj.schema_version = SONG_SCHEMA_VERSION;
+  if (!Array.isArray(obj.change_ledger)) obj.change_ledger = obj.change_ledger || [];
   // Ensure section ids
   (obj.structure.sections || []).forEach((s, i) => {
     if (!s.id) s.id = "sec-" + (s.start_tick != null ? s.start_tick : i);
