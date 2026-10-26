@@ -1,4 +1,4 @@
-# Clean install — 2.19.1 M042 candidate
+# Clean install — 2.20.0 M043 candidate
 
 Python 3.10+ on POSIX with directory fsync is required for the local broker. A modern browser supplies Web Audio for the UI. No account or hosted inference service is required.
 
@@ -35,3 +35,16 @@ Save project creates an immutable revision behind a stable project ID. Keep that
 Project data lives under workspace/studio_exports/projects/<projectId>/ProjectManifest.json, with immutable revision records under revisions/. Referenced SongSpecs, derived timelines and output bytes live in the existing content-addressed object store. Do not edit these files manually. No new authority or model is added for lyrics in this release.
 
 Run `python3 tools/m042_project_probe.py` for the complete actual-media R1/R2/restart discriminator, and `node tools/m042_ui_probe.cjs` for exact UI authority functions against HTTP. The latter uses minimal DOM adapters in Node; it is not browser/PWA certification.
+
+M043 (2.20.0) lyric qualification:
+
+```
+python3 -m unittest discover -s tests -v
+python3 tools/m043_probe.py
+node tools/m043_ui_probe.cjs
+```
+
+Fixtures are included; Flite is optional and only needed to regenerate the synthetic
+spoken fixture with `python3 tools/m043_fixture.py`. No model downloads are required.
+M043 UI checks use Node VM/minimal DOM and real HTTP; actual browser/PWA qualification
+and independent perceptual review remain separate gates.

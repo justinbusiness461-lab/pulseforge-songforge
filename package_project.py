@@ -12,6 +12,7 @@ def package():
     names+=['icons/icon.svg','icons/icon-192.png','icons/icon-512.png']
     names+=[str(p.relative_to(ROOT)) for p in (ROOT/'tools').iterdir() if p.suffix in {'.py','.cjs','.md'}]
     names+=[str(p.relative_to(ROOT)) for p in (ROOT/"tests").glob("test_*.py")]
+    names += ['evidence/m043/fixtures/rise-higher.wav','evidence/m043/fixtures/manifest.json','evidence/m043/fixtures/SongSpec.json','evidence/m043/fixtures/instrumental.wav']
     names=sorted(set(names));inventory={}
     for name in names:
         data=(ROOT/name).read_bytes();inventory[name]=digest(data)

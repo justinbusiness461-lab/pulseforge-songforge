@@ -1,0 +1,11 @@
+{
+  "checks": {
+    "word_occurrences_rendered": true,
+    "confidence_visible": true,
+    "corrected_saved_word_visible": true,
+    "server_R2_authoritative": true,
+    "stale_UI_save_rejected": true,
+    "no_transcript_cache": true
+  },
+  "ceiling": "Node VM exact UI functions, minimal DOM, real HTTP; no browser/PWA claim"
+}

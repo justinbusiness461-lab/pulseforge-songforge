@@ -1,0 +1,351 @@
+{
+  "checks": [
+    {
+      "name": "immutable-import-rise-higher.wav",
+      "pass": true
+    },
+    {
+      "name": "project-create",
+      "pass": true
+    },
+    {
+      "name": "machine-guided-R1",
+      "pass": true
+    },
+    {
+      "name": "audio-digest-exact",
+      "pass": true
+    },
+    {
+      "name": "sample-rate-exact",
+      "pass": true
+    },
+    {
+      "name": "two-timed-occurrences",
+      "pass": true
+    },
+    {
+      "name": "confidence-honest",
+      "pass": true
+    },
+    {
+      "name": "correct-R2",
+      "pass": true
+    },
+    {
+      "name": "R2-parent-is-R1",
+      "pass": true
+    },
+    {
+      "name": "corrected-word",
+      "pass": true
+    },
+    {
+      "name": "audio-unchanged",
+      "pass": true
+    },
+    {
+      "name": "word-timing-unchanged",
+      "pass": true
+    },
+    {
+      "name": "evidence-preserved",
+      "pass": true
+    },
+    {
+      "name": "project-advanced",
+      "pass": true
+    },
+    {
+      "name": "fresh-process-cache-free-R2",
+      "pass": true
+    },
+    {
+      "name": "R1-history-immutable",
+      "pass": true
+    },
+    {
+      "name": "stale-project-409",
+      "pass": true
+    },
+    {
+      "name": "stale-lyric-409",
+      "pass": true
+    },
+    {
+      "name": "stale-save-keeps-R2",
+      "pass": true
+    },
+    {
+      "name": "immutable-import-instrumental.wav",
+      "pass": true
+    },
+    {
+      "name": "negative-project-create",
+      "pass": true
+    },
+    {
+      "name": "instrumental-no-invented-words",
+      "pass": true
+    },
+    {
+      "name": "immutable-import-invalid.wav",
+      "pass": true
+    },
+    {
+      "name": "stale-rejected-before-audio-work",
+      "pass": true
+    },
+    {
+      "name": "invalid-audio-400",
+      "pass": true
+    }
+  ],
+  "fixture": {
+    "kind": "synthetic spoken test fixture; NOT singing or production vocals",
+    "generator": "system Flite 2.2 cmu_us_kal via ctypes",
+    "sourceArtifactId": "b64d26f624da0722337be7153ab01296ef4c645a68e6527d9b6ac9946ab904e3",
+    "sourceAudioDigest": "4746aca332f19dfc72e45383a75e7a876f6c8e09f8e5b10df149725441a051bb",
+    "sourceSampleRate": 8000,
+    "decodedFrameCount": 17539,
+    "knownWords": [
+      {
+        "text": "rise",
+        "decodedSampleStart": 4000,
+        "decodedSampleEnd": 6948
+      },
+      {
+        "text": "higher",
+        "decodedSampleStart": 10948,
+        "decodedSampleEnd": 13539
+      }
+    ],
+    "boundaryMethod": "word-by-word synthesis, trim at absolute PCM sample threshold 400; concatenate with 500ms silence",
+    "boundaryCeiling": "signal placement bounds; not human annotated phoneme onset/offset",
+    "candidateTranscript": "rise fire",
+    "intentionalCorrection": {
+      "wordId": "w1",
+      "before": "fire",
+      "after": "higher"
+    },
+    "licenseNote": "system Flite synthetic voice, no cloned identity; fixture generated locally"
+  },
+  "R1": {
+    "status": "SUCCESS",
+    "manifest": {
+      "projectId": "790556c099b34d93a1b3eac48899b7cb",
+      "currentRevisionId": "6c7866384c5c118f3397cacaffc57279716b262dc408da90f5f0a9c98b753c56",
+      "formatVersion": 1
+    },
+    "revision": {
+      "revisionId": "6c7866384c5c118f3397cacaffc57279716b262dc408da90f5f0a9c98b753c56",
+      "projectId": "790556c099b34d93a1b3eac48899b7cb",
+      "formatVersion": 1,
+      "parentRevisionId": "b6d19c226150d73272204b813efaf49c0fedb3daada8b16365b3b808930ea6cd",
+      "songSpecDigest": "cfc35be8fd688fb67a4768f6631de5cf17de7a0b11edb0e32d8491f2690036ad",
+      "productionTimelineDigest": "ed77423bab091f477d7b67f634165ad02f3a00e15c8b938beff6db462a2ad3f0",
+      "lyricTimelineDigest": "ab111a854c236183e294f300938274feceb2e536e5f99b5f6583aef569a98c99",
+      "sourceAssetDigests": [
+        "b64d26f624da0722337be7153ab01296ef4c645a68e6527d9b6ac9946ab904e3"
+      ],
+      "outputArtifactIds": [],
+      "createdAt": "2026-10-26T17:06:09.651781+00:00",
+      "outputBindings": []
+    },
+    "lyricTimeline": {
+      "alignmentModelOrMethod": "known-text-energy-islands-v1",
+      "confidence": null,
+      "confidenceMeaning": "unknown; guided alignment is not recognition probability",
+      "correctionHistory": [],
+      "decodedFrameCount": 17539,
+      "decodedSampleEnd": 17539,
+      "decodedSampleStart": 0,
+      "evidenceArtifactId": "a2ffcb1fddb6d2cadb9b9597c4a40c5a139a5a881da68cc69688ab590620b36b",
+      "formatVersion": 1,
+      "language": "en",
+      "parentArtifactId": null,
+      "parentRevisionId": null,
+      "pcmEncoding": "s16le",
+      "phrases": [
+        {
+          "decodedSampleEnd": 13600,
+          "decodedSampleStart": 4000,
+          "id": "p0",
+          "wordIds": [
+            "w0",
+            "w1"
+          ]
+        }
+      ],
+      "revisionId": "84925a9dfd6e2de09c04ed9ae2ab07118a0eeceb4a0014d1c8c59a0888795abc",
+      "sourceArtifactId": "b64d26f624da0722337be7153ab01296ef4c645a68e6527d9b6ac9946ab904e3",
+      "sourceAudioDigest": "4746aca332f19dfc72e45383a75e7a876f6c8e09f8e5b10df149725441a051bb",
+      "sourceChannels": 1,
+      "sourceSampleRate": 8000,
+      "status": "guided_candidate",
+      "words": [
+        {
+          "decodedSampleEnd": 6960,
+          "decodedSampleStart": 4000,
+          "id": "w0",
+          "text": "rise"
+        },
+        {
+          "decodedSampleEnd": 13600,
+          "decodedSampleStart": 10880,
+          "id": "w1",
+          "text": "fire"
+        }
+      ]
+    }
+  },
+  "R2": {
+    "status": "SUCCESS",
+    "manifest": {
+      "projectId": "790556c099b34d93a1b3eac48899b7cb",
+      "currentRevisionId": "b258f7b01d4b245106b8be220c48cc3427312c9bbd631e6a44838465dc8b196b",
+      "formatVersion": 1
+    },
+    "revision": {
+      "revisionId": "b258f7b01d4b245106b8be220c48cc3427312c9bbd631e6a44838465dc8b196b",
+      "projectId": "790556c099b34d93a1b3eac48899b7cb",
+      "formatVersion": 1,
+      "parentRevisionId": "6c7866384c5c118f3397cacaffc57279716b262dc408da90f5f0a9c98b753c56",
+      "songSpecDigest": "cfc35be8fd688fb67a4768f6631de5cf17de7a0b11edb0e32d8491f2690036ad",
+      "productionTimelineDigest": "ed77423bab091f477d7b67f634165ad02f3a00e15c8b938beff6db462a2ad3f0",
+      "lyricTimelineDigest": "e4f46f1c4332225a4330061f8f68cdc73b762ed17ad5424f80822d3d1ec54e5b",
+      "sourceAssetDigests": [
+        "b64d26f624da0722337be7153ab01296ef4c645a68e6527d9b6ac9946ab904e3"
+      ],
+      "outputArtifactIds": [],
+      "createdAt": "2026-10-26T17:06:09.729498+00:00",
+      "outputBindings": []
+    },
+    "lyricTimeline": {
+      "alignmentModelOrMethod": "known-text-energy-islands-v1",
+      "confidence": null,
+      "confidenceMeaning": "unknown; guided alignment is not recognition probability",
+      "correctionHistory": [
+        {
+          "actor": "work-a-fixture-test",
+          "changes": [
+            {
+              "after": "higher",
+              "before": "fire",
+              "wordId": "w1"
+            }
+          ],
+          "parentRevisionId": "84925a9dfd6e2de09c04ed9ae2ab07118a0eeceb4a0014d1c8c59a0888795abc",
+          "reason": "intentional known-text correction"
+        }
+      ],
+      "decodedFrameCount": 17539,
+      "decodedSampleEnd": 17539,
+      "decodedSampleStart": 0,
+      "evidenceArtifactId": "a2ffcb1fddb6d2cadb9b9597c4a40c5a139a5a881da68cc69688ab590620b36b",
+      "formatVersion": 1,
+      "language": "en",
+      "parentArtifactId": "ab111a854c236183e294f300938274feceb2e536e5f99b5f6583aef569a98c99",
+      "parentRevisionId": "84925a9dfd6e2de09c04ed9ae2ab07118a0eeceb4a0014d1c8c59a0888795abc",
+      "pcmEncoding": "s16le",
+      "phrases": [
+        {
+          "decodedSampleEnd": 13600,
+          "decodedSampleStart": 4000,
+          "id": "p0",
+          "wordIds": [
+            "w0",
+            "w1"
+          ]
+        }
+      ],
+      "revisionId": "29ccc96908571632e5a323385a8230a88a0e805d026606ba5b9c8a7295160b07",
+      "sourceArtifactId": "b64d26f624da0722337be7153ab01296ef4c645a68e6527d9b6ac9946ab904e3",
+      "sourceAudioDigest": "4746aca332f19dfc72e45383a75e7a876f6c8e09f8e5b10df149725441a051bb",
+      "sourceChannels": 1,
+      "sourceSampleRate": 8000,
+      "status": "corrected",
+      "words": [
+        {
+          "decodedSampleEnd": 6960,
+          "decodedSampleStart": 4000,
+          "id": "w0",
+          "text": "rise"
+        },
+        {
+          "decodedSampleEnd": 13600,
+          "decodedSampleStart": 10880,
+          "id": "w1",
+          "text": "higher"
+        }
+      ]
+    }
+  },
+  "instrumentalNegative": {
+    "status": "SUCCESS",
+    "manifest": {
+      "projectId": "6b563c1773d3460bb3e331a08760e0cc",
+      "currentRevisionId": "3cff2822bd0e00d329407f0d558b6118dbadca4353b3480b3dfd9a7e0953b2b3",
+      "formatVersion": 1
+    },
+    "revision": {
+      "revisionId": "3cff2822bd0e00d329407f0d558b6118dbadca4353b3480b3dfd9a7e0953b2b3",
+      "projectId": "6b563c1773d3460bb3e331a08760e0cc",
+      "formatVersion": 1,
+      "parentRevisionId": "8288df73bd39344f8cdc22bf910f95f5e50a2f88987a18d264b20879a50b957e",
+      "songSpecDigest": "cfc35be8fd688fb67a4768f6631de5cf17de7a0b11edb0e32d8491f2690036ad",
+      "productionTimelineDigest": "ed77423bab091f477d7b67f634165ad02f3a00e15c8b938beff6db462a2ad3f0",
+      "lyricTimelineDigest": "964dd8bb04785eeea5f8cb50266d20c4d7a77d4f9a699a173cc182c1a02c076b",
+      "sourceAssetDigests": [
+        "68d9f67587fadcf94c6178af64d8c9df3c50cbdaea0a4dbae0e45ed3f05f7faf"
+      ],
+      "outputArtifactIds": [],
+      "createdAt": "2026-10-26T17:06:14.987771+00:00",
+      "outputBindings": []
+    },
+    "lyricTimeline": {
+      "alignmentModelOrMethod": "known-text-energy-islands-v1",
+      "confidence": null,
+      "confidenceMeaning": "unknown; guided alignment is not recognition probability",
+      "correctionHistory": [],
+      "decodedFrameCount": 8820,
+      "decodedSampleEnd": 8820,
+      "decodedSampleStart": 0,
+      "evidenceArtifactId": "6aa566d31c7c85e67192aba32878fc6c5cc3cdc39ee12d5d15b2dc9f227091af",
+      "formatVersion": 1,
+      "language": "en",
+      "parentArtifactId": null,
+      "parentRevisionId": null,
+      "pcmEncoding": "s16le",
+      "phrases": [],
+      "revisionId": "4a30ce3e32d9382d53a2ffcd41ab235375c4394dc0db72072379cc2282548b74",
+      "sourceArtifactId": "68d9f67587fadcf94c6178af64d8c9df3c50cbdaea0a4dbae0e45ed3f05f7faf",
+      "sourceAudioDigest": "05e15c581edd873028f77e191c36dd56def06cf07fd2ec67ae83c3b25cc87d63",
+      "sourceChannels": 2,
+      "sourceSampleRate": 44100,
+      "status": "unknown",
+      "words": []
+    }
+  },
+  "timingErrorOwnerMeasurement": [
+    {
+      "word": "rise",
+      "startErrorSamples": 0,
+      "endErrorSamples": 12,
+      "startErrorMs": 0.0,
+      "endErrorMs": 1.5,
+      "ceiling": "signal placement reference, not perceptual annotation"
+    },
+    {
+      "word": "higher",
+      "startErrorSamples": -68,
+      "endErrorSamples": 61,
+      "startErrorMs": -8.5,
+      "endErrorMs": 7.625,
+      "ceiling": "signal placement reference, not perceptual annotation"
+    }
+  ],
+  "newProcess": true,
+  "browserCacheUsed": false,
+  "ceiling": "owner HTTP/filesystem/restart qualification; provided-text alignment, NOT ASR; C/D independent physical/perceptual review pending"
+}

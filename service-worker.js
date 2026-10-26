@@ -1,5 +1,5 @@
-/* SongForge PWA — v2.11 library install */
-const CACHE_NAME = 'pulseforge-songforge-v2.19.1-m042';
+/* SongForge PWA — 2.20.0 M043 candidate */
+const CACHE_NAME = 'pulseforge-songforge-v2.20.0-m043';
 const ASSETS = [
   './',
   './index.html',

@@ -1,6 +1,6 @@
 {
   "name": "pulseforge-songforge-app",
-  "version": "2.19.1",
+  "version": "2.20.0",
   "description": "PulseForge SongForge \u2014 local-first multi-track Score Graph studio",
   "private": true,
   "main": "index.html",

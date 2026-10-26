@@ -1,0 +1,40 @@
+test_bad_sample_ranges_source_and_containment (test_lyric_authority.Lyrics.test_bad_sample_ranges_source_and_containment) ... ok
+test_concurrent_lyric_writers_one_winner (test_lyric_authority.Lyrics.test_concurrent_lyric_writers_one_winner) ... ok
+test_crash_before_lyric_promotion (test_lyric_authority.Lyrics.test_crash_before_lyric_promotion) ... ok
+test_death_after_promotion_reopens_valid_R2 (test_lyric_authority.Lyrics.test_death_after_promotion_reopens_valid_R2) ... ok
+test_missing_evidence_and_tampered_audio_fail_closed (test_lyric_authority.Lyrics.test_missing_evidence_and_tampered_audio_fail_closed) ... ok
+test_new_process_restart (test_lyric_authority.Lyrics.test_new_process_restart) ... ok
+test_no_replacement_of_corrected_truth (test_lyric_authority.Lyrics.test_no_replacement_of_corrected_truth) ... ok
+test_reference_fences_include_lyrics_evidence_and_audio (test_lyric_authority.Lyrics.test_reference_fences_include_lyrics_evidence_and_audio) ... ok
+test_regular_save_preserves_lyric_truth (test_lyric_authority.Lyrics.test_regular_save_preserves_lyric_truth) ... ok
+test_revision_loop_audio_and_history (test_lyric_authority.Lyrics.test_revision_loop_audio_and_history) ... ok
+test_stale_project_and_stale_lyric (test_lyric_authority.Lyrics.test_stale_project_and_stale_lyric) ... ok
+test_tampered_audio_fail_closed (test_lyric_authority.Lyrics.test_tampered_audio_fail_closed) ... ok
+test_unicode_punctuation_and_occurrences (test_lyric_authority.Lyrics.test_unicode_punctuation_and_occurrences) ... ok
+test_unknown_without_known_transcript (test_lyric_authority.Lyrics.test_unknown_without_known_transcript) ... ok
+test_bad_origins (test_m040.SecurityAndObjects.test_bad_origins) ... ok
+test_concurrent_processes_keep_history (test_m040.SecurityAndObjects.test_concurrent_processes_keep_history) ... ok
+test_corrupt_ledger_not_reset (test_m040.SecurityAndObjects.test_corrupt_ledger_not_reset) ... ok
+test_exact_origin (test_m040.SecurityAndObjects.test_exact_origin) ... ok
+test_foreign_origin (test_m040.SecurityAndObjects.test_foreign_origin) ... ok
+test_history (test_m040.SecurityAndObjects.test_history) ... ok
+test_tampered_object_rejected (test_m040.SecurityAndObjects.test_tampered_object_rejected) ... ok
+test_traversal (test_m040.SecurityAndObjects.test_traversal) ... ok
+test_wrong_port (test_m040.SecurityAndObjects.test_wrong_port) ... ok
+test_full_scale (test_mix.PeakMath.test_full_scale) ... ok
+test_half_scale (test_mix.PeakMath.test_half_scale) ... ok
+test_silence (test_mix.PeakMath.test_silence) ... ok
+test_bad_output_and_lyric_rejected (test_project_authority.ProjectAuthority.test_bad_output_and_lyric_rejected) ... ok
+test_chain_history_and_output (test_project_authority.ProjectAuthority.test_chain_history_and_output) ... ok
+test_cold_process_no_cache (test_project_authority.ProjectAuthority.test_cold_process_no_cache) ... ok
+test_corrupt_project_fail_closed (test_project_authority.ProjectAuthority.test_corrupt_project_fail_closed) ... ok
+test_crash_before_and_after_promotion (test_project_authority.ProjectAuthority.test_crash_before_and_after_promotion) ... ok
+test_one_of_two_stale_writers (test_project_authority.ProjectAuthority.test_one_of_two_stale_writers) ... ok
+test_reference_namespace_fenced_before_pointer (test_project_authority.ProjectAuthority.test_reference_namespace_fenced_before_pointer) ... ok
+test_stale_rejected (test_project_authority.ProjectAuthority.test_stale_rejected) ... ok
+test_uncommitted_revision_not_history (test_project_authority.ProjectAuthority.test_uncommitted_revision_not_history) ... ok
+
+----------------------------------------------------------------------
+Ran 35 tests in 41.462s
+
+OK

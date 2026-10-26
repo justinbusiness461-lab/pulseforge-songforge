@@ -1,0 +1,29 @@
+{
+  "kind": "synthetic spoken test fixture; NOT singing or production vocals",
+  "generator": "system Flite 2.2 cmu_us_kal via ctypes",
+  "sourceArtifactId": "b64d26f624da0722337be7153ab01296ef4c645a68e6527d9b6ac9946ab904e3",
+  "sourceAudioDigest": "4746aca332f19dfc72e45383a75e7a876f6c8e09f8e5b10df149725441a051bb",
+  "sourceSampleRate": 8000,
+  "decodedFrameCount": 17539,
+  "knownWords": [
+    {
+      "text": "rise",
+      "decodedSampleStart": 4000,
+      "decodedSampleEnd": 6948
+    },
+    {
+      "text": "higher",
+      "decodedSampleStart": 10948,
+      "decodedSampleEnd": 13539
+    }
+  ],
+  "boundaryMethod": "word-by-word synthesis, trim at absolute PCM sample threshold 400; concatenate with 500ms silence",
+  "boundaryCeiling": "signal placement bounds; not human annotated phoneme onset/offset",
+  "candidateTranscript": "rise fire",
+  "intentionalCorrection": {
+    "wordId": "w1",
+    "before": "fire",
+    "after": "higher"
+  },
+  "licenseNote": "system Flite synthetic voice, no cloned identity; fixture generated locally"
+}
