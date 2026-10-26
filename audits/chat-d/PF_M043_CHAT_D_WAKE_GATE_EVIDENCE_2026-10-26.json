@@ -1,0 +1,22 @@
+{
+  "campaign": "PF-COMPLETION-001",
+  "mission": 43,
+  "role": "CHAT_D_ADVERSARIAL_LYRIC_VERIFIER",
+  "decision": "HOLD",
+  "m042_freeze_sha": "7c92fe7a39d6b4209be510d02781adb6a1ef4182",
+  "fresh_remote_state": {
+    "m043_freeze_sha": "NOT_FOUND",
+    "lyric_authority_qualified": "NOT_FOUND",
+    "m043_branch": "NOT_FOUND",
+    "m043_commit": "NOT_FOUND"
+  },
+  "chat_d": {
+    "technical_lyric_verdict": "DEFERRED_UNTIL_FREEZE",
+    "lyric_quality_assessment": "DEFERRED_UNTIL_FREEZE",
+    "successor_attack": "NOT_STARTED_BY_LAW"
+  },
+  "wake_condition": [
+    "LYRIC_AUTHORITY_QUALIFIED=PASS",
+    "M043_FREEZE_SHA=<exact SHA>"
+  ]
+}
