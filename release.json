@@ -1,7 +1,7 @@
 {
   "product": "SoundForge-Studio",
-  "version": "2.19.1",
-  "candidate": "M042",
+  "version": "2.20.0",
+  "candidate": "M043",
   "runtime_contract": "loopback HTTP + exact origin + process capability; Python 3.10+ POSIX fsync; browser Web Audio; optional numpy vocal lab",
-  "evidence_ceiling": "owner-qualified durable project authority candidate; independent integration/browser/audio/product certification pending"
+  "evidence_ceiling": "owner-qualified lyric authority; known-text isolated speech alignment only, NOT ASR; independent B/C/D qualification pending"
 }

@@ -2,6 +2,8 @@
 """S.A.R.A. Sound Forge local studio server — PWA + disk writes + hybrid + vocal lab."""
 from __future__ import annotations
 
+import lyric_timeline as lyrics
+import wave
 import http.server
 import json
 import math
@@ -154,6 +156,41 @@ def project_artifact_fence(root, digest):
     project_namespace_fence(path.parent, root.parent)
 
 
+def lyric_read(root, digest):
+    """Authenticate the full immutable lyric/evidence/audio chain on every reopen."""
+    doc = json.loads(artifact_bytes(root, digest))
+    current = doc; refs = [digest]; seen = set()
+    for _ in range(128):
+        ident = current['revisionId']
+        if ident in seen: raise ValueError("cyclic lyric ancestry")
+        seen.add(ident)
+        source = current['sourceArtifactId']; evidence = current['evidenceArtifactId']
+        lyrics.validate(current, artifact_bytes(root, source), json.loads(artifact_bytes(root, evidence)))
+        refs += [source, evidence]
+        parent = current['parentArtifactId']
+        if parent is None:
+            if current['parentRevisionId'] is not None or current['correctionHistory']:
+                raise ValueError("invalid initial lyric ancestry")
+            return doc, list(set(refs))
+        old = json.loads(artifact_bytes(root, parent)); refs.append(parent)
+        if old['revisionId'] != current['parentRevisionId']: raise ValueError("lyric parent mismatch")
+        delta = current['correctionHistory'][-1]
+        expected = lyrics.correction(old, parent,
+                    [{'wordId': c['wordId'], 'text': c['after']} for c in delta['changes']],
+                    delta['actor'], delta['reason'])
+        if expected != current: raise ValueError("invalid correction lineage")
+        current = old
+    raise ValueError("lyric history limit reached")
+
+
+def project_result(root, manifest, revision, spec, timeline):
+    result = {"status": "SUCCESS", "manifest": manifest, "revision": revision,
+              "songSpec": spec, "productionTimeline": timeline}
+    if revision.get('lyricTimelineDigest'):
+        result['lyricTimeline'] = lyric_read(root, revision['lyricTimelineDigest'])[0]
+    return result
+
+
 def project_revision(root, directory, pid, rid):
     if not isinstance(rid, str) or not re.fullmatch(r"[a-f0-9]{64}", rid):
         raise ValueError("invalid revisionId")
@@ -169,10 +206,14 @@ def project_revision(root, directory, pid, rid):
         raise ValueError("timeline source mismatch")
     for aid in revision["sourceAssetDigests"] + revision["outputArtifactIds"]:
         artifact_bytes(root, aid)
+    if revision.get("lyricTimelineDigest"):
+        doc, _ = lyric_read(root, revision["lyricTimelineDigest"])
+        if doc["sourceArtifactId"] not in revision["sourceAssetDigests"]:
+            raise ValueError("lyric audio not bound to project")
     return revision, spec, timeline
 
 
-def project_operation(root, request, commit=False):
+def project_operation(root, request, commit=False, lyric=False):
     import uuid
     root = Path(root).resolve()
     pid = request.get("projectId")
@@ -204,19 +245,49 @@ def project_operation(root, request, commit=False):
                 previous, _, _ = project_revision(root, directory, pid, ancestor)
                 ancestor = previous["parentRevisionId"]
             revision, spec, timeline = project_revision(root, directory, pid, rid)
-            return {"status": "SUCCESS", "manifest": manifest, "revision": revision, "songSpec": spec, "productionTimeline": timeline}
+            return project_result(root, manifest, revision, spec, timeline)
         if "expectedCurrentRevisionId" not in request or request["expectedCurrentRevisionId"] != current:
             raise ProjectConflict("stale project revision; reopen before saving")
+        previous = None
         if current:
             # Fail closed if existing authority is corrupt; never overwrite it as a repair.
-            project_revision(root, directory, pid, current)
-        spec = request.get("songSpec")
+            previous, old_spec, _ = project_revision(root, directory, pid, current)
+        if lyric and not previous: raise ValueError("save project before lyrics")
+        spec = old_spec if lyric else request.get("songSpec")
         if not isinstance(spec, dict) or not isinstance(spec.get("tracks"), list) or (not isinstance(spec.get("structure"), dict) or not isinstance(spec["structure"].get("sections"), list)) or not isinstance(spec.get("timebase"), dict):
             raise ValueError("SongSpec required")
         if request.get("lyricTimelineDigest") is not None:
-            raise ValueError("lyric revisions are not enabled in M042")
-        sources = request.get("sourceAssetDigests", [])
-        outputs = request.get("outputArtifactIds", [])
+            raise ValueError("lyric digest cannot bypass the lyric transaction")
+        sources = previous['sourceAssetDigests'][:] if lyric else request.get("sourceAssetDigests", [])
+        outputs = previous['outputArtifactIds'][:] if lyric else request.get("outputArtifactIds", [])
+        lyric_digest = previous.get('lyricTimelineDigest') if previous else None
+        lyric_refs = []
+        if lyric:
+            action = request.get('action')
+            if action == 'candidate':
+                if lyric_digest: raise ValueError('existing lyric truth requires correction, not replacement')
+                source = request['sourceArtifactId']; audio = artifact_bytes(root, source)
+                info, _ = lyrics.pcm_info(audio)
+                transcript = request.get('knownTranscript', '')
+                evidence = {**info, 'method': 'known-text-energy-islands-v1',
+                            'claim': 'provided transcript alignment; NOT ASR; NOT voice detection',
+                            'knownTranscript': transcript}
+                evidence_id = persist_export(root, 'LyricEvidence.json', 'lyric-metadata', project_json(evidence))['sha256']
+                doc = lyrics.candidate(audio, source, evidence_id, transcript, request.get('language', 'en'))
+                if source not in sources: sources.append(source)
+            elif action == 'correct':
+                if not lyric_digest: raise ValueError('no lyric revision to correct')
+                old, _ = lyric_read(root, lyric_digest)
+                if request.get('expectedLyricRevisionId') != old['revisionId']:
+                    raise ProjectConflict('stale lyric revision; reopen before correcting')
+                doc = lyrics.correction(old, lyric_digest, request.get('changes'), request.get('actor'), request.get('reason', ''))
+            else: raise ValueError('unknown lyric action')
+            lyrics.validate(doc, artifact_bytes(root, doc['sourceArtifactId']), json.loads(artifact_bytes(root, doc['evidenceArtifactId'])))
+            lyric_digest = persist_export(root, 'LyricTimeline.json', 'lyric-metadata', project_json(doc))['sha256']
+            project_boundary('lyric_durable_before_project_revision')
+        if lyric_digest:
+            doc, lyric_refs = lyric_read(root, lyric_digest)
+            if doc['sourceArtifactId'] not in sources: raise ValueError('cannot drop lyric audio source')
         if not isinstance(sources, list) or not isinstance(outputs, list) or len(sources) + len(outputs) > 128:
             raise ValueError("invalid artifact bindings")
         for aid in sources + outputs: artifact_bytes(root, aid)
@@ -226,7 +297,7 @@ def project_operation(root, request, commit=False):
         timeline_digest = persist_export(root, "ProductionTimeline.json", "project-metadata", project_json(timeline))["sha256"]
         core = {"projectId": pid, "formatVersion": 1, "parentRevisionId": current,
                 "songSpecDigest": song_digest, "productionTimelineDigest": timeline_digest,
-                "lyricTimelineDigest": None, "sourceAssetDigests": sorted(set(sources)),
+                "lyricTimelineDigest": lyric_digest, "sourceAssetDigests": sorted(set(sources)),
                 "outputArtifactIds": sorted(set(outputs)), "createdAt": datetime.now(timezone.utc).isoformat(),
                 "outputBindings": [{"artifactId": aid, "songSpecDigest": song_digest, "productionTimelineDigest": timeline_digest} for aid in sorted(set(outputs))]}
         rid = hashlib.sha256(project_json(core)).hexdigest()
@@ -239,7 +310,7 @@ def project_operation(root, request, commit=False):
         project_boundary("revision_durable_before_reread")
         # Verify exact references from disk, not from in-memory objects.
         project_revision(root, directory, pid, rid)
-        for aid in [song_digest, timeline_digest] + sources + outputs:
+        for aid in [song_digest, timeline_digest] + sources + outputs + lyric_refs:
             project_artifact_fence(root, aid)
         project_namespace_fence(revisions, root.parent)
         project_boundary("before_manifest_promotion")
@@ -248,7 +319,7 @@ def project_operation(root, request, commit=False):
         project_boundary("after_manifest_promotion")
         if json.loads(path.read_text()) != new_manifest:
             raise ValueError("project manifest reread mismatch")
-        return {"status": "SUCCESS", "manifest": new_manifest, "revision": revision, "songSpec": spec, "productionTimeline": timeline}
+        return project_result(root, new_manifest, revision, spec, timeline)
     finally:
         fcntl.flock(fd, fcntl.LOCK_UN)
         os.close(fd)
@@ -355,12 +426,12 @@ class StudioHandler(http.server.SimpleHTTPRequestHandler):
         except (ValueError,UnicodeError):
             return self._json(400,{"status":"ERROR","error":"invalid request"})
 
-        if path in {"/api/projects/commit", "/api/projects/open"}:
+        if path in {"/api/projects/commit", "/api/projects/open", "/api/projects/lyrics"}:
             try:
-                return self._json(200, project_operation(EXPORT_ROOT, payload, commit=path.endswith("/commit")))
+                return self._json(200, project_operation(EXPORT_ROOT, payload, commit=not path.endswith("/open"), lyric=path.endswith("/lyrics")))
             except ProjectConflict as e:
                 return self._json(409, {"status": "CONFLICT", "error": str(e)})
-            except (ValueError, KeyError, TypeError, OSError):
+            except (ValueError, KeyError, TypeError, OSError, wave.Error, EOFError, IndexError):
                 return self._json(400, {"status": "ERROR", "error": "invalid or unavailable project authority"})
         if path == "/api/write_production_file":
             self._handle_write(payload)

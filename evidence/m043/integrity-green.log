@@ -1,0 +1,108 @@
+========================================================================
+ INTEGRITY LEDGER VERIFIER
+========================================================================
+Ledger: /tmp/sf43/workspace/studio_exports/manifest_registry.json
+
+[0] rise-higher.wav
+  ✓ identity match sha256:b64d26f624da0722… (35122 bytes)
+
+[1] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[2] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[3] LyricEvidence.json
+  ✓ identity match sha256:a2ffcb1fddb6d2ca… (319 bytes)
+
+[4] LyricTimeline.json
+  ✓ identity match sha256:ab111a854c236183… (1028 bytes)
+
+[5] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[6] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[7] LyricTimeline.json
+  ✓ identity match sha256:e4f46f1c4332225a… (1370 bytes)
+
+[8] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[9] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[10] instrumental.wav
+  ✓ identity match sha256:6d03e2d3fd5cd8df… (352844 bytes)
+
+[11] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[12] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[13] LyricEvidence.json
+  ✓ identity match sha256:05f6b7ce11e8a6f7… (311 bytes)
+
+[14] LyricTimeline.json
+  ✓ identity match sha256:62e1b617c1501451… (783 bytes)
+
+[15] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[16] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[17] master.wav
+  ✓ identity match sha256:29d00a28617eba75… (9 bytes)
+
+[18] master.wav
+  ✓ identity match sha256:a660c9f556ce259b… (9 bytes)
+
+[19] SongSpec.initial.json
+  ✓ identity match sha256:a9bc72f88fbcd737… (32745 bytes)
+
+[20] SongSpec.edited.json
+  ✓ identity match sha256:2ca0f47d98028be1… (32784 bytes)
+
+[21] initial.wav
+  ✓ identity match sha256:512bdfc02b2aa184… (8908244 bytes)
+
+[22] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[23] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[24] edited.wav
+  ✓ identity match sha256:796b0432264aaac2… (8908244 bytes)
+
+[25] ui-fixture.wav
+  ✓ identity match sha256:b64d26f624da0722… (35122 bytes)
+
+[26] LyricEvidence.json
+  ✓ identity match sha256:a2ffcb1fddb6d2ca… (319 bytes)
+
+[27] LyricTimeline.json
+  ✓ identity match sha256:ab111a854c236183… (1028 bytes)
+
+[28] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[29] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+[30] LyricTimeline.json
+  ✓ identity match sha256:c4b8b3496d1aa8ea… (1325 bytes)
+
+[31] SongSpec.json
+  ✓ identity match sha256:cfc35be8fd688fb6… (17267 bytes)
+
+[32] ProductionTimeline.json
+  ✓ identity match sha256:ed77423bab091f47… (17057 bytes)
+
+========================================================================
+ ✅ INTEGRITY PASS (all registered files match digests)
+========================================================================
+Ceiling: content identity only — not registry immutability or media quality.

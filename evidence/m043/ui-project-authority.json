@@ -1,0 +1,7 @@
+{
+  "ceiling": "exact UI functions in Node VM with minimal DOM/storage adapters and actual HTTP; not browser UI certification",
+  "ignores_full_browser_snapshot": true,
+  "opens_current_R2_over_stale_cache": true,
+  "stale_UI_save_rejected": true,
+  "current_R2_unchanged": true
+}

@@ -397,6 +397,7 @@ function showProjectAuthority(result) {
   try { localStorage.setItem('sf_project_ref', JSON.stringify(durableProjectRef)); } catch (_) {}
   if ($('projectId')) $('projectId').value = durableProjectRef.projectId;
   if ($('projectRevision')) $('projectRevision').textContent = 'Saved revision: ' + durableProjectRef.revisionId;
+  if (typeof renderLyricAuthority === 'function') renderLyricAuthority(result.lyricTimeline || null);
 }
 
 async function commitProjectSnapshot(spec, outputArtifactIds, expectedRef, sourceAssets = durableSourceAssets.slice()) {
@@ -1002,7 +1003,69 @@ if (btnVocalLab2) btnVocalLab2.onclick = function () { runVocalLab(); };
 if ($('btnOpenProject')) $('btnOpenProject').onclick = () => restoreProjectFromStorage().catch(e => setStatus('Open failed: ' + e.message, 'warn'));
 if ($('btnNewProject')) $('btnNewProject').onclick = () => {
   durableProjectRef = null; durableSourceAssets = [];
+  renderLyricAuthority(null);
   if ($('projectId')) $('projectId').value = '';
   if ($('projectRevision')) $('projectRevision').textContent = 'Unsaved draft — no durable project yet';
   setStatus('New project draft · Save to create a durable project', 'warn');
+};
+
+
+// M043: lyric edits always advance the durable project. No transcript in localStorage.
+let durableLyricTimeline = null;
+function renderLyricAuthority(doc) {
+  durableLyricTimeline = doc;
+  const list = $('lyricWords');
+  if (!list) return;
+  list.replaceChildren();
+  $('lyricStatus').textContent = doc
+    ? (doc.status === 'unknown' ? 'No recognized words — transcript unknown.' : 'Guided text · recognition confidence unknown · ' + doc.status)
+    : 'No saved lyrics. This tool aligns supplied text to separated speech; it does not transcribe.';
+  if (!doc) return;
+  for (const word of doc.words) {
+    const row = document.createElement('div');
+    const label = document.createElement('span');
+    label.textContent = word.text + ' · ' + (word.decodedSampleStart / doc.sourceSampleRate).toFixed(3)
+      + '–' + (word.decodedSampleEnd / doc.sourceSampleRate).toFixed(3) + ' s · unscored guess ';
+    const edit = document.createElement('button');
+    edit.textContent = 'Correct word'; edit.className = 'secondary sm';
+    edit.onclick = async () => {
+      const text = prompt('Correct this word (audio and timing stay unchanged):', word.text);
+      if (text === null || text === word.text) return;
+      try {
+        await saveLyricChange({ action: 'correct', expectedLyricRevisionId: doc.revisionId,
+          changes: [{ wordId: word.id, text }], actor: 'local-studio-user', reason: 'Studio word correction' });
+      } catch (e) { setStatus('Lyrics not saved: ' + e.message, 'warn'); }
+    };
+    row.append(label, edit); list.append(row);
+  }
+}
+async function saveLyricChange(fields) {
+  if (!durableProjectRef) throw new Error('Save or open a project first');
+  const expected = { ...durableProjectRef };
+  if ($('projectId').value.trim() !== expected.projectId) throw new Error('Open the selected project first');
+  const result = await projectRequest('lyrics', { ...fields, projectId: expected.projectId,
+    expectedCurrentRevisionId: expected.revisionId });
+  if (durableProjectRef && durableProjectRef.projectId === expected.projectId && durableProjectRef.revisionId === expected.revisionId) {
+    showProjectAuthority(result);
+    setStatus('Lyrics saved · text correction does not edit audio', 'ok');
+  }
+  return result;
+}
+if ($('btnAlignLyrics')) $('btnAlignLyrics').onclick = async () => {
+  try {
+    if (!durableProjectRef) throw new Error('Save or open a project first');
+    const expected = { ...durableProjectRef };
+    const file = $('lyricAudio').files[0];
+    if (!file || file.size > 16 * 1024 * 1024) throw new Error('Choose a PCM16 WAV under 16 MiB, up to 60 seconds');
+    const knownTranscript = $('knownLyricText').value;
+    const response = await fetch('/api/write_production_file', { method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Studio-Capability': window.__STUDIO_CAPABILITY__ || '' },
+      body: JSON.stringify({ filename: 'lyric-source.wav', subdirectory: 'lyric-input',
+        data_bytes: Array.from(new Uint8Array(await file.arrayBuffer())) }) });
+    const saved = await response.json();
+    if (!response.ok || saved.status !== 'SUCCESS') throw new Error(saved.error || 'Audio import failed');
+    if (!durableProjectRef || durableProjectRef.projectId !== expected.projectId || durableProjectRef.revisionId !== expected.revisionId)
+      throw new Error('Project changed during import; reopen before aligning');
+    await saveLyricChange({ action: 'candidate', sourceArtifactId: saved.sha256, knownTranscript, language: 'en' });
+  } catch (e) { setStatus('Lyrics not saved: ' + e.message, 'warn'); }
 };
