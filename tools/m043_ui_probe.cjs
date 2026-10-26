@@ -7,7 +7,7 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
  let page;for(let i=0;i<100;i++){try{page=await(await fetch(base)).text();if(page.includes('__STUDIO_CAPABILITY__'))break;}catch{}await wait(50)}
  const token=page.match(/window.__STUDIO_CAPABILITY__="([^"]+)"/)[1];
  async function api(route,payload){const r=await fetch(base+'/api/'+route,{method:'POST',headers:{Origin:base,'Content-Type':'application/json','X-Studio-Capability':token},body:JSON.stringify(payload)});if(!r.ok)throw Error(await r.text());return r.json()}
- const spec=JSON.parse(fs.readFileSync(root+'/evidence/m040/music/SongSpec.initial.json'));
+ const spec=JSON.parse(fs.readFileSync(root+'/evidence/m043/fixtures/SongSpec.json'));
  const project=await api('projects/commit',{expectedCurrentRevisionId:null,songSpec:spec});
  const audio=await api('write_production_file',{filename:'ui-fixture.wav',subdirectory:'m043-ui',data_bytes:[...fs.readFileSync(root+'/evidence/m043/fixtures/rise-higher.wav')]});
  const r1=await api('projects/lyrics',{projectId:project.manifest.projectId,expectedCurrentRevisionId:project.revision.revisionId,action:'candidate',sourceArtifactId:audio.sha256,knownTranscript:'rise fire'});
