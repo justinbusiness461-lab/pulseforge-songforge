@@ -1,0 +1,72 @@
+{
+  "campaign": "PF-COMPLETION-001",
+  "mission": "040",
+  "role": "CHAT_D_ADVERSARIAL_AUDIO_FORGE",
+  "audit_date_local": "2026-10-25",
+  "product_sha_before_audit": "6c90c1f0b15b245179da4644fbc8f1135f8ba86e",
+  "report_commit": "e4f69dcc799a3ece310841c91e46d86657cfd28d",
+  "bundle": {
+    "name": "SoundForge-Studio-Release-v2.18.zip",
+    "sha256": "a0ceb7dcdf3629ba8e86f4c644f68ccb9ac7d8a11becdd7bc3d2e25ac2be56cd",
+    "bytes": 53669
+  },
+  "verdicts": {
+    "TECHNICAL_AUDIO_VERDICT": "FAIL",
+    "MUSICAL_QUALITY_ASSESSMENT": "INCONCLUSIVE_FOR_GENERATED_CANDIDATE",
+    "PF_SOUND_001": "FAIL_PHYSICAL",
+    "PF_SOUND_002": "FAIL_PHYSICAL",
+    "PROJECT_GRAPH_SECTION_ISOLATION": "PASS",
+    "PROJECT_SERIALIZE_LOAD_FINGERPRINT": "PASS",
+    "LYRIC_INTELLIGENCE_PASS": "FAIL_NOT_IMPLEMENTED",
+    "LIVE_MAIN_EQUALS_RELEASE_ZIP": false,
+    "SOUND_FORGE_PRODUCT_CANDIDATE": "NOT_PROMOTABLE"
+  },
+  "security_matrix": {
+    "trusted_origin": {
+      "status": 200,
+      "wrote": true
+    },
+    "foreign_origin": {
+      "status": 200,
+      "wrote": true
+    },
+    "deceptive_localhost": {
+      "status": 200,
+      "wrote": true
+    },
+    "alternate_port": {
+      "status": 200,
+      "wrote": true
+    },
+    "malformed_origin": {
+      "status": 200,
+      "wrote": true
+    },
+    "missing_origin": {
+      "status": 200,
+      "wrote": true
+    },
+    "path_traversal_input": "accepted_and_sanitized_http_200",
+    "replay": "accepted"
+  },
+  "provenance": {
+    "artifact_a_sha256": "cb1ad2119d8fafb69566510ee712661f9f14b83385006ef92aec47f523a38358",
+    "artifact_b_sha256": "dcdb704109a454784b81229d2b05f368692e758bfa33cb61d04c1b93791b0273",
+    "same_friendly_path": true,
+    "historical_a_reverification": "FAIL_DIGEST_MISMATCH",
+    "integrity_exit": 1,
+    "content_addressed_object_store_observed": false
+  },
+  "reference_media_bad_habit": {
+    "sha256": "4de2da2c0b6ea12a0aee0b178e7aac59c67247bcda93d75ee5adbd6fe62e7e6d",
+    "format": "mp3",
+    "sample_rate_hz": 44100,
+    "channels": 2,
+    "duration_sec": 267.546122,
+    "bit_rate_bps": 128006,
+    "lufs_i": -14.54,
+    "true_peak_dbtp": -0.47,
+    "lra_lu": 6.8,
+    "silence_below_minus55db_ge_0_5s": false
+  }
+}
