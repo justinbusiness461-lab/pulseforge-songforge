@@ -1,0 +1,401 @@
+{
+  "campaign": "PF-COMPLETION-001",
+  "mission": 42,
+  "owner": "WORK B",
+  "date": "2026-10-26",
+  "repository": "justinbusiness461-lab/pulseforge-songforge",
+  "PR4_QUALIFIED": "PASS — bounded integration",
+  "STUDIO_SOURCE_COMPLETE": "PASS",
+  "STUDIO_SECURITY_PASS": "PASS — loopback contract tested",
+  "STUDIO_PROVENANCE_PASS": "PASS — immutable export history",
+  "SOUND_FORGE_PROJECT_AUTHORITY_PASS": "PASS — bounded POSIX local-host scope",
+  "candidate_sha": "2dadc21c1824e82beb1b0a6fd9ef9acfd3d2d326",
+  "MERGED_SHA": "7c92fe7a39d6b4209be510d02781adb6a1ef4182",
+  "SOUND_FORGE_M042_FREEZE_SHA": "7c92fe7a39d6b4209be510d02781adb6a1ef4182",
+  "RELEASE_VERSION": "2.19.1",
+  "release_source_sha": "e751ea65566ceb4c47de6cb40144e8003edea0d4",
+  "release_zip_sha256": "3bb0da75779796b5ef07ae5e40a5e1dd90efceea353e84e28982c27c97378f25",
+  "independent_results": {
+    "unit_tests": "21/21",
+    "http_security_export_restart": "40/40",
+    "project_http_restart": "15/15",
+    "UI_functions_node_vm": "4/4",
+    "package_source_pins": "33/33",
+    "package_zip_sha256": "MATCH",
+    "merged_candidate_blob_equality": "72/72",
+    "durability": "revision and referenced artifacts fsync plus namespace fences, reread before manifest promotion; manifest fsync and reread; crash seams before and after promotion PASS",
+    "CAS": "two processes same expected revision: one success, one conflict; stale HTTP save 409 and current R2 unchanged"
+  },
+  "media_ceiling": "HTTP/restart probes used explicitly generated 0.1s synthetic WAV fixtures, not retained initial.wav/edited.wav music. Those fixtures are not production evidence. Actual 50.5s retained media qualification and musical listening remain C/D responsibilities.",
+  "project_discriminator": "fresh root; create R1; commit edited R2 with immutable output digest; fresh server reopen by projectId returns exact R2; R1 retained; SongSpec/timeline digests and output binding verified; no browser cache; stale R1 rejected",
+  "source_inventory": [
+    {
+      "path": ".gitignore",
+      "blob_sha": "dffdb4f5eef2411632b5016454d37e9bd65fc2d2",
+      "bytes": 71
+    },
+    {
+      "path": "INSTALL.md",
+      "blob_sha": "533b0a7be6771a590b5b998fccb6cfb99e53e14d",
+      "bytes": 3266
+    },
+    {
+      "path": "PF_COMPLETION_004_RECEIPT.md",
+      "blob_sha": "d678e3e939b61654f7f6187941146e19e959e396",
+      "bytes": 794
+    },
+    {
+      "path": "PF_LRC_007_FINAL_REPORT.md",
+      "blob_sha": "245b46bce67f4b9b074e5a4c2021ef8b1b32da80",
+      "bytes": 718
+    },
+    {
+      "path": "README.md",
+      "blob_sha": "d17996657dab71043c0454a51ae2c74fbcef2d30",
+      "bytes": 1272
+    },
+    {
+      "path": "SoundForge-BBD-OTIO-Cert-v2.16.zip",
+      "blob_sha": "d8b5961c93c158f48133a5f880f4c3d09dd457fe",
+      "bytes": 28191
+    },
+    {
+      "path": "SoundForge-PF-COMPLETION-004-v2.18.zip",
+      "blob_sha": "d1155ae08580cf79936fc8cff3aa04c25244ef3b",
+      "bytes": 42764
+    },
+    {
+      "path": "SoundForge-Studio-Release-v2.18.zip",
+      "blob_sha": "4c2a41ff05f956ba9a8e71307813ab1a3fb7fa13",
+      "bytes": 53669
+    },
+    {
+      "path": "app-cinema.js",
+      "blob_sha": "3ffe39fe9eb4ada7e302a2eaae6c55df6a44af34",
+      "bytes": 8987
+    },
+    {
+      "path": "app-core.js",
+      "blob_sha": "2e9d8ea62a5c68d3218edc7317a1fca49163aed6",
+      "bytes": 37016
+    },
+    {
+      "path": "app-ui.js",
+      "blob_sha": "abb74440f17ac302ddd597efc5f2d245d886c7da",
+      "bytes": 38216
+    },
+    {
+      "path": "evidence/m040/HANDOFF.md",
+      "blob_sha": "ca3439446a65c9f73b44c224a8fff816a58b23ad",
+      "bytes": 6977
+    },
+    {
+      "path": "evidence/m040/baseline-red.json",
+      "blob_sha": "12af2e7e6de740e874bc413f55ad2b694782104f",
+      "bytes": 201
+    },
+    {
+      "path": "evidence/m040/http-contract.json",
+      "blob_sha": "0c044b6d73995561bb208e812b4fb5a9584b8f7e",
+      "bytes": 4758
+    },
+    {
+      "path": "evidence/m040/integrity-green.log",
+      "blob_sha": "1fd55cc69d9dca4a0dbcdb6e1abf94156d4aee7f",
+      "bytes": 1946
+    },
+    {
+      "path": "evidence/m040/music-probe.log",
+      "blob_sha": "a82f977cb00abf36e4602f96dedb11fe4856bec6",
+      "bytes": 1553
+    },
+    {
+      "path": "evidence/m040/music/ProductionTimeline.json",
+      "blob_sha": "2f919386ed08da60edd8336abfe50557aa597142",
+      "bytes": 32453
+    },
+    {
+      "path": "evidence/m040/music/SongSpec.edited.json",
+      "blob_sha": "bdabdc9f50703af40db62e175083b5fc0cf9d32f",
+      "bytes": 32784
+    },
+    {
+      "path": "evidence/m040/music/SongSpec.initial.json",
+      "blob_sha": "a4eb3fd0aa9e5d87232b2a56453e54b2ca0012a2",
+      "bytes": 32745
+    },
+    {
+      "path": "evidence/m040/music/cold-reopen.json",
+      "blob_sha": "7bc5bdd0d67e6376bc7ea6c32992fdd30d292393",
+      "bytes": 136
+    },
+    {
+      "path": "evidence/m040/music/edited-metrics.json",
+      "blob_sha": "9723d3a58467a8d785107ae86527c6372a8792d6",
+      "bytes": 677
+    },
+    {
+      "path": "evidence/m040/music/edited.wav",
+      "blob_sha": "895fd0d888602072c765adec383a955349208da1",
+      "bytes": 8908244
+    },
+    {
+      "path": "evidence/m040/music/initial-metrics.json",
+      "blob_sha": "63731139bcfe56d11a18792fd61ac432f87ab95c",
+      "bytes": 677
+    },
+    {
+      "path": "evidence/m040/music/initial.wav",
+      "blob_sha": "f5412ce7ea978a16e1295b026756912b63e04dba",
+      "bytes": 8908244
+    },
+    {
+      "path": "evidence/m040/music/render-receipt.json",
+      "blob_sha": "a6751f86683e12060bae71aaa8ddb75672d37d60",
+      "bytes": 1552
+    },
+    {
+      "path": "evidence/m040/reconciliation.json",
+      "blob_sha": "f1c532bdf865a9b500f24b7120e35bf9e2fd4c91",
+      "bytes": 3939
+    },
+    {
+      "path": "evidence/m040/runtime.json",
+      "blob_sha": "b8d85e93c04ecfba339a8d1a7f75baaf8ce6060c",
+      "bytes": 304
+    },
+    {
+      "path": "evidence/m040/unit-green.log",
+      "blob_sha": "c769cd6cad8a442e448908ec59cad339d3419445",
+      "bytes": 1008
+    },
+    {
+      "path": "evidence/m040/unit-red.log",
+      "blob_sha": "4f61fc1bcc7e6eb36f49c3cb9e50cf8bdb351650",
+      "bytes": 3688
+    },
+    {
+      "path": "evidence/m042/HANDOFF.md",
+      "blob_sha": "fd8d4074e1c7f5469494115bf1c2e31ecbf9c250",
+      "bytes": 5795
+    },
+    {
+      "path": "evidence/m042/baseline-red.json",
+      "blob_sha": "16bc1291e4336e7710350f50809602da72095b05",
+      "bytes": 135
+    },
+    {
+      "path": "evidence/m042/export-integrity.log",
+      "blob_sha": "768f73ce039608542e1a1d7ccc50a18de971e019",
+      "bytes": 3910
+    },
+    {
+      "path": "evidence/m042/package-clean-tests.log",
+      "blob_sha": "cd097cb557a2e9800ed15889191766c703abb74a",
+      "bytes": 2045
+    },
+    {
+      "path": "evidence/m042/project-discriminator.json",
+      "blob_sha": "1646cc4ddb6a4cb74076883e7b4318ecf822a0bd",
+      "bytes": 3548
+    },
+    {
+      "path": "evidence/m042/render-confirmation.json",
+      "blob_sha": "201cfd431595271f3034a65b0ceebb109f9f9e32",
+      "bytes": 508
+    },
+    {
+      "path": "evidence/m042/ui-authority.json",
+      "blob_sha": "42e7b367bc2a10d9b755311df3c358ce2e503de5",
+      "bytes": 280
+    },
+    {
+      "path": "evidence/m042/unit.log",
+      "blob_sha": "ad5222ff0ffd1876c7cc8cdbd517c27e8c42ff76",
+      "bytes": 2045
+    },
+    {
+      "path": "icons/icon-192.png",
+      "blob_sha": "c3bc38d0db9398d82c2072f79dd5cb1869f28e9a",
+      "bytes": 1715
+    },
+    {
+      "path": "icons/icon-512.png",
+      "blob_sha": "196556ba6a26c83ffd2e99e6c3bc28251068831b",
+      "bytes": 4850
+    },
+    {
+      "path": "icons/icon.svg",
+      "blob_sha": "f720de78698fd419236542571a3fecb675c8b6a5",
+      "bytes": 276
+    },
+    {
+      "path": "index.html",
+      "blob_sha": "ffde0a749351cacd8d9ff5b36bb32501e6d1634a",
+      "bytes": 9009
+    },
+    {
+      "path": "manifest.json",
+      "blob_sha": "46522a6d9c477266b79a5ecbfc7e90b951b7c87c",
+      "bytes": 973
+    },
+    {
+      "path": "models/vocal/.gitkeep",
+      "blob_sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "bytes": 0
+    },
+    {
+      "path": "models/vocal/README.md",
+      "blob_sha": "f2e3fadaf14992a945ce84b9953cc4328ac227bf",
+      "bytes": 294
+    },
+    {
+      "path": "netlify.toml",
+      "blob_sha": "f7106882f890343ca1ee91c80f0bfc6bc2969960",
+      "bytes": 186
+    },
+    {
+      "path": "package-lock.json",
+      "blob_sha": "e5e9da025dae354e54d0b4df3c2acb0b756a3958",
+      "bytes": 7643
+    },
+    {
+      "path": "package.json",
+      "blob_sha": "52ea6d23a37ee473ac55991576ebc50f85aaf7b2",
+      "bytes": 578
+    },
+    {
+      "path": "package_project.py",
+      "blob_sha": "ee16943bb25bf8d502cc103266504d0b3f5b215e",
+      "bytes": 2889
+    },
+    {
+      "path": "release.json",
+      "blob_sha": "cee4051a18f6f89736ead2f5ec1d1d1b4c96ec8e",
+      "bytes": 375
+    },
+    {
+      "path": "releases/2.19.0/SoundForge-Studio-Release-v2.19.0.zip",
+      "blob_sha": "232a06d6b5d7600d1ffb11d4687320e5a789df04",
+      "bytes": 67437
+    },
+    {
+      "path": "releases/2.19.0/SoundForge-Studio-Release-v2.19.0.zip.json",
+      "blob_sha": "c603ba23a14c54491ed71d219fb75be4b4547c7b",
+      "bytes": 3686
+    },
+    {
+      "path": "releases/2.19.1/SoundForge-Studio-Release-v2.19.1.zip",
+      "blob_sha": "da009c9ffe03344597a761254e1f2541d5f892c7",
+      "bytes": 79449
+    },
+    {
+      "path": "releases/2.19.1/SoundForge-Studio-Release-v2.19.1.zip.json",
+      "blob_sha": "b5b148589a2dfdb5527728b0d9b57aac4356f4d0",
+      "bytes": 4298
+    },
+    {
+      "path": "requirements-vocal.txt",
+      "blob_sha": "999acfcc0cbf9f27280f7315b71d70c23cabe2a0",
+      "bytes": 15
+    },
+    {
+      "path": "service-worker.js",
+      "blob_sha": "ece671aacbe408151835fa16f03d0fccae3f8ff0",
+      "bytes": 1368
+    },
+    {
+      "path": "tests/test_m040.py",
+      "blob_sha": "a2b769b6dfcd06fa2ef79c2350ef8c10a43b4e0a",
+      "bytes": 3040
+    },
+    {
+      "path": "tests/test_mix.py",
+      "blob_sha": "84a92e937e224f0d4341276dbf064ae00b40636d",
+      "bytes": 438
+    },
+    {
+      "path": "tests/test_project_authority.py",
+      "blob_sha": "bce95f8237c86645092d8d577ec53cb528a35218",
+      "bytes": 5706
+    },
+    {
+      "path": "tools/README.md",
+      "blob_sha": "4a2af043149d8a2783af18705f81f807eeab61d1",
+      "bytes": 929
+    },
+    {
+      "path": "tools/armature_solver.py",
+      "blob_sha": "3c8733219478cc20cee698589530e2f7e5660dd1",
+      "bytes": 4250
+    },
+    {
+      "path": "tools/certify_integrity.py",
+      "blob_sha": "2309490058344ea535bd6da3d27ccbbd48d9c5e1",
+      "bytes": 2659
+    },
+    {
+      "path": "tools/certify_mix.py",
+      "blob_sha": "b3999968cbc4befb908e1cc0116292261dfb90c9",
+      "bytes": 2048
+    },
+    {
+      "path": "tools/certify_otio.py",
+      "blob_sha": "6e715494ebe0f864edb24ecdffbb5676fbb5b4b6",
+      "bytes": 4467
+    },
+    {
+      "path": "tools/m040_baseline_probe.py",
+      "blob_sha": "7efb3d230b6d63ecc7e7f61bacbd0b632410fb93",
+      "bytes": 1397
+    },
+    {
+      "path": "tools/m040_http_probe.py",
+      "blob_sha": "b40515c9ae0d4fb5d7c3e4102361de366ff36238",
+      "bytes": 5270
+    },
+    {
+      "path": "tools/m040_music_probe.cjs",
+      "blob_sha": "15ec6876f3ba6c09224539a4e15cc08aa96aaee9",
+      "bytes": 5579
+    },
+    {
+      "path": "tools/m042_baseline_probe.py",
+      "blob_sha": "4c170e3e6da2fcdcc5dd0d3d55339a88ff761749",
+      "bytes": 1396
+    },
+    {
+      "path": "tools/m042_project_probe.py",
+      "blob_sha": "e793343cdde70cdee40ab619f561cc1da5b39de3",
+      "bytes": 4456
+    },
+    {
+      "path": "tools/m042_ui_probe.cjs",
+      "blob_sha": "713a968afb7c3b74628ddaba8c2c96e8e17aa37c",
+      "bytes": 3431
+    },
+    {
+      "path": "tools/studio_server.py",
+      "blob_sha": "9bc7d674257a4d4657f9dc4544ea9f82e8aba372",
+      "bytes": 24643
+    },
+    {
+      "path": "tools/test_harness.py",
+      "blob_sha": "a57db8f82744ccc6a54c29c605a49dfdb987bf35",
+      "bytes": 5165
+    },
+    {
+      "path": "tools/vocal_lab.py",
+      "blob_sha": "78582d095a54ccab2967afe2a63a143935a7dea7",
+      "bytes": 17510
+    }
+  ],
+  "next": "C/D use exact freeze for actual retained song decode/recovery/adversarial and musical review. No lyric mutation or cinema mutation in this integration.",
+  "not_promoted": [
+    "AUDIO_MASTER_PASS",
+    "MUSICAL_QUALITY",
+    "BROWSER_PWA_PRODUCT_CERTIFICATION",
+    "SOUND_FORGE_PRODUCT_CANDIDATE",
+    "LYRIC_INTELLIGENCE_PASS"
+  ]
+}
