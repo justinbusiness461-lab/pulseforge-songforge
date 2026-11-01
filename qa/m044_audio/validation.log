@@ -1,0 +1,20 @@
+test_antiphase (test_measure.NeutralVectors.test_antiphase) ... ok
+test_dual_mono (test_measure.NeutralVectors.test_dual_mono) ... ok
+test_ffmpeg_reference (test_measure.NeutralVectors.test_ffmpeg_reference) ... ok
+test_gain_step (test_measure.NeutralVectors.test_gain_step) ... ok
+test_gap (test_measure.NeutralVectors.test_gap) ... ok
+test_identical (test_measure.NeutralVectors.test_identical) ... ok
+test_independent_stereo (test_measure.NeutralVectors.test_independent_stereo) ... ok
+test_invalid_interval (test_measure.NeutralVectors.test_invalid_interval) ... ok
+test_local_edit (test_measure.NeutralVectors.test_local_edit) ... ok
+test_mismatch (test_measure.NeutralVectors.test_mismatch) ... ok
+test_nonfinite (test_measure.NeutralVectors.test_nonfinite) ... ok
+test_outside_sample (test_measure.NeutralVectors.test_outside_sample) ... ok
+test_peak_rms (test_measure.NeutralVectors.test_peak_rms) ... ok
+test_silence (test_measure.NeutralVectors.test_silence) ... ok
+test_spectral_band (test_measure.NeutralVectors.test_spectral_band) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.467s
+
+OK
