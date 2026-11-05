@@ -8,7 +8,7 @@ def package():
     release=json.loads((ROOT/'release.json').read_text());version=release['version']
     if json.loads((ROOT/'package.json').read_text())['version']!=version:raise ValueError('version mismatch')
     source_sha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
-    names=['index.html','app-core.js','app-ui.js','app-cinema.js','service-worker.js','manifest.json','release.json','package.json','package-lock.json','package_project.py','README.md','INSTALL.md','requirements-vocal.txt']
+    names=['index.html','app-core.js','scorecore.js','app-ui.js','app-cinema.js','service-worker.js','manifest.json','release.json','package.json','package-lock.json','package_project.py','README.md','INSTALL.md','requirements-vocal.txt']
     names+=['icons/icon.svg','icons/icon-192.png','icons/icon-512.png']
     names+=[str(p.relative_to(ROOT)) for p in (ROOT/'tools').iterdir() if p.suffix in {'.py','.cjs','.md'}]
     names+=[str(p.relative_to(ROOT)) for p in (ROOT/"tests").glob("test_*.py")]

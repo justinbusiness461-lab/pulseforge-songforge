@@ -158,14 +158,18 @@ function drawMatrix() {
 function compile() {
   const text = ($("prompt").value || "").trim() ||
     "dark 102 BPM alt hip-hop, F# minor, guitar plucks, male verse";
-  skeleton = parsePrompt(text);
+  // Admission precedes draft mutation. The shared adapter owns no project state.
+  const bpmO = $("bpmOverride");
+  const keyO = $("keyOverride");
+  let directive = text;
+  if (bpmO && bpmO.value) directive += " " + bpmO.value + " BPM";
+  if (keyO && keyO.value) directive += " " + keyO.value;
+  const intent = window.ScoreCore.musicIntent(directive);
+  skeleton = window.ScoreCore.compileIntent(intent, parsePrompt);
   window.skeleton = skeleton;
   const titleEl = $("title");
   skeleton.title = (titleEl && titleEl.value) ? titleEl.value : (text.slice(0, 40) || "Generated");
-  const bpmO = $("bpmOverride");
-  if (bpmO && bpmO.value) skeleton.timebase.initial_bpm = Math.max(60, Math.min(180, +bpmO.value));
-  const keyO = $("keyOverride");
-  if (keyO && keyO.value) skeleton.timebase.key = keyO.value;
+
   activeSectionIdx = 0;
   render();
   setStatus(
@@ -173,6 +177,15 @@ function compile() {
     " · " + skeleton.tracks.reduce((n, t) => n + t.events.length, 0) + " notes · spatial BBD",
     "ok"
   );
+}
+
+async function generateProject() {
+  try {
+    compile();
+    await saveJSON();
+  } catch (error) {
+    setStatus('Generate/save failed: ' + error.message + ' · draft is not confirmed saved', 'warn');
+  }
 }
 
 function audioBufferToWav(buffer) {
@@ -446,7 +459,7 @@ async function restoreProjectFromStorage() {
 }
 
 
-$("btnCompile").onclick = compile;
+$("btnCompile").onclick = generateProject;
 $("btnPlay").onclick = () => {
   if (playing) {
     stopAll();
